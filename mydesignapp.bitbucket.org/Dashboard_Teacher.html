@@ -1,0 +1,564 @@
+<!--
+########################################################
+# Authors: Jeffrey He, Jonathan Reyes, Danny Catacora  #
+# 2015                                                 # 
+########################################################
+-->
+
+
+<!doctype html>
+
+
+<html>
+    <head>
+        <!-- Stylesheets -->
+        <link rel="stylesheet" type="text/css" href="Semantic/dist/semantic.css">
+        <link rel="stylesheet" type="text/css" href="Semantic/dist/semantic.min.css">
+        <link rel="stylesheet/less" type="text/css" href="Semantic/src/definitions/modules/dimmer.less" />
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+
+        <!-- Javascript -->
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.js"></script>
+        <script src="Semantic/dist/semantic.min.js"></script>
+        <script src="Semantic/dist/semantic.js"></script>
+        <script src="Semantic/dist/components/dimmer.js"></script>
+        <script src="js/main.js"></script>
+        <script src="js/homepage.js"></script> 
+        <meta charset="utf-8">
+        <title>Teacher Dashboard - MyDesign 2015</title>
+    </head>
+
+    <body style="background-color:#FFFFFF" style="height:100% width:100%"  >
+        <div style="height:100%">
+            <!--Top Bar-->
+            <div class = "dashTop">
+                <a href="class_select.html"><div class = "dashLogo"><img src="img/logo.fw.png" width = "15%" height = "" > </div> </a>
+                <div class = " barwide">
+                    <div class="ui raised segment">	
+                        <a class="ui red ribbon label">Your Progress</a>
+                        <progress value="55" max="100" width = "100%"></progress>				
+                    </div>
+                </div>
+
+            </div>
+
+            <!--Bottom -->
+            <div class = "dashBot">
+                <!--Nav Bar-->
+                <div class = "dashbar"><div class="ui vertical steps small">
+                        <div class="step" id = "stepLabel" >
+                            <div class="content">
+                                <div class="title">DASHBOARD</div>              
+                            </div>
+                        </div>
+                        <div class="step" name = "astep" id = "step1" onclick = "activiate('step1')">
+                            <i class="home icon"></i>
+                            <div class="content">
+                                <div class="title">MyHome</div>
+                                <div class="description">Your Main Design Screen</div>
+                            </div>
+                        </div>
+                        <div class="step" name = "astep" id = "step2" onclick = "activiate('step2')">
+                            <i class="student icon"></i>
+                            <div class="content">
+                                <div class="title">MyClass</div>
+                                <div class="description">Manage Your Class</div>
+                            </div>
+                        </div>
+                        <div class="step" name = "astep" id = "step3" onclick = "activiate('step3')">
+                            <i class="users icon"></i>
+                            <div class="content">
+                                <div class="title">MyTeams</div>
+                                <div class="description">Manage Your Teams</div>
+                            </div>
+                        </div>
+                        <div class="step" name = "astep" id = "step4" onclick = "activiate('step4')">
+                            <i class="dashboard icon"></i>
+                            <div class="content">
+                                <div class="title">Student Progress</div>
+                                <div class="description">View Student Progress</div>
+                            </div>
+                        </div>
+                        <div class="step" name = "astep" id = "step5" onclick = "activiate('step5')">
+                            <i class="spinner icon"></i>
+                            <div class="content">
+                                <div class="title">Team Progress</div>
+                                <div class="description">View Team Progress</div>
+                            </div>
+                        </div>
+                        <div class="step" name = "astep" id = "step6" onclick = "activiate('step6')">
+                            <i class="browser icon"></i>
+                            <div class="content">
+                                <div class="title">Assessments</div>
+                                <div class="description">Review Student Work</div>
+                            </div>
+                        </div>
+                        <div class="step" name = "astep" id = "step7" onclick = "activiate('step7')">
+                            <i class="mail icon"></i>
+                            <div class="content">
+                                <div class="title">MyMessageBoard</div>
+                                <div class="description">A Board for Messages</div>
+                            </div>
+                        </div>
+                        <div class="step" name = "astep" id = "step8" onclick = "activiate('step8')">
+                            <i class="folder icon"></i>
+                            <div class="content">
+                                <div class="title">Projects</div>
+                                <div class="description">Assigned Projects</div>
+                            </div>
+                        </div>
+                        <div class="step" name = "astep" id = "step9" onclick = "activiate('step9')">
+                            <i class="tasks icon"></i>
+                            <div class="content">
+                                <div class="title">Rubrics</div>
+                                <div class="description">Your Rubrics</div>
+                            </div>
+                        </div>        
+                    </div>
+                </div>
+
+                <!--Content-->
+                <div class = "dashContentParent " id = "contentPane">
+                    This is a landing page. <br>
+                    Select from the dashboard to begin. 
+                </div>		
+            </div>
+        </div>
+    </body>
+</html>
+
+<script>
+    activiate = function (id) {
+        var stepArray = ["step1", "step2", "step3", "step4", "step5", "step6", "step7", "step8", "step9"];
+
+        for (var i = 0; i < stepArray.length; i++) {
+            document.getElementById(stepArray[i]).className = " step ";
+        }
+        document.getElementById(id).className = " active step ";
+        divSelect(id);
+    }
+
+    //Dynamic script for frame selection
+    divSelect = function (id) {
+        $('#contentPane').empty();
+
+        // Gets our Content Pane
+        var content = document.getElementById('contentPane');
+
+        // Now create and append to content
+        var innerDiv = document.createElement('div');
+        innerDiv.className = "ui raised segment";
+
+        switch (id) {
+            case "step1":
+                //innerDiv.style.backgroundColor = 'red';
+                var para = document.createElement("P");
+                var t = document.createTextNode("Summary of Class: ");
+                para.appendChild(t);
+                para.className = "dashHomeTitle";
+                innerDiv.appendChild(para);
+
+                var para2 = document.createElement("P");
+                var text = document.createTextNode("MongoDB is a cross-platform, document oriented database that provides, high performance, high availability, and easy scalability. MongoDB works on concept of collection and document. Database is a physical container for collections. Each database gets its own set of files on the file system. A single MongoDB server typically has multiple databases. Collection is a group of MongoDB documents. It is the equivalent of an RDBMS table. A collection exists within a single database. Collections do not enforce a schema. Documents within a collection can have different fields. Typically, all documents in a collection are of similar or related purpose. A document is a set of key-value pairs. Documents have dynamic schema. Dynamic schema means that documents in the same collection do not need to have the same set of fields or structure, and common fields in a collection's documents may hold different types of data.");
+                para2.appendChild(text);
+                para2.className = "dashHomeBody";
+                innerDiv.appendChild(para2);
+
+                break;
+
+            case "step2":
+
+                //This section below should be dynamically done. 
+
+                var add_std = document.createElement("img");
+                add_std.src = "img/add_remove_student_button.png"; //need a separate img for remove student
+                add_std.id = "add_std";
+                add_std.setAttribute('width', '100%');
+
+                var addStd = document.createElement('a'); // create the link
+                addStd.setAttribute('onclick', 'divSelect("addStudent");'); // ONCLICK change the div
+                addStd.appendChild(add_std);
+                innerDiv.appendChild(addStd);
+
+                //DEMO CODE: replace with actual class roster
+                var rost = document.createElement("img");
+                rost.src = "img/added_students.png";
+                rost.id = "rost";
+                rost.setAttribute('width', '100%');
+                innerDiv.appendChild(rost);
+                //END DEMO CODE
+
+                break;
+
+            case "step3":
+                /*innerDiv.style.backgroundColor = 'orange';
+                 var para = document.createElement("P");                       
+                 var t = document.createTextNode("Teams");      
+                 para.appendChild(t);                                          
+                 innerDiv.appendChild(para); */
+
+                //This section below should be dynamically done. 
+
+                //DEMO CODE: replace with actual team roster
+                var teamrost = document.createElement("img");
+                teamrost.src = "img/add_team.png";
+                teamrost.id = "teamrost";
+                teamrost.setAttribute('width', '66%');
+                innerDiv.appendChild(teamrost);
+                //END DEMO CODE
+
+                var add_team = document.createElement("img");
+                add_team.src = "img/create_new_team_button.png";
+                add_team.id = "add_team";
+                add_team.setAttribute('width', '10%');
+
+                var addteam = document.createElement('a'); // create the link
+                addteam.setAttribute('onclick', 'divSelect("addTeam");'); // ONCLICK change the div
+                addteam.appendChild(add_team);
+                innerDiv.appendChild(addteam);
+
+                break;
+
+            case "step4":
+                /*
+                 innerDiv.style.backgroundColor = 'teal';
+                 var para = document.createElement("P");                       
+                 var t = document.createTextNode("Student Progress");      
+                 para.appendChild(t);                                          
+                 innerDiv.appendChild(para); 
+                 */
+
+                //DEMO CODE: replace with actual student selection page
+                var select_std = document.createElement("img");
+                select_std.src = "img/student_progress_select_page.png";
+                select_std.id = "select_std";
+                select_std.setAttribute('width', '90%');
+                innerDiv.appendChild(select_std);
+                //END DEMO CODE
+
+                var selStd = document.createElement("img");
+                selStd.src = "img/student_select_button.png";
+                selStd.id = "selStd";
+                selStd.setAttribute('width', '100%');
+
+                var sel_std = document.createElement('a'); // create the link
+                sel_std.setAttribute('onclick', 'divSelect("studentProgress");'); // ONCLICK change the div
+                sel_std.appendChild(selStd);
+                innerDiv.appendChild(sel_std);
+
+                break;
+
+            case "step5":
+                /*
+                 innerDiv.style.backgroundColor = 'white';
+                 var para = document.createElement("P");                        
+                 var t = document.createTextNode("Team Progress");      
+                 para.appendChild(t);                                          
+                 innerDiv.appendChild(para);
+                 */
+
+                //DEMO CODE: replace with actual team roster
+                var teamPrg = document.createElement("img");
+                teamPrg.src = "img/team_progress.png";
+                teamPrg.id = "stdPrg";
+                teamPrg.setAttribute('width', '60%');
+                innerDiv.appendChild(teamPrg);
+                //END DEMO CODE
+
+                break;
+
+            case "step6":
+                /*
+                 innerDiv.style.backgroundColor = 'gray';
+                 var para = document.createElement("P");                       
+                 var t = document.createTextNode("Student Dashboards");      
+                 para.appendChild(t);                                          
+                 innerDiv.appendChild(para);
+                 */
+
+                //DEMO CODE: replace with actual student selection page
+                var select_std = document.createElement("img");
+                select_std.src = "img/student_progress_select_page.png";
+                select_std.id = "select_std";
+                select_std.setAttribute('width', '90%');
+                innerDiv.appendChild(select_std);
+                //END DEMO CODE
+
+                var selStd = document.createElement("img");
+                selStd.src = "img/student_select_button.png";
+                selStd.id = "selStd";
+                selStd.setAttribute('width', '100%');
+
+                var sel_std = document.createElement('a'); // create the link
+                sel_std.setAttribute('onclick', 'divSelect("reviewStudentDashboard");'); // ONCLICK setup launch of the student dashboard
+                sel_std.appendChild(selStd);
+                innerDiv.appendChild(sel_std);
+
+                break;
+
+            case "step7":
+                innerDiv.style.backgroundColor = 'yellow';
+                var para = document.createElement("P");
+                var t = document.createTextNode("Messages");
+                para.appendChild(t);
+                innerDiv.appendChild(para);
+
+                break;
+
+            case "step8":
+                //innerDiv.style.backgroundColor = 'green';
+                var para = document.createElement("P");
+                var t = document.createTextNode("PROJECTS: ");
+                para.className = "dashHomeTitle";
+                para.appendChild(t);
+                innerDiv.appendChild(para);
+
+                //This section below should be dynamically done. 
+                var para2 = document.createElement("P");
+                var t2 = document.createTextNode("Project 1 ");
+                t2.id = "t2";
+                para2.appendChild(t2);
+                innerDiv.appendChild(para2);
+
+                var new_proj = document.createElement("img");
+                new_proj.src = "img/dash_new_project.fw.png"
+                new_proj.id = "new_proj";
+                new_proj.setAttribute('width', '20%');
+                var newP = document.createElement('a'); // create the link
+                newP.setAttribute('onclick', 'divSelect("newProject");'); // ONCLICK change the div
+                newP.appendChild(new_proj);
+                innerDiv.appendChild(newP);
+
+                break;
+
+            case "step9":
+                innerDiv.style.backgroundColor = 'aqua';
+                var para = document.createElement("P");
+                var t = document.createTextNode("There are rubrics for all steps of each design component in a separate tab.");
+                para.appendChild(t);
+                innerDiv.appendChild(para);
+                window.open('infopage1.html', '_newtab');
+
+                break;
+
+            case "newProject":
+                //NEED DATABASE INTEGRATION
+                var para = document.createElement("P");
+                var t = document.createTextNode("NEW PROJECT: ");
+                para.className = "dashHomeTitle";
+                para.appendChild(t);
+                innerDiv.appendChild(para);
+
+                var uiFORM = document.createElement('div');
+                uiFORM.className = "ui form";
+                innerDiv.appendChild(uiFORM);
+                var lab = document.createElement('label');
+                lab.innerHTML = "TYPE OF PROJECT";
+                uiFORM.appendChild(lab);
+                var select = document.createElement('select');
+                select.name = "typedropdown";
+                select.id = "typedropdown";
+                //select.setAttribute('onclick', 'getProjectType(callback);');      UPDATE WITH BACKEND SCRIPT and remove for loop
+                for (var i = 0; i < 5; i++) {
+                    option = document.createElement('option');
+                    option.value = i;
+                    option.text = i;
+                    select.appendChild(option);
+                }
+                uiFORM.appendChild(select);
+
+                var twofields1 = document.createElement('div');
+                twofields1.className = "two fields";
+                uiFORM.appendChild(twofields1);
+
+                var field1 = document.createElement('div');
+                field1.className = "field";
+                twofields1.appendChild(field1);
+                var lab2 = document.createElement('label');
+                lab2.innerHTML = "Course Title";
+                field1.appendChild(lab2);
+
+                var classtitle = document.createElement('input');
+                field1.appendChild(classtitle);
+                field1.id = "Course_Title";
+                field1.placeholder = "COURSE TITLE";
+                field1.type = 'text';
+
+                var field2 = document.createElement('div');
+                field2.className = "field";
+                twofields1.appendChild(field2);
+                var lab3 = document.createElement('label');
+                lab3.innerHTML = "INSTRUCTOR";
+                field2.appendChild(lab3);
+
+                var teacher = document.createElement('input');
+                field2.appendChild(teacher);
+                field2.id = "teacher";
+                field2.placeholder = "INSTRUCTOR";
+                field2.type = 'text';
+
+                var twofields2 = document.createElement('div');
+                twofields2.className = "two fields";
+                uiFORM.appendChild(twofields2);
+
+                var field3 = document.createElement('div');
+                field3.className = "field";
+                twofields2.appendChild(field3);
+                var lab4 = document.createElement('label');
+                lab4.innerHTML = "INSTITUTION";
+                field3.appendChild(lab4);
+
+                var school = document.createElement('input');
+                field3.appendChild(school);
+                field3.id = "school";
+                field3.placeholder = "INSTITUTION";
+                field3.type = 'text';
+
+                var field4 = document.createElement('div');
+                field4.className = "field";
+                twofields2.appendChild(field4);
+                var lab5 = document.createElement('label');
+                lab5.innerHTML = "GRADE";
+                field4.appendChild(lab5);
+
+                var Grade = document.createElement('input');
+                field4.appendChild(Grade);
+                field4.id = "teacher";
+                field4.placeholder = "GRADE";
+                field4.type = 'text';
+
+                var field5 = document.createElement('div');
+                field5.className = "field";
+                uiFORM.appendChild(field5);
+                var lab6 = document.createElement('label');
+                lab6.innerHTML = "TEAM";
+                field5.appendChild(lab6);
+
+                var school = document.createElement('input');
+                field5.appendChild(school);
+                field5.id = "team";
+                field5.placeholder = "TEAM";
+                field5.type = 'text';
+
+                //SEND DATABASE POST CALL
+                var new_But = document.createElement("img");
+                new_But.src = "img/dash_create_project.fw.png"
+                new_But.id = "new_But";
+                new_But.setAttribute('width', '20%');
+                var newButton = document.createElement('a'); // create the link
+                newButton.setAttribute('onclick', 'divSelect("step8");'); // ONCLICK change the div
+                newButton.appendChild(new_But);
+                innerDiv.appendChild(newButton);
+
+                break;
+
+            case "addStudent":
+                //NEED DATABASE INTEGRATION FOR ADDING STUDENTS TO A ROSTER
+                var stdLst = document.createElement("img");
+                //need to read in and list the students in the database
+                stdLst.src = "img/student_list.png"
+                stdLst.id = "stdLst";
+                stdLst.setAttribute('width', '66%');
+                innerDiv.appendChild(stdLst);
+
+                var new_But = document.createElement("img");
+                new_But.src = "img/add_plus_button.png"
+                new_But.id = "new_But";
+                new_But.setAttribute('width', '10%');
+                var newButton = document.createElement('a'); // create the link
+                newButton.setAttribute('onclick', 'divSelect("step2");'); // ONCLICK change the div
+                newButton.appendChild(new_But);
+                innerDiv.appendChild(newButton);
+                //SEND DATABASE POST CALL
+
+                var new_But1 = document.createElement("img");
+                new_But1.src = "img/cancel_button.png"
+                new_But1.id = "new_But1";
+                new_But1.setAttribute('width', '11%');
+                var newButton1 = document.createElement('a'); // create the link
+                newButton1.setAttribute('onclick', 'divSelect("step2");'); // ONCLICK change the div
+                newButton1.appendChild(new_But1);
+                innerDiv.appendChild(newButton1);
+
+                break;
+
+            case "removeStudent":
+                //need to add code that removes selected students from the roster
+
+                //DEMO CODE:  flashes a blank roster                
+                divSelect("step2");
+                //END DEMO CODE
+
+                break;
+
+            case "addTeam":
+
+                //need to add the team creation pages   
+
+                //DEMO CODE:  flashes a blank roster                
+                divSelect("step3");
+                //END DEMO CODE    
+
+                break;
+
+            case "studentProgress":
+
+                //need to add student progress code algorithm  
+
+                //DEMO CODE: replace with actual student selection code
+                var stdPrg = document.createElement("img");
+                stdPrg.src = "img/student_progress.png"
+                stdPrg.id = "stdPrg";
+                stdPrg.setAttribute('width', '60%');
+                innerDiv.appendChild(stdPrg);
+                //END DEMO CODE    
+
+                break;
+
+            case "reviewStudentDashboard":
+
+                //Search through Team Rosters to determine assigned project and set localStorage for projectName
+                //Set localStorage for "userName" to student's name
+                //Set localStorage for "compNum" to 1
+
+                //Demo Code
+                localStorage.setItem("compNum", 1);
+                setCookie("component", 1);
+                localStorage.setItem("projectName", "Project1");
+                localStorage.setItem("userName", "James Smith");
+                //Demo Code
+
+                innerDiv.style.backgroundColor = 'gray';
+                var para = document.createElement("P");
+                var t = document.createTextNode("Review student design artifacts and enter assessments against the rubric here.");
+                para.appendChild(t);
+                innerDiv.appendChild(para);
+                window.open('Dashboard_Student.html', '_newtab');
+
+                //Add code here to read in:
+                //     student name
+                //     project name
+                //     design component and step
+                //     score of 0 - 5
+
+                //Add coding logic and database save for assessment with above information
+                //Add progress calculation based on scores and save to database
+
+
+                break;
+
+            default:
+                innerDiv.style.backgroundColor = 'yellow';
+        }
+
+        innerDiv.style.height = '100%';
+        innerDiv.style.width = '100%';
+
+        //innerDiv.className = 'block-2';
+
+        // The variable content is still good... Just append to it.
+        content.appendChild(innerDiv);
+    }
+
+
+</script>

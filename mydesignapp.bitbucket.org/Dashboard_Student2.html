@@ -1,0 +1,707 @@
+﻿<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<html>
+    <head>
+        <!-- Stylesheets -->
+        <link rel="stylesheet" type="text/css" href="Semantic/dist/semantic.min.css">
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+        <link rel="stylesheet" type="text/css" href="css/master.css">
+        <link rel="stylesheet" type="text/css" href="css/dashboard.css">
+        <link rel="stylesheet" type="text/css" href="css/mikecss.css">
+
+        <!-- Javascript -->
+        <script src="js/jquery-2.1.4.min.js"></script>
+        <script src="Semantic/dist/semantic.min.js"></script>
+        <script src="js/dashboard_static_variables.js"></script>
+        <script src="js/dashboardstudent.js"></script>
+        <script src="js/dashboardteacher_service.js"></script>  <!-- Rename as pdf_handler -->
+        <script src="js/main.js"></script>
+        <script src="js/homepage.js"></script>
+        <script src="js/lib/user_lib.js"></script>
+        <script src="js/lib/project_lib.js"></script>
+        <script src="js/lib/class_lib.js"></script>
+        <script src="js/lib/team_lib.js"></script>
+        <script src="js/underscore-min.js"></script>
+        <script src="js/pdf.js"></script>
+        <script src="js/pdf.worker.js"></script>
+        <script src="js/logging.js"></script>
+
+        <meta charset="utf-8">
+        <title>Student Dashboard - MyDesign 2015</title>    
+    </head>
+
+    <body class="fontsizedefault">
+
+        <!--Template for Home-->
+        <script type="text/html" id="Home">
+            <div id="tophalf" class="ui raised segment">
+                <h1>Welcome <%=data.fname%> <%=data.lname%></h1>
+                <h3><b class="left1" >Your Experience Level is </b><%=data.experienceLevel%></h3>
+                <h3><b class="left1" >This Design Component is component  </b><%=data.CurrentDesignStep%></h3>
+                <h3><b class="left1" >Your Project is </b> <%=data.projectName%></h3>
+            </div>
+        </script> 
+
+        <!--Template for MyApps-->
+        <script type="text/html" id="MyApps">
+            <div id="tophalf" class = "ui raised segment">
+                <h1 class="left1" >3RD PARTY APPLICATION LIBRARY</h1>
+                <h3 class="left1 fontsizemedium">These apps are suitable for your project type, level of experience and current phase of design.</h3>
+
+                <div class="ui top attached tabular menu">
+                    <a class="active item" data-tab="first">Productivity</a>
+                    <a class="item" data-tab="second">Drawing Packages & Printing</a>
+                    <a class="item" data-tab="third">Programming</a>
+                </div>
+                <div class="ui bottom attached active tab segment" data-tab="first">
+                    <%  _.each(AllStudentApps.productivity,  function(element, index, list){ %>
+                        <span class="appSpan">
+                            <a href="<%=element.url%>" id="<%=element.id%>" target="_blank">
+                                <img src= "<%=element.img%>" class="appIcon">
+                            </a>
+                        </span>
+                    <% }); %>
+                </div>
+                <div class="ui bottom attached tab segment" data-tab="second">
+                    <%  _.each(showDrawApps,  function(element, index, list){ %> <!-- AllStudentApps.drawing -->
+                        <span class="appSpan">
+                            <a href="<%=element.url%>" id="<%=element.id%>" target="_blank">
+                                <img src= "<%=element.img%>" class="appIcon">
+                            </a>
+                        </span>   
+                    <% }); %>
+                </div>
+                <div class="ui bottom attached tab segment" data-tab="third">
+                    <%  _.each(showProgramApps,  function(element, index, list){ %> <!-- AllStudentApps.programming  -->
+                        <span class="appSpan">
+                            <a href="<%=element.url%>" id="<%=element.id%>" target="_blank">
+                                <img src= "<%=element.img%>" class="appIcon">
+                            </a>
+                        </span> 
+                    <% }); %> 
+                </div>
+            </div>
+        </script>  
+
+        <!--Template for MySketches-->
+        <script type="text/html" id="MySketches">
+            <div id="tophalf" >
+                <br>
+                <br>
+                <b class="left1 fontsizelarge" >This will have a screen similar to portfolios and populate a separate database with sketches stored by design step that will not be considered releases</b>
+                <br>
+            </div>    
+        </script>  
+
+        <!--Template for MyExamples-->
+        <script type="text/html" id="MyExamples">
+            <div id="tophalf ui raised segment" >
+                <h1>This panel will provide access to sample projects and design work products.</h1>
+            </div>    
+        </script> 
+
+        <!--Template for MyResources-->
+        <script type="text/html" id="MyResources">
+            <div id="tophalf" class="ui raised segment">
+                <h1>Instructional Videos:</h1>
+                <br>
+                <div id="ds1a" class = "hidden">
+                    <b class="left1" ></b>
+                    <a class="fontsizemediumlarge" href ="http://lecture.umd.edu/detsmediasite/Play/b00a05f6424d4fe2a4b7915bde9be4091d?catalog=694fb7d1-9b15-4617-ba07-29dffb8cf5e5" target="_blank"  >
+                        Design Step 1: Identify and Define the Problem.</a>
+                </div>
+                <div id="ds2b" class="hidden">
+                    <b class="left1" ></b>
+                    <a class="fontsizemediumlarge" href ="http://lecture.umd.edu/detsmediasite/Play/21a0c6b613a84be0b70512679af0c3a31d?catalog=694fb7d1-9b15-4617-ba07-29dffb8cf5e5" target="_blank" >
+                        2-2 Calculation of Solar Panel Dimensions.</a>
+                </div>
+                <div id="ds3a" class="hidden">
+                    <b class="left1" ></b>
+                    <a class="fontsizemediumlarge" href ="http://lecture.umd.edu/detsmediasite/Play/18dc48b97b954c33a32ce9901f19554f1d?catalog=694fb7d1-9b15-4617-ba07-29dffb8cf5e5" target="_blank" >
+                        3-1 Calculation of Energy in Deep Water Ocean Waves.</a>
+                </div>
+                <div id="ds4a" class="hidden">
+                    <b class="left1" ></b>
+                    <a class="fontsizemediumlarge" href ="http://lecture.umd.edu/detsmediasite/Play/4b1e025ed1974de9a048fa142ae6b59e1d?catalog=694fb7d1-9b15-4617-ba07-29dffb8cf5e5" target="_blank" >
+                        4-2 Power Law Wind Speed Profile with Sevonius Wind Turbine.</a>
+                </div>
+            </div>    
+        </script> 
+
+        <!--Template for Collaborators-->
+        <script type="text/html" id="Collaborators">
+            <div class = "content ui raised segment" id = "contentPane">
+                <span><h2>Class Name: <span><%=data.class.ClassName%> </span></h2></span>
+                <span><h2>Team Name: <span><%=data.team.TeamId%> </span></h2></span>
+
+                <table id="t01">
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>    
+                        <th>Project Name</th>
+                    </tr>
+
+                    <% _.each(data.team.StudentId,  function(element, index, list){ %>
+                        <tr>
+                            <td id="fname<%=index%>" class=""><%=element.firstName%></td>
+                            <td id="lname<%=index%>" class=""><%=element.lastName%></td>
+                            <td id="project<%=index%>" class=""><%=element.project.name%></td>
+                        </tr>
+                    <% }); %>
+                </table>
+                <br>
+                <button class="ui blue button" id="next_class">Next Class</button>
+            </div>
+        </script> 
+
+        <!--Template for MyMentors-->
+        <script type="text/html" id="MyMentors">
+            <div id="tophalf" >
+                <br>
+                <br>
+                <b class="left1 fontsizelarge" >These are your mentors</b>
+                <br>
+                <br>
+                <table id="t01">
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>    
+                        <th>Class Name</th>
+                        <th>Your Team Name</th>
+                        <th>Your Project Name</th>
+                    </tr>
+
+                    <% _.each(data,  function(element, index, list){ %>
+                        <tr>
+                            <td id="fname<%=index%>"><%=element.mentor.firstName%></td>
+                            <td id="lname<%=index%>"><%=element.mentor.lastName%></td>
+                            <td id="cname<%=index%>"><%=element.class.ClassName%></td>
+                            <td id="tname<%=index%>"><%=element.team.TeamId%></td>
+                            <td id="pname<%=index%>"><%=project.ProjectName%></td>
+                        </tr>
+                    <% }); %>
+                </table>
+
+            </div>    
+        </script> 
+
+        <!--Template for MyProgress-->
+        <script type="text/html" id="MyProgress">
+            <div class = "ui segment">
+                <h3><b>This portfolio view includes work from the current project only.</b></h3>
+                <table id="t01">
+                    <tr>   
+                        <th>Project Name</th>  
+                        <th>Work Product</th> 
+                        <th>Status</th>
+                        <th>View Results</
+                    </tr>
+                    <% _.each(data.portfolios,  function(element, index, list){ %>
+                        <tr>
+                            <td id="project<%=index%>"><%=data.project.ProjectName%></td>
+                            <td id="fileName<%=index%>"><%=element.WorkProductFileName%></td>
+                            <td id="status<%=index%>"><%=element.Status%></td>
+                            <td class="assess">
+                                <button class=  'ui button tiny review_button <%=element.StatusColor%>' name="<%=index%>">Review</button>
+                            </td>
+                        </tr>
+                    <% }); %>
+                </table>
+                
+                <p><b>BUTTON COLOR KEY:</b></p>
+                <p class ="orange_text"><b>No Designs Released.</b></p>
+                <p class ="green_text"><b>Design Is Released but Has Not Been Graded.</b></p>
+                <p class ="blue_text"><b>Design Is Released and Has Been Graded.  Select Button to Review Grade.</b></p>
+            </div>
+        </script>
+
+        <script type="text/html" id="MyProgress_Overview_Panel">
+            <!--Assessment Overview-->
+            <div class="fadedPanels">
+                <div id="popup3" class = "popup width70percent ycenter">
+                    <h2>Overview</h2> 
+                    <a class="close close_assess cursorPointer">×</a>
+                    <div class="content">
+                        <div id="tophalf">
+                            <b class="left1">Student Name: </b><div class="right1"><%=data.student_name%></div>
+                            <b class="left1">Project Name: </b><div class="right1"><%=data.project_name%></div>
+                            <b class="left1">Work Product File Name: </b><div class="right1"><%=data.file_name%></div><br>
+                            <b class="left1">Design Component: </b><div class="right1"><%=data.design_component%></div>
+                            <b class="left1">Design Step: </b><div class="right1"><%=data.design_step%></div>
+                            <b class ="left1">Average Score: </b><div class="right1"><%=data.score%></div>
+                        </div>
+                        <div class="ui two column very relaxed stackable grid padding20">
+                            <div class="column overflowauto padding10 ">
+                                <h4>Student Comments:</h4><p class="leftmargin20"><%=data.student_comments%></p>
+                            </div>
+                            <div class="column overflowauto padding10">
+                                <h4>Teacher Comments:</h4><p class="leftmargin20"><%=data.teacher_comments%></p>
+                            </div>
+                        </div>
+                        <br>
+                        <button class="ui button tiny green " id="to_more_review_details" name="<%=data.index%>">View Details</button>
+                    </div>
+                </div>
+            </div>
+        </script>
+
+        <script type="text/html" id="Progress_Review_Panel"> 
+            <div class="fadedPanels">  
+                <div class="popup overflowauto width90percent ycenter height80p">
+                    <a class="close close_assess cursorPointer">×</a>
+                    <h2>Design Review</h2> 
+                    <div class="">
+                        <div id="tophalf">
+                            <!-- Control buttons for the pdf viewer -->
+                            <p>
+                                <b class="left1">Student Name: </b><span class="right1"><%=data.student_name%></span>
+                                <b class="left1">Project Name: </b><span class="right1"><%=data.project_name%></span>
+                                <b class="left1">Design Component: </b><span class="right1"><%=data.design_component%></span>
+                                <b class="left1">Design Step: </b><span class="right1"><%=data.design_step%></span>
+                            </p>
+
+                            <div class="ui two column very relaxed stackable grid padding20">                            
+                                <!-- Container for pdf viewer -->
+                                <div class="column overflowauto padding10">
+                                    <span class="rightmargin60">
+                                        <button type="button" id="pdf_prev" class="circular ui icon green button">
+                                            <i class="angle left icon"></i>
+                                        </button>
+                                        <span>Page <span id="pdf_page_number">x/x</span></span>
+                                        <button type="button" id="pdf_next" class="circular ui icon green button ">
+                                            <i class="angle right icon"></i>
+                                        </button>
+                                    </span>
+                                    <span class="">
+                                        <button type="button" id="pdf_zoomout" class="circular ui icon green button">
+                                            <i class="zoom out icon"></i>
+                                        </button>
+                                        <input type="range" id="zoom_slider" min="0" max="300">
+                                        <button type="button" id="pdf_zoomin" class="circular ui icon green button">
+                                            <i class="zoom icon"></i>
+                                        </button>
+                                        <span>Page Zoom <span id="pdf_page_zoom">100</span>%</span>
+                                    </span>
+                                    <div id="pdf_viewer" class="ui raised segment left1 height80p overflowscroll">    
+                                        <br><canvas id="pdf_canvas"></canvas>
+                                    </div>        
+                                </div>
+           
+                                <div class="column overflowauto padding10">
+                                    <h3>Rubric Responses</h3>
+                                    <h4><%=portfolio.AssessmentValue.Rubric_Questions.element%></h4>
+                                    <% _.each(portfolio.AssessmentValue.Rubric_Response,  function(element, index, list){ %>
+                                        <p>
+                                            <%=portfolio.AssessmentValue.Rubric_Questions.rubric[index].preanswer%>
+                                            <i><%=element%></i>
+                                            <%=portfolio.AssessmentValue.Rubric_Questions.rubric[index].postanswer%>
+                                        </p>
+                                        <p>
+                                            Score: <%= 5 - portfolio.AssessmentValue.Grades[index]%>/5
+                                        </p>
+                                    <% }); %>
+                                </div>
+
+                            </div>   
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </script>
+
+        <!--Template for MyProgress-->
+        <script type="text/html" id="MyProgress_old">
+            <div class = "content" id = "contentPane">
+                <h3><b>This portfolio view includes work from the current project only</b></h3>
+            </div>
+            <table id="t01">
+                <tr>   
+                    <th>Project Name</th>  
+                    <th>Work Product</th> 
+                    <th>Status</th>
+                    <th>View Results</
+                </tr>
+
+                <% _.each(data.portfolios,  function(element, index, list){ %>
+                    <tr>
+                        <td id="project<%=index%>"><%=data.project.ProjectName%></td>
+                        <td id="fileName<%=index%>"><%=element.FileName%></td>
+                        <td id="status<%=index%>"><%=element.Status%></td>
+                        <td class="assess">
+                            <button class='<%=buttonClass[index]%>' id="t<%=index%>" onclick="location.href = <%=onclickStatus[index]%>;"></button>
+                        </td>
+                    </tr>
+                <% }); %>
+            </table>
+            
+            <p><b>BUTTON COLOR KEY:</b></p>
+            <p class ="orange_text"><b>No Designs Released.</b></p>
+            <p class ="green_text"><b>Design Is Released but Has Not Been Graded.</b></p>
+            <p class ="blue_text"><b>Design Is Released and Has Been Graded.  Select Button to Review Grade.</b></p>
+
+            <!--Assessment Overview-->
+            <div id="popup3" class="overlay hidden">
+                <div class="popup">
+                    <h2>Overview</h2> 
+                    <a class="close" href="Dashboard_Student2.html">×</a>
+                    <div class="content">
+                        <div id="tophalf">
+                            <b class="left1">Student Name: </b><div class="right1" id="studentTarget"></div>
+                            <b class="left1">Project Name: </b><div class="right1" id="projectNameTarget">Apollo 12</div>
+                            <b class="left1">Work Product File Name: </b><div class="right1" id="FileNameTarget">Command Module</div><br>
+                            <b class="left1">Design Component: </b><div class="right1" id="DesignCompTarget">Testing</div>
+                            <b class="left1">Design Step: </b><div class="right1" id="DesignStepTarget">11</div>
+                            <!--<b class="left1">Teacher Name: </b><div class="right1" id="TeacherNameTarget">Lincoln Agrawl</div>-->
+                            <b class ="left1">Average Score: </b><div class="right1" id="ScoreTarget"></div>
+                        </div>
+
+                        <div class="left1 width400 padding10"><h4>Student Comments</h2><textarea class="commentbox" id = "StudentCommentTarget"></textarea>    </div>
+                        <div class="right1 width400 padding10"><h4>Teacher Comments</h2><textarea class="commentbox" id = "TeacherCommentTarget"></textarea>   </div>
+                        <button class="ui button tiny green" onclick="location.href = '#popup4';" id="topopup4">View Details</button>
+
+                    </div>
+                </div>
+            </div>
+
+            <!--Assessment Review Page-->
+            <div id="popup4" class="overlay hidden">
+                <div class="popupbig">
+                    <h2>Design Review</h2> 
+                    <a class="close" href="Dashboard_Student2.html">×</a>
+                    <div class="content">
+                        <div id="tophalf">
+                            <b class="left1">Student Name: </b><div class="right1" id="studentTarget1"></div>
+                            <b class="left1">Project Name: </b><div class="right1" id="projectNameTarget1"></div>
+                            <b class="left1">Design Component: </b><div class="right1" id="DesignCompTarget1">Testing</div>
+                            <b class="left1">Design Step: </b><div class="right1" id="DesignStepTarget1">11</div>
+
+                            <div class="left1 width990 padding10">
+                                <object class="pdfbox" 
+                                        type="application/pdf" id="fileout"> <!--data="MDSSRS.pdf" 
+                                    alt : <a href="test.pdf">test.pdf</a>-->
+                                </object>
+                            </div>
+
+
+                            <!-- Mouse over and it will show answer. click on icon and answer will stay-->
+                            <!-- Must be modified to load in questions for elements C - L -->
+                            <div class="right1 width400 posrel padding10 overflowauto height500"><h4>Grading Schema</h2>
+                                    <div id='ElementA' class="hidden">
+                                        <div class="padding 10 topmargin10"><p><b>1. Problem Identification. Problem identification is </b><p id = "Answer1"</p></p>
+                                        </div>
+                                        <hr>
+                                        <div class="padding 10 topmargin10"><p><b>2. Problem Definition. Problem Definition is </b><p id = "Answer2"</p></p>
+                                        </div>  
+                                        <hr>
+                                        <div class="padding 10 topmargin10"><p><b>3. Problem Elaboration. Problem Elaboration is </b><p id = "Answer3"></p></p>
+                                        </div>  
+                                        <hr>
+                                        <div class="padding 10 topmargin10"><p><b>4. Concern of primary stakeholders. Justification of the problem </b><p id = "Answer4"></p></p>
+                                        </div>  
+                                        <hr>
+                                        <div class="padding 10 topmargin10"><p><b>5. Timely and Credible Sources. Problem justification is based on </b><p id = "Answer5"></p></p>
+                                        </div>
+                                        <hr>
+                                        <div class="padding 10 topmargin10 "><p><b>6. Objective Detail. Problem Justification offers </b><p id = "Answer6"></p><b>objective detail. </b></p>
+                                        </div>
+                                        <hr>
+                                        <div class="padding 10 topmargin10 "><p><b>7. Determination of Design Requirements.</b><p  id = "Answer7"></p> <b>measurable design requirements can be determined from the objective detail. </b></p>
+                                        </div>      
+                                    </div>
+                                    <div id='ElementB' class = "posabs hidden"  >
+                                        <div class="padding 10 topmargin10 "><p><b>1. Documentation of plausible prior attempts to solve the problem and/or related problems is drawn from </b><p id = "Answer8"></p></p> 
+                                        </div>
+                                        <hr>
+                                        <div class="padding 10 topmargin10 "><p><b>2. The analysis of past and current attempts to solve the problem — including both strengths and shortcomings — </b><p id = "Answer9"></p></p>
+                                        </div>
+                                    </div>
+                                    <div id='ElementC' class = "posabs hidden" >
+                                        <div class="padding 10 topmargin10"><p><b>1. Requirements List.  Design Requirements</b><p id = "Answer10"></p></p> 
+                                        </div>
+                                        <hr>
+                                        <div class="padding 10 topmargin10"><p><b>2. Objective & Measurable.  Design Requirements</b><p id = "Answer11"></p></p>
+                                        </div>  
+                                        <hr>
+                                        <div class="padding 10 topmargin10"><p><b>3. Leading to Solution.  Design Requirements</b><p id = "Answer12"></p></p>
+                                        </div>  
+                                        <hr>
+                                        <div class="padding 10 topmargin10"><p><b>4. Primary Stakeholder Validation.  There is evidence that requirements represent the needs of, and have been validated by,</b><p id = "Answer13"></p></b></p>
+                                        </div>  
+                                        <hr>
+                                    </div>
+                                    <div id='ElementD' class = "posabs hidden" >
+                                        <div class="padding 10 topmargin10"><p><b>1. Process for Generating & Comparing Possible Solutions.  The Process for Generating Possible Solutions</b><p id = "Answer14"></p></p>
+                                        </div>
+                                        <hr>
+                                        <div class="padding 10 topmargin10"><p><b>2.Design Solution Choice.  The Design Solution chosen</b><p id = "Answer15"></p></p>
+                                        </div>  
+                                        <hr>
+                                        <div class="padding 10 topmargin10"><p><b>3. Plan of Action.  The plan of action</b><p id = "Answer16"></p></p>
+                                        </div>  
+                                        <hr>
+                                    </div>
+                                    <div id='ElementE' class = "posabs hidden" >
+                                        <div class="padding 10 topmargin10"><p><b>Question 1 Element E goes here</b><p <!--id = "ans19"-->>Question 5 Answer 5.</p></p>
+                                        </div>
+                                        <hr>
+                                        <div class="padding 10 topmargin10"><p><b>Question 2 Element E goes here</b><p<!--id = "ans19"-->>Question 5 Answer 5.</p></p>
+                                        </div>  
+                                        <hr>
+                                        <div class="padding 10 topmargin10"><p><b>Question 3 Element E goes here</b><p <!--id = "ans19"-->>Question 5 Answer 5.</p></p>
+                                        </div>  
+                                        <hr>
+                                        <div class="padding 10 topmargin10"><p><b>Question 4 Element E goes here</b><p <!--id = "ans19"-->>Question 5 Answer 5.</p></p>
+                                        </div>  
+                                        <hr>
+                                        <div class="padding 10 topmargin10"><p><b>Question 5 Element E goes here</b><p <!--id = "ans19"-->>Question 5 Answer 5.</p></p>
+                                        </div>    
+                                    </div>
+                                    <div id='ElementF' class = "posabs hidden">
+                                        <div class="padding 10 topmargin10"><p><b>Question 1 Element F goes here</b><p <!--id = "ans19"-->>Question 5 Answer 5.</p></p> 
+                                        </div>
+                                        <hr>
+                                        <div class="padding 10 topmargin10"><p><b>Question 2 Element F goes here</b><p <!--id = "ans19"-->>Question 5 Answer 5.</p></p>
+                                        </div>  
+                                        <hr>
+                                        <div class="padding 10 topmargin10"><p><b>Question 3 Element F goes here</b><p <!--id = "ans19"-->>Question 5 Answer 5.</p></p>
+                                        </div>  
+                                        <hr>
+                                        <div class="padding 10 topmargin10"><p><b>Question 4 Element F goes here</b><p <!--id = "ans19"-->>Question 5 Answer 5.</p></p>
+                                        </div>  
+                                        <hr>
+                                        <div class="padding 10 topmargin10"><p><b>Question 5 Element F goes here</b><p <!--id = "ans19"-->>Question 5 Answer 5.</p></p>
+                                        </div>  
+                                    </div>
+                                    <div id='ElementG' class = "posabs" style="visibility: hidden"  >
+                                        <div class="padding 10 topmargin10"><p><b>1. The final prototype iteration is </b><p id = "Answer27"></p></p>
+                                        </div>
+                                        <hr>
+                                        <div class="padding 10 topmargin10"><p><b>2. The final prototype iteration is </b><p id = "Answer28"></p></p>
+                                        </div>  
+                                        <hr>
+                                        <div class="padding 10 topmargin10"><p><b>3. Testing or Modeling of Attributes. </b><p id = "Answer29"></p><b> attributes (sub-systems) of the unique solution that can be tested or modeled mathematically are addressed.</b></p>
+                                        </div>  
+                                        <hr>
+                                        <div class="padding 10 topmargin10"><p><b>4. Addressing non-Testable Attributes. </b><p id = "Answer30"></p><b> justification is provided for those that cannot be tested or modeled mathematically and thus require expert review.</b></p>
+                                        </div>   
+                                    </div>
+                                    <div id='ElementH' class = "posabs hidden">
+                                        <div class="padding 10 topmargin10"><p><b>Question 1 Element H goes here</b><p <!--id = "ans19"-->>Question 5 Answer 5.</p></p>
+                                        </div>
+                                        <hr>
+                                        <div class="padding 10 topmargin10"><p><b>Question 2 Element H goes here</b><p <!--id = "ans19"-->>Question 5 Answer 5.</p></p>
+                                        </div>  
+                                        <hr>
+                                        <div class="padding 10 topmargin10"><p><b>Question 3 Element H goes here</b><p <!--id = "ans19"-->>Question 5 Answer 5.</p></p>
+                                        </div>  
+                                        <hr>
+                                        <div class="padding 10 topmargin10"><p><b>Question 4 Element H goes here</b><p <!--id = "ans19"-->>Question 5 Answer 5.</p></p>
+                                        </div>  
+                                        <hr>
+                                        <div class="padding 10 topmargin10"><p><b>Question 5 Element H goes here</b><p <!--id = "ans19"-->>Question 5 Answer 5.</p></p>
+                                        </div>  
+                                    </div>
+                                    <div id='ElementI' class = "posabs hidden">
+                                        <div class="padding 10 topmargin10"><p><b>Question 1 Element I goes here</b><p <!--id = "ans19"-->>Question 5 Answer 5.</p></p>
+                                        </div>
+                                        <hr>
+                                        <div class="padding 10 topmargin10"><p><b>Question 2 Element I goes here</b><p <!--id = "ans19"-->>Question 5 Answer 5.</p></p>
+                                        </div>  
+                                        <hr>
+                                        <div class="padding 10 topmargin10"><p><b>Question 3 Element I goes here</b><p <!--id = "ans19"-->>Question 5 Answer 5.</p></p>
+                                        </div>  
+                                        <hr>
+                                        <div class="padding 10 topmargin10"><p><b>Question 4 Element I goes here</b><p <!--id = "ans19"-->>Question 5 Answer 5.</p></p>
+                                        </div>  
+                                        <hr>
+                                        <div class="padding 10 topmargin10"><p><b>Question 5 Element I goes here</b><p <!--id = "ans19"-->>Question 5 Answer 5.</p></p>
+                                        </div>   
+                                    </div>
+                                    <div id='ElementJ' class = "posabs hidden">
+                                        <div class="padding 10 topmargin10"><p><b>Question 1 Element J goes here</b><p <!--id = "ans19"-->>Question 5 Answer 5.</p></p>
+                                        </div>
+                                        <hr>
+                                        <div class="padding 10 topmargin10"><p><b>Question 2 Element J goes here</b><p <!--id = "ans19"-->>Question 5 Answer 5.</p></p>
+                                        </div>  
+                                        <hr>
+                                        <div class="padding 10 topmargin10"><p><b>Question 3 Element J goes here</b><p <!--id = "ans19"-->>Question 5 Answer 5.</p></p>
+                                        </div>  
+                                        <hr>
+                                        <div class="padding 10 topmargin10"><p><b>Question 4 Element J goes here</b><p <!--id = "ans19"-->>Question 5 Answer 5.</p></p>
+                                        </div>  
+                                        <hr>
+                                        <div class="padding 10 topmargin10"><p><b>Question 5 Element J goes here</b><p <!--id = "ans19"-->>Question 5 Answer 5.</p></p>
+                                        </div>  
+                                    </div>
+                                    <div id='ElementK' class = "posabs hidden">
+                                        <div class="padding 10 topmargin10"><p><b>Question 1 Element K goes here</b><p <!--id = "ans19"-->>Question 5 Answer 5.</p></p>
+                                        </div>
+                                        <hr>
+                                        <div class="padding 10 topmargin10"><p><b>Question 2 Element K goes here</b><p <!--id = "ans19"-->>Question 5 Answer 5.</p></p>
+                                        </div>  
+                                        <hr>
+                                        <div class="padding 10 topmargin10"><p><b>Question 3 Element K goes here</b><p <!--id = "ans19"-->>Question 5 Answer 5.</p></p>
+                                        </div>  
+                                        <hr>
+                                        <div class="padding 10 topmargin10"><p><b>Question 4 Element K goes here</b><p <!--id = "ans19"-->>Question 5 Answer 5.</p></p>
+                                        </div>  
+                                        <hr>
+                                        <div class="padding 10 topmargin10"><p><b>Question 5 Element K goes here</b><p <!--id = "ans19"-->>Question 5 Answer 5.</p></p>
+                                        </div>  
+                                    </div>
+                                    <div id='ElementL' class = "posabs hidden">
+                                        <div class="padding 10 topmargin10"><p><b>Question 1 Element L goes here</b><p <!--id = "ans19"-->>Question 5 Answer 5.</p></p>
+                                        </div>
+                                        <hr>
+                                        <div class="padding 10 topmargin10"><p><b>Question 2 Element L goes here</b><p <!--id = "ans19"-->>Question 5 Answer 5.</p></p>
+                                        </div>  
+                                        <hr>
+                                        <div class="padding 10 topmargin10"><p><b>Question 3 Element L goes here</b><p <!--id = "ans19"-->>Question 5 Answer 5.</p></p>
+                                        </div>  
+                                        <hr>
+                                        <div class="padding 10 topmargin10"><p><b>Question 4 Element L goes here</b><p <!--id = "ans19"-->>Question 5 Answer 5.</p></p>
+                                        </div>  
+                                        <hr>
+                                        <div class="padding 10 topmargin10"><p><b>Question 5 Element L goes here</b><p <!--id = "ans19"-->>Question 5 Answer 5.</p></p>
+                                        </div>  
+                                    </div>
+                            </div>
+                            <!--<button class="ui button tiny green" onclick="location.href = '#';">Submit</button> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </script>
+
+        <!--Template for MyMessageBoard (UNUSED)-->
+        <script type="text/html" id="MyMessageBoard">
+            <div id="tophalf" >
+                <h1>This panel will provide a message board between students, their teammates, and mentors.</h1>
+            </div>    
+        </script> 
+
+        <!--Template for MyRubric-->
+        <script type="text/html" id="MyRubric"></script> 
+
+        <!--Template for MyPortfolio-->
+        <script type="text/html" id="MyPortfolio">
+            <div class = "content" id = "contentPane">
+                <p><b>This portfolio view includes work from all classroom assignments and independent projects</b></p>
+            </div>
+            <table id="t01">
+                <tr>
+                    <th>Class Name</th>   
+                    <th>Project Name</th>  
+                    <th>Work Product</th> 
+                    <th>Status</th>
+                </tr>
+
+                <% _.each(fileName_studentPortfolio,  function(element, index, list){ %>
+                <tr>
+                    <td id="className<%=index%>"><%=className_studentPortfolio[index]%></td>
+                    <td id="project<%=index%>"><%=projectName_studentPortfolio[index]%></td>
+                    <td id="fileName<%=index%>"><%=fileName_studentPortfolio[index]%></td>
+                    <td id="status<%=index%>"><%=fileStatus_studentPortfolio[index]%></td>
+                </tr>
+                <% }); %>
+            </table>    
+        </script> 
+   
+        <!--Top Bar-->
+        <div class = "dashTop">
+            <span><a href="wheel.html" class="cursorPointer"><img src="img/logo.fw.png" id="logo"></a></span>
+            <span class=" right_float padding20"> <button class=  'ui tiny red button' id="logout_button">Logout</button></span>
+            <div class = " barwide">
+                <div class="ui raised segment">	
+                    <a class="ui red ribbon label">Your Progress</a>
+                    <progress id="progBar" value="0" max="120"><span>0</span>%</progress>
+                </div>
+            </div>
+        </div>
+        
+        <!--Bottom -->
+        <div class = "dashBot topPad10">
+            <!--Nav Bar-->
+            <div class = "dashbar">
+                <div class="ui vertical steps small">
+                    <div class="step" id = "stepLabel" >
+                        <div class="content">
+                            <div class="title">DASHBOARD</div>      				
+                        </div>
+                    </div>
+                    <div class="step cursorPointer" name = "astep" id = "step1" onclick = "activiate('step1')">
+                        <i class="home icon"></i>
+                        <div class="content">
+                            <div class="title">MyHome</div>
+                            <div class="description">Your Main Design Screen</div>
+                        </div>
+                    </div>
+                    <div class="step cursorPointer" name = "astep" id="step2" onclick = "activiate('step2')">
+                        <i class="cube icon"></i>
+                        <div class="content">
+                            <div class="title">MyApps</div>
+                            <div class="description">Your Apps</div>
+                        </div>
+                    </div>
+                    <div class="step cursorPointer" name = "astep" id = "step5" onclick = "activiate('step5')">
+                        <i class="book icon"></i>
+                        <div class="content">
+                            <div class="title">MyResources</div>
+                            <div class="description">Instructional Information</div>
+                        </div>
+                    </div>
+                    <div class="step cursorPointer" name = "astep" id = "step6" onclick = "activiate('step6')">
+                        <i class="users icon"></i>
+                        <div class="content">
+                            <div class="title">Collaborators</div>
+                            <div class="description">Your Teammates</div>
+                        </div>
+                    </div>
+                    <div class="step cursorPointer" name = "astep" id = "step7" onclick = "activiate('step7')">
+                        <i class="university icon"></i>
+                        <div class="content">
+                            <div class="title">MyMentors</div>
+                            <div class="description">Teachers and Helpers</div>
+                        </div>
+                    </div>
+                    <div class="step cursorPointer" name = "astep" id = "step8" onclick = "activiate('step8')">
+                        <i class="map icon"></i>
+                        <div class="content">
+                            <div class="title">MyProgress</div>
+                            <div class="description">DESIGNCERT<sub>TM</sub></div>
+                        </div>
+                    </div>
+                    <div class="step cursorPointer" name = "astep" id = "step10" href = "Dashboard_Student2.html" onclick = "activiate('step10')">
+                        <i class="tasks icon"></i>
+                        <div class="content">
+                            <div class="title">Design Expectations</div>
+                            <div class="description">DESIGNCERT<sub>TM</sub></div>
+                        </div>
+                    </div>
+                    <div class="step cursorPointer" name = "astep" id = "step11" onclick = "activiate('step11')">
+                        <i class="folder icon"></i>
+                        <div class="content">
+                            <div class="title">MyPortfolio</div>
+                            <div class="description">Your Personal Portfolio</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--Content-->
+            <div class = "dashContentParent" id="contentPane" >
+                <p id="landingTxt" class = "fontsizemediumlarge">
+                    This is a landing page. No projects can be found at this time. <br>Return to the Project Select page to select a project. 
+                </p>
+                <div class="ui active dimmer">
+                    <div class="ui text loader">Loading</div>
+                </div>
+            </div>		
+        </div>
+    </body>
+</html>

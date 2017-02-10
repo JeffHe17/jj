@@ -1,0 +1,153 @@
+<!--Rubric.html-->
+<!doctype html>
+
+<html>
+    <head>
+        <meta name="viewport" content="initial-scale=0.75, width=device-width, minimum-scale=0.75">
+        <!-- Stylesheets -->
+        <link rel="stylesheet" type="text/css" href="Semantic/dist/semantic.css">
+        <link rel="stylesheet" type="text/css" href="Semantic/dist/semantic.min.css">
+        <link rel="stylesheet/less" type="text/css" href="Semantic/src/definitions/modules/dimmer.less" />
+        <link rel="stylesheet" type="text/css" href="css/master.css">
+
+        <!-- Javascript -->
+        <script src="js/jquery-2.1.4.min.js"></script>
+        <script src="Semantic/dist/semantic.min.js"></script>
+        <script src="Semantic/dist/semantic.js"></script>        
+        <script src="Semantic/dist/components/dimmer.js"></script>           
+        <script type="text/javascript" src="js/underscore-min.js"></script>
+        <script src="js/rubric.js"></script> 
+        <script src="js/main.js"></script>   
+        <script src="js/homepage.js"></script>   
+        <script src="js/logging.js"></script>
+
+        <meta charset="utf-8">
+        <title>Rubric - MyDesign 2016</title>
+    </head>
+
+    <body>
+    	<script type="text/html" id="home">
+        	<div class = "ui raised segment"> 	
+                <div id="home_title">
+    	    		<h1>Four Components of Design</h1>
+    	    		<h3>Select to View Descriptions of Each Design Step</h3>
+        		</div>
+
+        		<div class="padding10 ">
+                    <img src="img/component_1.jpg" class="cursorPointer padding10 left_float width20percent max_width100px" id="component1">
+                    <div>            			
+            			<h3>Component 1: Presenting and Justifying a Problem and Solution</h3>
+            			<p>This component consists of defining a problem, analyzing prior and existing solutions to the problem, and creating a list of design requirements that your solution must meet to be successful.</p>
+            		</div>
+                </div> 
+
+        		<div  class="padding10 topmargin20">
+                    <img src="img/component_2.jpg" class="cursorPointer padding10 left_float width20percent max_width100px" id="component2">
+                    <div>
+                        <h3>Component 2: Generating and Defending an Original Solution</h3>
+                        <p>This component consists of creating sketches of all possible solutions applying STEM principles to the design. After sketches are made, each should be analyzed in order to choose the best design</p>
+                    </div>
+                </div> 
+
+        		<div  class="padding10 topmargin20">
+                    <img src="img/component_3.jpg" class="cursorPointer padding10 left_float width20percent max_width100px" id="component3">
+                    <div>
+                        <h3>Component 3: Constructing and Testing a Prototype</h3>
+                        <p>This component consists of construction of a prototype, prototype testing, and data collection of testing. The data should be analyzed. If changes are necessary, the prototype should run through repeated testing, until it is successful.</p>
+                    </div>
+                </div> 
+
+        		<div  class="padding10 topmargin20">
+                    <img src="img/component_4.jpg" class="cursorPointer padding10 left_float width20percent max_width100px" id="component4">
+                    <div>
+                        <h3>Component 4: Evaluation, Reflection, and Recommendations</h3>
+                        <p>This component consists of expert evaluation of the product, student reflection on each major step of the proejct, recommendations of improvements on the design, and how those improvements could be implemented.</p>
+                        <div>
+                    </div>
+                </div>
+            </div>
+    	</script>
+
+    	<script type="text/html" id="component">
+            <h2 id="component_title"><%=data.title%></h2>
+            <h3>Select to view rubric for each design step</h3>
+
+
+            <div class="ui styled accordion xcenter">
+                <div class="title">
+                    <i class="dropdown icon"></i>
+                    <%=data.text[0]%>
+                </div>
+                <div class="content">
+                    <center><img src=<%=data.img_urls[0]%> class="padding10  width15percent "></center>
+                    <h4>Score: 5</h4>
+                    <p><%=data.rubric[0][0]%></p>
+                    <h4>Score: 4</h4>
+                    <p><%=data.rubric[0][1]%></p>
+                    <h4>Score: 3</h4>
+                    <p><%=data.rubric[0][2]%></p>
+                    <h4>Score: 2</h4>
+                    <p><%=data.rubric[0][3]%></p>
+                    <h4>Score: 1</h4>
+                    <p><%=data.rubric[0][4]%></p>
+                    <h4>Score: 0</h4>
+                    <p><%=data.rubric[0][5]%></p>
+                </div>
+                <div class="title">
+                    <i class="dropdown icon"></i>
+                    <%=data.text[1]%>
+                </div>
+                <div class="content">
+                    <center><img src=<%=data.img_urls[1]%> class="padding10  width15percent "></center>
+                    <h4>Score: 5</h4>
+                    <p><%=data.rubric[1][0]%></p>
+                    <h4>Score: 4</h4>
+                    <p><%=data.rubric[1][1]%></p>
+                    <h4>Score: 3</h4>
+                    <p><%=data.rubric[1][2]%></p>
+                    <h4>Score: 2</h4>
+                    <p><%=data.rubric[1][3]%></p>
+                    <h4>Score: 1</h4>
+                    <p><%=data.rubric[1][4]%></p>
+                    <h4>Score: 0</h4>
+                    <p><%=data.rubric[1][5]%></p>
+                </div>
+                <div class="title">
+                    <i class="dropdown icon"></i>
+                    <%=data.text[2]%>
+                </div>
+                <div class="content">
+                    <center><img src=<%=data.img_urls[2]%> class="padding10  width15percent "></center>
+                    <h4>Score: 5</h4>
+                    <p><%=data.rubric[2][0]%></p>
+                    <h4>Score: 4</h4>
+                    <p><%=data.rubric[2][1]%></p>
+                    <h4>Score: 3</h4>
+                    <p><%=data.rubric[2][2]%></p>
+                    <h4>Score: 2</h4>
+                    <p><%=data.rubric[2][3]%></p>
+                    <h4>Score: 1</h4>
+                    <p><%=data.rubric[2][4]%></p>
+                    <h4>Score: 0</h4>
+                    <p><%=data.rubric[2][5]%></p>
+                </div>
+            </div>
+            
+
+            <br>
+            <center><button id="back_to_menu" class="ui blue button">Back to Design Components</button></center>
+
+    	</script>
+
+    	<script type="text/html" id="elements">
+    	</script>
+
+    	<div id="header" class="width100percent botmargin20 top0"><center>
+            <img src="img/logo.fw.png" alt="Logo" class="padding10 width40percent topPad40 max_width300px"></center>
+        </div>
+    	<div id="contentPane" class="xcenter width80percent botpad10"></div>
+    </body>
+
+</html>
+
+

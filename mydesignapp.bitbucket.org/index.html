@@ -1,0 +1,269 @@
+﻿<!--
+########################################################
+# Authors: Jeffrey He, Jonathan Reyes, Danny Catacora  #
+# 2015                                                 # 
+########################################################
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Stylesheets -->
+        <link rel="stylesheet" type="text/css" href="Semantic/dist/semantic.css">
+        <link rel="stylesheet" type="text/css" href="Semantic/dist/semantic.min.css">
+        <link rel="stylesheet/less" type="text/css" href="Semantic/src/definitions/modules/dimmer.less" />
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+
+        <!-- Javascript -->
+        <script src="js/jquery-2.1.4.min.js"></script>
+        <script src="Semantic/dist/semantic.min.js"></script>
+        <script src="Semantic/dist/semantic.js"></script>
+        <script src="Semantic/dist/components/dimmer.js"></script>
+        <script src="js/main.js"></script>
+        <script src="js/lib/project_lib.js"></script>
+        <script src="js/homepage.js"></script>
+        <script src="js/spin.min.js"></script> 
+        <script src="js/logging.js"></script>
+
+        <meta charset="utf-8">
+        <title>MyDesign 2016</title>    
+
+    </head>
+    <body class = "bodybckgd" position: "relative">
+          <div class = "homepagelogo">
+            <div class = "inner">
+                <a id="triggeringlink4" onclick="return launchYouTube();"> 
+                    <img src="img/logo.fw.png" width="150%" height="30%" alt=""/>
+                </a>
+            </div>
+        </div>
+        <div class = "homepagebuttons ">
+            <div class="ui small images ">
+                <a href="Project_Select.html" class="ui medium image" id="triggeringlink" onclick="return user(1);">
+                    <img src="img/studentlogin.fw.png">
+                </a>
+                <!--Links disabled until script added to determine valid type login-->
+                <a href="class_select.html" class="ui medium image" id="triggeringlink2" onclick="return user(2);">
+                    <img src="img/teacher.fw.png">
+                </a>            
+            </div>
+        </div>
+
+        <div class = "inner myfont homepagetext">
+            <b>NEED AN ACCOUNT? SIGN UP <a href="signup.html">HERE</a></b>
+        </div>
+
+        <div id="fadebox">
+            <div class="ui fluid form segment" id = "triggeringlink4">
+                <h4 class="ui dividing header">Account Login</h4>
+                <div class="three fields fifty">
+                    <div class="required field">
+                        <label>Email/Username</label>
+                        <div class="ui icon input">
+                            <input type="text" name="email" placeholder="Email/Username"  value="james">
+                            <i class="user icon"></i>
+                        </div>
+                    </div>
+                    <div class="required field">
+                        <label>Password</label>
+                        <div class="ui icon input">
+                            <input type="password" name="password" placeholder="Password" value="abc123">
+                            <i class="lock icon"></i>
+                        </div>
+                    </div>
+                    <div class = "indexbutton" id="indexPanel">
+                        <div class="ui button" onclick="loginCheck()" id="loginButton">Login</div>
+                    </div> 
+                </div>
+                <!-- Error message for incorrect username/password combo-->
+                <div style="text-align: center" id="missingInfoMessage"></div>
+            </div>
+        </div>
+
+        <!-- Hidden login panel -->
+        <div id="page-cover"></div>
+
+        <!-- Page Hit Counter -->
+        <div ><img src="http://simplehitcounter.com/hit.php?uid=1849522&f=0&b=16777215" border="0" height="18" width="83" alt="web counter"><br></div>
+
+
+
+
+
+        <script>
+            //Keep this script here
+            $("body").click(function (event) {
+                var target = $(event.target);
+                //Toggle off panel if user did not click on input, image, or login button
+                if (!target.is("INPUT") && !target.is("IMG") && !(event.target.id=="loginButton")) {
+                    document.getElementById('fadebox').style.visibility = "hidden";
+                    $("#page-cover").css("opacity", 0.75).fadeOut(300);
+                    //TODO: remove coloring on input texts and clear message upon fadeout
+                }
+            });
+        </script>
+    </body>
+</html>
+
+<!-- page specific scripts at bottom to load page faster-->
+<script>
+    //////////////////////////////////
+    //Global variables(this page only) 
+    //////////////////////////////////
+    //Global flag to toggle spinner on/off
+    var spinnerVisible = false;
+    //Global reference for easy access to the spinner
+    var spinner;
+    //Global reference to userType
+    var usertype = 0;
+
+    ///////////
+    //Functions
+    ///////////
+    //This function starts the spinner (database call)
+    function showProgress() {
+        if (!spinnerVisible) {
+            var opts = {
+              lines: 13, // The number of lines to draw
+              length: 10, // The length of each line
+              width: 5, // The line thickness
+              radius: 20, // The radius of the inner circle
+              corners: 1, // Corner roundness (0..1)
+              rotate: 0, // The rotation offset
+              direction: 1, // 1: clockwise, -1: counterclockwise
+              color: '#000', // #rgb or #rrggbb or array of colors
+              speed: 1, // Rounds per second
+              trail: 60, // Afterglow percentage
+              shadow: false, // Whether to render a shadow
+              hwaccel: false, // Whether to use hardware acceleration
+              className: 'spinner', // The CSS class to assign to the spinner
+              zIndex: 2e9, // The z-index (defaults to 2000000000)
+              top: '50%', // Top position relative to parent
+              left: '50%' // Left position relative to parent
+            };
+            var target = document.getElementById('indexPanel');
+            spinner = new Spinner(opts).spin(target);
+            spinnerVisible = true;
+        }
+    };
+
+    //This function stops the spinner
+    function hideProgress() {
+        if (spinnerVisible) {
+            spinner.stop();
+            spinnerVisible = false;
+        }
+    };
+
+    //Login test - check if username and password exist in database
+    loginCheck = function () {
+        //Turn on spinner while waiting for response from database
+        showProgress();
+        getProjTypes();
+        var eml = $('input[name="email"]').val();
+        var psw = $('input[name="password"]').val();
+        var logB = document.getElementById('loginButton');
+        //console.log('https://infinite-stream-2919.herokuapp.com/users/login/');
+        //console.log('https://mydesigncompany.herokuapp.com/users/login/');
+        var message = document.getElementById('missingInfoMessage');
+        message.style.color = "#ff6666";
+        message.innerHTML = "";
+        console.log("email/username = "+eml);
+        $.ajax({
+            'type': 'POST',
+            'url': 'https://mydesigncompany.herokuapp.com/users/login/',
+            //'url': 'https://infinite-stream-2919.herokuapp.com/users/login/',
+            'data': JSON.stringify({email: eml, password: psw}),
+            'contentType': "application/json;charset=UTF-8",
+            'success': function (data) {
+                hideProgress();         //Stop spinner
+                
+                if (data) {
+                    storeUserData(data);    //Locally store user data
+                    logB.style.backgroundColor = "#66cc66"; //GREEN
+                    console.log("usertype, data.accountType: "+usertype+", "+data.accountType);
+                    if (usertype == 1 && (data.accountType == "Student" || data.accountType == "student")) {
+                        window.location.href = "Project_Select.html";
+                    } else if (usertype == 2 && (data.accountType == "Teacher" || data.accountType == "teacher")) {
+                        window.location.href = "class_select.html";
+                        /*
+                    } else if (usertype == 3 && data.accountType == "Professional") {
+                        window.location.href = "Project_Select.html";
+                        */
+                    } else {
+                        //Logged in with invalid userType, please select: (correct one)
+                        console.log("Error, you chose the wrong user login. Please select the correct one");
+                        message.innerHTML = "Incorrect user login portal for this user. Please select the correct one";
+                    }
+                }
+            },'error': function (xhr) {
+                hideProgress();
+                console.log(xhr);
+                switch (xhr.status) {
+                    case 404:
+                        console.log("Webpage not found 404");
+                        logB.style.backgroundColor = "#ff6666"; //RED
+                        break;
+                    case 400:
+                        console.log("Error, invalid login info 400");
+                        message.innerHTML = "Incorrect Username/Password combination";
+                        logB.style.backgroundColor = "#ff6666"; //RED
+                        break;
+                    case 401:
+                        console.log("Error, invalid login info 401");
+                        message.innerHTML = "Disconnected from server, no user document with that username";
+                        logB.style.backgroundColor = "#ff6666"; //RED
+                        break;
+                    case 402:
+                        console.log("Error, invalid login info 402");
+                        message.innerHTML = "Error comparing submission to pw hash in db";
+                        logB.style.backgroundColor = "#ff6666"; //RED
+                        break;
+                    case 403:
+                        console.log("Error, invalid login info 403");
+                        message.innerHTML = "Username/Password combination compare failed";
+                        logB.style.backgroundColor = "#ff6666"; //RED
+                        break;
+                }
+            }
+        });
+    };
+
+    //Store user's id, name and experience level to store locally
+    function storeUserData(data){
+        //TODO: fix cookie commands
+        //checkCookie(data);
+        //checkCookieId("userid", data);
+
+        console.log('Data is:');        console.log(data);
+        console.log('ID is:');          console.log(data._id);
+        console.log('AccountType:');    console.log(data.accountType);
+        console.log('userName:');       console.log(data.userName);
+        console.log('Email:');          console.log(data.email);
+        console.log('Experience:');     console.log(data.experience);
+        console.log('First name:');     console.log(data.firstName);
+        console.log('Last name:');      console.log(data.lastName);
+        console.log('School:');         console.log(data.school); 
+       
+
+        //Store all locally: UserID, first & last name, experience
+        localStorage.setItem("student", JSON.stringify(data));
+        localStorage.setItem("userId", data._id);
+        localStorage.setItem("accountType", data.accountType);
+        //TODO: add username & differentiate between user's FULL name and username
+        localStorage.setItem("email", data.email);
+        localStorage.setItem("experienceLevel", data.experience);
+        localStorage.setItem("userName", data.firstName+" "+data.lastName);
+        localStorage.setItem("school", data.school);
+        localStorage.setItem("firstName", data.firstName);
+        localStorage.setItem("lastName", data.lastName);
+    }
+
+
+    //Set global var to userType that the user pressed
+    function user(num) { usertype = num; }
+    
+    //Youtube launching function
+    function launchYouTube() {
+        window.open('https://www.youtube.com/watch?v=CXnbtc3_upg', '_newtab');
+    }
+</script>

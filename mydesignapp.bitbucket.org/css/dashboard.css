@@ -1,0 +1,294 @@
+.dashbottom{
+	padding:20px;
+}
+
+.nav{
+	padding-top: 20px;
+	overflow: hidden;
+	float: left;
+	width: 240px;
+	cursor:pointer;
+}
+
+.main{
+	padding-top: 20px;
+	margin-left: 240px;
+	margin-right: 60px;
+	/*background-color: white;*/
+}
+
+table {
+    width:100%;
+}
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 5px;
+    text-align: left;
+}
+table#t01 tr:nth-child(even) {
+    background-color: #eee;
+}
+table#t01 tr:nth-child(odd) {
+   background-color:#fff;
+}
+table#t01 th	{
+    background-color: black;
+    color: white;
+}
+
+.assess{ /* TODO: Depcreate this class and replace with width50px in master.css*/
+	width: 50px;
+}
+
+ 
+.overlay { /* TODO: Deprecate this class */
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.7);
+  transition: opacity 500ms;
+  opacity: 0;
+  overflow: scroll;
+  z-index: 20;
+}
+.overlay:target {
+  visibility: visible;
+  opacity: 1;
+}
+
+.popup {
+  margin: 2px auto;
+  padding: 10px;
+  background: #fff;
+  border-radius: 5px;
+  position: relative;
+  transition: all 5s ease-in-out;
+}
+
+.popup .close_review, .popup .close {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  transition: all 200ms;
+  font-size: 30px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #333;
+}
+
+.popup h2 {
+  margin-top: 0;
+  color: #333;
+  font-family: Tahoma, Arial, sans-serif;
+}
+.popup .close_review:hover, .popup .close:hover {
+  color: red;
+}
+
+.popup .content {
+  max-height: 400px;
+  overflow: auto;
+}
+
+.popupbig {
+  margin: 70px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 5px;
+  width: 30%;
+  position: relative;
+  transition: all 5s ease-in-out;
+  height: 650px;
+  width: 1500px;
+  z-index: 2;
+}
+.popupbig .close {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  transition: all 200ms;
+  font-size: 30px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #333;
+}
+.popupbig .close:hover {
+  color: red;
+}
+.popupbig h2 {
+  margin-top: 0;
+  color: #333;
+  font-family: Tahoma, Arial, sans-serif;
+}
+.popupbig .content {
+  max-height: 650px;
+  overflow: auto;
+}
+
+.left1 {display:inline-block;margin-right:10px;} 
+.right1 {display:inline-block; margin-right:30px;}
+.topmargin10{
+	margin-top: 10px;
+}
+
+.width20{
+    width: 20%;
+}
+
+.width300{
+	width: 300px;
+	overflow: auto;
+}
+
+.width400{
+	width: 400px;
+	overflow: auto;
+}
+
+.width500{
+	width: 500px;
+	overflow: auto;
+}
+
+.width600{
+	width: 600px;
+	overflow: auto;
+}
+.width1000{
+	width: 1000px;
+	overflow: auto;
+}
+
+.width990{
+	width: 990px;
+	overflow: auto;
+}
+
+.width985{
+	width: 985px;
+	overflow: auto;
+}
+
+.width975{
+	width: 975px;
+	overflow: auto;
+}
+
+.padding10{
+	padding: 10px;
+}
+
+.commentbox{
+	width: 250px;
+	height: 200px;
+}
+
+.commentboxbig{
+	width: 550px;
+	height: 540px;
+}
+
+
+.rubricbox{
+	width: 350px;
+	height: 470px;
+}
+
+.pdfbox{
+	width: 955px;
+	height: 470px;
+}
+
+.overflowauto{
+	overflow: auto;
+}
+
+.overflowscroll{
+  overflow: scroll;;
+}
+
+.height500{
+    max-height: 500px;
+}
+
+.height400{
+    max-height: 400px;
+}
+
+.vh80{
+  height:80vh;
+}
+
+.posrel{
+  position: relative;
+}
+
+.posabs{
+  position: absolute;
+  top: 55px;
+  left: 0;
+}
+
+.posabsapps{
+  position: absolute;
+  top: 125px;
+  right: 750px;
+}
+
+.posabsrosters{
+  position: absolute;
+  /top: 100px;
+}
+
+.posabsclass{
+  position: absolute;
+  top: 31%;
+  right: 35%;
+}
+
+.posabscdd{
+  position: absolute;
+  top: 30%;
+  width: 100%;
+}
+
+.posabsteam{
+  position: absolute;
+  top: 45%;
+  right: 35%;
+}
+
+#popup6{
+  position: absolute;
+  top: 20%;
+  left: 20%;
+}
+
+#projects_panel{
+  position: fixed;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  background-color:rgba(0, 0, 0, 0.7);
+}
+
+.fadedPanels{
+  position: fixed;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  background-color:rgba(0, 0, 0, 0.7);
+}
+
+

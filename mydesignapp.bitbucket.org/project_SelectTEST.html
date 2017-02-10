@@ -1,0 +1,131 @@
+<!--
+########################################################
+# Authors: Jeffrey He, Jonathan Reyes, Danny Catacora  #
+# 2015                                                 # 
+########################################################
+-->
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Stylesheets -->
+    <link rel="stylesheet" type="text/css" href="Semantic/dist/semantic.css">
+    <link rel="stylesheet" type="text/css" href="Semantic/dist/semantic.min.css">
+    <link rel="stylesheet/less" type="text/css" href="Semantic/src/definitions/modules/dimmer.less" />
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+
+    <!-- Javascript -->
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.js"></script>
+    <script src="Semantic/dist/semantic.min.js"></script>
+    <script src="Semantic/dist/semantic.js"></script>
+    <script src="Semantic/dist/components/dimmer.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/homepage.js"></script> 
+
+    <meta charset="utf-8"> 
+    <title>Project Select - MyDesign 2015</title>   
+</head>
+
+<body style="background-color:#FFFFFF">
+    <div class="outer">
+        <div class="inner"> 
+            <!--<img src="img/title.fw.png" width="458" height="50" alt=""/>-->
+            <H1><b>PROJECT SELECT</b></H1>
+        </div>
+
+        <div class = "indent">
+            <a href="New_Project.html" class="ui">
+                <div class="big white ui labeled icon button animated fade">
+                    <i class="plus icon blue"></i>
+                    <div class="visible content"><div class = "myfont">New Project</div></div>
+                    <div class="hidden content"><div class = "myfont">Start!</div></div>                    
+                </div>
+            </a>
+        </div>
+
+        <div class="inner"> 
+            <!-- <img src="img/subtitle.fw.png" width="158" height="40" alt=""/> -->
+            <H1>EXISTING</H1>
+        </div> 
+
+        <div class = "indent">
+            <div class = "projectselection">
+                <div class="ui form">
+                    <div class="field"> 
+                        <label>In Progress</label>
+                        <select class="ui" name = "progressdropdown" id = "progressdropdown" onchange="progressSelect()">
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class = "indent">
+            <div class = "projectselection">
+                <div class="ui form">
+                    <div class="field">
+                        <label>Completed</label>
+                        <select class="ui" id = "completeddropdown" onchange="otherSelect()" onclick = "getProjectsCompleted(callback)">
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <table style="height:20%" width="75%">
+            <tr>
+                <td ><a href="index.html">
+                    <div class="ui left labeled icon blue button">              
+                        <i class="left arrow icon"></i> Back</div></a>
+                    </td>
+                    <td align="right" ><a href="wheel.html" class="ui">
+                        <img src="img/start.fw.png" width="80px" height="80px"/>
+                    </a>
+                </td>
+            </tr>
+        </table>
+    </div>       
+</body> 
+</html>
+
+<!-- page specific scripts at bottom to load page faster-->
+<script>
+    //Script for choosing the existing projects from the backend
+    var progressArray = [];
+    //TODO
+    var completedArray = [];
+    
+    function addList(){  
+        var select = document.getElementById("progressdropdown");
+        for(var i = progressArray.length - 1; i > 0; i--) {
+            var option = document.createElement('option');
+            option.text =  progressArray[i];
+            option.value = i;
+            select.add(option, 0);
+        }
+    }
+
+    window.onload = function () {
+        var xmlHttp = null;
+        xmlHttp  = new XMLHttpRequest();
+        xmlHttp.onreadystatechange = function() {
+            if (xmlHttp.responseText && xmlHttp.status == 200 && xmlHttp.readyState == 4) {
+                var obj = jQuery.parseJSON( xmlHttp.responseText );
+                $.each(obj, function() {
+                    progressArray[progressArray.length] = this['type'];
+                });
+                addList();
+                console.log(progressArray.length)
+            }
+        };
+        var userId = getCookie("userid");
+        console.log('User ID:');
+        console.log(userId);
+        xmlHttp.open("GET", "https://mydesigncompany.herokuapp.com/projectTypes", true); //link+userID
+        //xmlHttp.open("GET", "https://infinite-stream-2919.herokuapp.com/projectTypes", true); //link+userID
+        xmlHttp.send(null);
+    }; 
+
+</script>

@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<html>
+    <head>
+        <meta name="viewport" content="initial-scale=0.75, width=device-width, minimum-scale=0.75">
+        <meta charset="UTF-8">
+        <!-- Stylesheets -->
+        <link rel="stylesheet" type="text/css" href="Semantic/dist/semantic.css">
+        <link rel="stylesheet" type="text/css" href="Semantic/dist/semantic.min.css">
+        <link rel="stylesheet/less" type="text/css" href="Semantic/src/definitions/modules/dimmer.less" />
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+        <link rel="stylesheet" type="text/css" href="css/dashboard.css">
+
+        <!-- Javascript -->
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.js"></script>
+        <script src="Semantic/dist/semantic.min.js"></script>
+        <script src="Semantic/dist/semantic.js"></script>
+        <script src="Semantic/dist/components/dimmer.js"></script>
+        <script src="js/main.js"></script>
+        <script src="js/homepage.js"></script>
+        <script src="js/spin.min.js"></script>
+        <script type="text/javascript" src="js/underscore-min.js"></script>
+
+
+        <title>Load School Roster - 2016</title>
+    </head>
+
+    <body>
+
+        <!--Template for Home-->
+        <script type="text/html" id="Home">
+            <div class = "content" id = "contentPane" ></div>
+
+            <div class = "indent" id = "choosedatabase" style="visibility: hidden;">
+                <div class = "classname">
+                    <div class="ui form">
+                        <div class="field" align="left">
+                            <label>Select A Class</label>
+                            <select class="ui" name = "databasedropdown" id = "databasedropdown" 
+                                    style="position: relative; width: 40%;" style="visibility: visible;" >
+                                <option value="">Production Site</option>
+                                <option value="0">Development Site</option>
+                            </select>                               
+                        </div>
+                    </div>
+                </div>
+                <div align="left" class="posabsclass" style="top: 53%;">
+                    <img src="img/teacher_start.fw.png" width="80px" height="80px" onclick="chooseDatabase()">
+                </div>
+            </div>
+
+        </script>
+
+
+
+        <!--Template for Classes-->
+        <script type="text/html" id="Rosters" >
+            <div class = "content" id = "contentPane" ></div>
+
+            <div class = "indent" id = "chooseclassc" style="visibility: hidden;">
+                <div class = "classname">
+                    <div class="ui form">
+                        <div class="field" aligh="left">
+                            <label>Select A Class</label>
+                            <select class="ui" name = "classdropdownc" id = "classdropdownc" 
+                                    style="position: relative; top: 20%; width: 40%;" style="visibility: visible;" ></select>                               
+                        </div>
+                    </div>
+                </div>
+                <div align="left" class="posabsclass" style="top: 53%;">
+                    <img src="img/teacher_start.fw.png" width="80px" height="80px" onclick="chooseClassC()">
+                </div>
+            </div>
+
+
+            <div class="content posabsrosters" style="visibility:hidden" id="rosterContent" >
+
+                <div class="left1 width300 padding10"><h4>Student Roster</h4>
+                    <div class = "overflowauto vh80" >
+                        <table id="t01">
+                            <tr>
+                                <th>First Name</th>
+                                <th>Last Name</th> 
+                                <th>Add Student to Class</th>
+                            </tr>
+
+                            <!--Dynamically create a list of students and their work after a database readout
+                            FirstName is an array of global scope populated during the page loadout-->
+
+                            <%  _.each(FirstName,  function(element, index, list){ %>
+                            <tr>
+                                <td><%=FirstName[index]%></td>
+                                <td><%=LastName[index]%></td>
+                                <td class="assess">
+                                    <div id="student">
+                                        <button class="ui button tiny green studentSelect_button" id="s<%=index%>" >Add</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <% }); %>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="right1 width300 padding10"><h4>Teacher Roster</h4>
+                    <div class = "overflowauto vh80" >
+                        <table id="t01">
+                            <tr>
+                                <th>First Name</th>
+                                <th>Last Name</th> 
+                                <th>Add Teacher to Class</th>
+                            </tr>
+
+                            <!--Dynamically create a list of students and their work after a database readout
+                            FirstName is an array of global scope populated during the page loadout-->
+
+                            <% _.each(FirstName1,  function(element, index, list){ %>
+                            <tr>
+                                <td><%=FirstName1[index]%></td>
+                                <td><%=LastName1[index]%></td>
+                                <td class="assess">
+                                    <button class="ui button tiny green teacherSelect_button"  id="t<%=index%>" >Add</button>
+                                </td>
+                            </tr>
+                            <% }); %>
+                        </table> 
+                    </div>  
+                </div> 
+
+                <div class="right1 width300 padding10"><h4>Class Roster</h4>
+                    <div class = "overflowauto vh80" >
+                        <table id="t01">
+                            <tr>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Remove from Class</th>
+                            </tr>
+
+                            <!--Dynamically create a list of students and their work after a database readout
+                            FirstName is an array of global scope populated during the page loadout-->
+
+                            <% _.each(FirstName2,  function(element, index, list){ %>
+                            <tr>
+                                <td><%=FirstName2[index]%></td>
+                                <td><%=LastName2[index]%></td>
+                                <td class="assess">
+                                    <button class="ui button tiny green remove_button"  id="r<%=index%>" >Remove</button>
+                                </td>
+                            </tr>
+                            <% }); %>
+                        </table> 
+                    </div>  
+                </div> 
+                <button class="ui button tiny green" onclick="saveRoster();">
+                    Save Class Roster</button>
+            </div> 
+        </script>
+
+        <!--Template for Teams-->
+        <script type="text/html" id="Teams" >
+            <div class = "content" id = "contentPane" ></div>
+
+            <div class = "indent" id = "chooseclasst" style="visibility: hidden;" >
+
+                <div class = "classname">
+                    <div class="ui form">
+                        <div class="field posabscdd" align="left">
+                            <label>Select A Class First</label>
+                            <select class="ui" name = "classdropdownt" id = "classdropdownt" 
+                                    style="width: 40%" ></select>                               
+                        </div>
+
+                        <div class="field" align="left">
+                            <label>Then Select A Team</label>
+                            <select class="ui" name = "teamdropdown" style="width: 40%" id = "teamdropdown" 
+                                    ></select>                               
+                        </div>
+                    </div>
+                </div>
+                <div align="right" class="posabsclass" style = "top: 33%">
+                    <img src="img/teacher_start.fw.png" width="80px" height="80px" onclick="chooseClassT()">
+                </div>
+
+                <div align="right" class="posabsteam" style = "top: 53%">
+                    <img src="img/teacher_start.fw.png" width="80px" height="80px" onclick="chooseTeam()">
+                </div>
+
+            </div>
+
+
+            <div class="content posabsrosters" style="visibility:hidden" id="teamContent" >
+
+                <div class="left1 width300 padding10"><h4>Class Roster</h4>
+                    <div class = "overflowauto vh80" >
+                        <table id="t01">
+                            <tr>
+                                <th>First Name</th>
+                                <th>Last Name</th> 
+                                <th>Add Student to Team</th>
+                            </tr>
+
+                            <!--Dynamically create a list of students and their work after a database readout
+                            FirstName is an array of global scope populated during the page loadout-->
+
+                            <%  _.each(FirstName2,  function(element, index, list){ %>
+                            <tr>
+                                <td><%=FirstName2[index]%></td>
+                                <td><%=LastName2[index]%></td>
+                                <td class="assess">
+                                    <div id="classRoster">
+                                        <button class="ui button tiny green classRosterSelect_button"  id="class<%=index%>" >Add</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <% }); %>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="right1 width300 padding10"><h4>Team Roster</h4>
+                    <div class = "overflowauto vh80" >
+                        <table id="t01">
+                            <tr>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Remove from Team</th>
+                            </tr>
+
+                            <!--Dynamically create a list of students and their work after a database readout
+                            FirstName is an array of global scope populated during the page loadout-->
+
+                            <% _.each(FirstName3,  function(element, index, list){ %>
+                            <tr>
+                                <td><%=FirstName3[index]%></td>
+                                <td><%=LastName3[index]%></td>
+                                <td class="assess">
+                                    <button class="ui button tiny green remove_buttont"  id="team<%=index%>" >Remove</button>
+                                </td>
+                            </tr>
+                            <% }); %>
+                        </table> 
+                    </div>  
+                </div>
+                <button class="ui button tiny green" onclick="saveRoster();">
+                    Save Team Roster</button>
+            </div> 
+        </script>
+
+        <!--Template for Users-->
+        <script type="text/html" id="Users" >
+            <div class = "content" id = "contentPane" ></div>
+
+            <div class="content posabsrosters" id="userContent" style="visibility: hidden">
+
+                <div class="left1 width500 padding10"><h4>Students</h4>
+                    <div class = "overflowauto vh80" >
+                        <table id="t01">
+                            <tr>
+                                <th>First Name</th>
+                                <th>Last Name</th> 
+                                <th>Sign-Up Date</th>
+                                <th>Database Identifier</th> 
+                            </tr>
+
+                            <!--Dynamically create a list of students after a database readout
+                            FirstName is an array of global scope populated during the page loadout-->
+
+                            <%  _.each(FirstName,  function(element, index, list){ %>
+                            <tr>
+                                <td><%=FirstName[index]%></td>
+                                <td><%=LastName[index]%></td>
+                                <td><%=studentSignUp[index]%></td>
+                                <td><%=studentId[index]%></td>
+                            </tr>
+                            <% }); %>
+                        </table>
+                    </div>
+                </div>
+
+                <div class=" right1 width500 padding10"><h4>Teachers</h4>
+                    <div class = "overflowauto vh80" >
+                        <table id="t01">
+                            <tr>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Sign-Up Date</th>
+                                <th>Database Identifier</th> 
+                            </tr>
+
+                            <!--Dynamically create a list of teachers after a database readout
+                            FirstName is an array of global scope populated during the page loadout-->
+
+                            <% _.each(FirstName1,  function(element, index, list){ %>
+                            <tr>
+                                <td><%=FirstName1[index]%></td>
+                                <td><%=LastName1[index]%></td>
+                                <td><%=teacherSignUp[index]%></td>
+                                <td><%=teacherId[index]%></td>
+                            </tr>
+                            <% }); %>
+                        </table> 
+                    </div>  
+                </div> 
+
+                <div class="right1 width500 padding10"><h4>Professionals</h4>
+                    <div class = "overflowauto vh80" >
+                        <table id="t01">
+                            <tr>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Sign-Up Date</th>
+                                <th>Database Identifier</th> 
+                            </tr>
+
+                            <!--Dynamically create a list of professionals after a database readout
+                            FirstName is an array of global scope populated during the page loadout-->
+
+                            <% _.each(FirstNameP,  function(element, index, list){ %>
+                            <tr>
+                                <td><%=FirstNameP[index]%></td>
+                                <td><%=LastNameP[index]%></td>
+                                <td><%=professionalSignUp[index]%></td>
+                                <td><%=professionalId[index]%></td>
+                            </tr>
+                            <% }); %>
+                        </table> 
+                    </div>  
+                </div>
+            </script>
+
+            <div id = "top" style="background-color:#FFFFFF">
+                <div class = "dashLogo"><a href="manageDatabases.html"><img src="img/logo.fw.png" width = "15%" height = "" > </a>
+                    <b style="font-size: 38px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DATABASE MANAGEMENT</b></div>
+            </div>
+
+            <div class = "dashBot">
+                <!--Nav Bar-->
+                <div class = "nav">
+                    <div class="ui vertical steps small">
+                        <div class="step" id = "stepLabel" >
+                            <div class="content"><div class="title">DATABASES</div></div>
+                        </div>
+                        <div class="step" name = "astep" id = "step1" onclick = "activiate('step1')">
+                            <i class="home icon"></i>
+                            <div class="content">
+                                <div class="title">Home</div>
+                                <div class="description">Choose Database</div>
+                            </div>
+                        </div>
+                        <div class="step" name = "astep" id = "step2" onclick = "activiate('step2')">
+                            <i class="student icon"></i>
+                            <div class="content">
+                                <div class="title">MyClass</div>
+                                <div class="description">Manage Class Assignments</div>
+                            </div>
+                        </div>
+                        <div class="step" name = "astep" id = "step3" onclick = "activiate('step3')">
+                            <i class="student icon"></i>
+                            <div class="content">
+                                <div class="title">MyTeams</div>
+                                <div class="description">Manage Team Assignments</div>
+                            </div>
+                        </div>
+                        <div class="step" name = "astep" id = "step4" onclick = "activiate('step4')">
+                            <i class="users icon"></i>
+                            <div class="content">
+                                <div class="title">User</div>
+                                <div class="description">Demographics</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Content-->
+                <div class = "main" id = "contentPane">
+                    Landing Page.  Something went wrong.  :( 
+                </div>	
+            </div>
+    </body> 
+</html>
+
+<script>
+
+    var className = [];
+    var teamId;
+    var FirstNameP = [];//professional roster
+    var LastNameP = [];//professional roster
+    var FirstName = [];//student roster
+    var LastName = [];//student roster
+    var FirstName1 = [];//teacher roster
+    var LastName1 = [];//teacher roster
+    var FirstName2 = [];//class roster
+    var LastName2 = [];//class roster
+    var FirstName3 = [];//team roster
+    var LastName3 = [];//team roster
+    var assignments = [];//all assignments for all classes
+    var assignment = [];//class assignment from database
+    var assignmentT = [];//team assignment from database
+    var teacherId = [];//teacher roster
+    var studentId = [];//student roster
+    var professionalId = [];//professional roster
+    var teacherID;//class roster
+    var studentID = [];//class roster
+    var studentIDT = [];//team roster
+    var teacherVisibility = [];
+    var studentVisibility = [];
+    var teacherSignUp = [];
+    var studentSignUp = [];
+    var professionalSignUp = [];
+    var classId = [];
+    var cIndex;
+    var tIndex = 0;
+    var urlIndex;
+    var urlSites = new Array(2);
+    urlSites[0] = new Array(3);
+    urlSites[0] =
+            ["https://infinite-stream-2919.herokuapp.com/myClass",
+                "https://infinite-stream-2919.herokuapp.com/users",
+                "https://infinite-stream-2919.herokuapp.com/myClass/assign"];
+    urlSites[1] = new Array(3);
+    urlSites[1] =
+            ["https://mydesigncompany.herokuapp.com/myClass",
+                "https://mydesigncompany.herokuapp.com/users",
+                "https://mydesigncompany.herokuapp.com/myClass/assign"];
+
+    activiate = function (id) {
+        var stepArray = ["step1", "step2", "step3", "step4"];
+        for (var i = 0; i < stepArray.length; i++) {
+            document.getElementById(stepArray[i]).className = " step ";
+        }
+        document.getElementById(id).className = " active step ";
+        switch (id) {
+            case "step1":
+                $("#contentPane").html(Home({data: "Some data here later"}));
+                node = document.getElementById("choosedatabase");
+                node.style.visibility = 'visible';
+                break;
+            case "step2":
+                $("#contentPane").html(Rosters({data: "Some data here later"}));
+                //console.log("before pullUserDAta: "+urlSites[urlIndex][1]);
+                pullUserData();
+                getClassDataC();
+                showDropDownC();
+                nullButtonVisibilityC();
+                break;
+            case "step3":
+                $("#contentPane").html(Teams({data: "Some data here later"}));
+                pullUserData();
+                getClassDataT();
+                showDropDownT();
+                nullButtonVisibilityT();
+                break;
+            case "step4":
+                $("#contentPane").html(Users({data: "Some data here later"}));
+                pullUserData();
+                node = document.getElementById("userContent");
+                node.style.visibility = 'visible';
+                break;
+            default:
+                $("#contentPane").html(Rosters({data: "Some data here later"}));
+                pullUserData();
+                getClassDataC();
+                showDropDownC();
+                nullButtonVisibilityC();
+        }
+    }
+
+    //window.onload = function () {
+    //pullUserData();
+    //getClassDataC();
+    // getClassDataT();
+    //};
+
+    $(document).ready(function () {
+
+        //Underscore.js setup
+
+
+        //document.getElementById("step1").className = " active step ";
+        Home = _.template($('#Home').html());
+        Rosters = _.template($('#Rosters').html());
+        Teams = _.template($('#Teams').html());
+        Users = _.template($('#Users').html());
+        $("#contentPane").html(Home({data: "Some data here later"}));
+
+
+        $("body").on('click', '.teacherSelect_button', function (e) {
+            //turn off teacher Add buttons in Teacher Roster when teacher is selected and add teacher to top of Class Roster
+
+            id = e.currentTarget.id;
+            neg = (id.length - 1) * -1;
+            num = id.slice(neg);
+            for (i = 0; i < FirstName1.length; i++) {
+                var node = document.getElementById("t" + i.toString());
+                node.style.visibility = 'hidden';
+            }
+            FirstName2[FirstName2.length] = FirstName2[FirstName2.length - 1];
+            for (i = FirstName2.length - 1; i > 0; i--) {
+                FirstName2[i] = FirstName2[i - 1];
+                LastName2[i] = LastName2[i - 1];
+                studentID[i] = studentID[i - 1];
+            }
+            FirstName2[0] = FirstName1[num];
+            LastName2[0] = LastName1[num];
+            teacherID = teacherId[num];
+            updateRosterC();
+        });
+
+
+
+
+        $("body").on('click', '.studentSelect_button', function (e) {
+            //turn off student Add button in Student Roster when student is selected and add student to bottom of Class Roster
+            id = e.currentTarget.id;
+            neg = (id.length - 1) * -1;
+            num = id.slice(neg);
+            var node = document.getElementById("s" + num.toString());
+            node.style.visibility = 'hidden';
+            //add "FirstName + LastName" to Class Roster at the bottom of the list
+            FirstName2[FirstName2.length] = FirstName[num];
+            LastName2[LastName2.length] = LastName[num];
+            studentID[studentID.length] = studentId[num];
+            updateRosterC();
+        });
+
+
+
+        $("body").on('click', '.remove_button', function (e) {
+            //Remove student or teacher from Class roster, add to Student or Teacher Roster and turn on student Add button or all teacher Add buttons
+            //TODO these searches should be done with ID's, not FirstNames so we will have to save an Class Roster array with ID's as well as names
+            id = e.currentTarget.id;
+            neg = (id.length - 1) * -1;
+            num = id.slice(neg);
+            //console.log("num = " + num);
+            //turn on student Add button or all teacher Add buttons
+            if (num == 0) {
+                for (i = 0; i < FirstName1.length; i++) {
+                    var node = document.getElementById("t" + i.toString());
+                    node.style.visibility = 'visible';
+                }
+            } else {
+                for (i = 0; i < studentId.length; i++) {
+                    if (studentId[i] == studentID[num - 1]) {
+                        var node = document.getElementById("s" + i.toString());
+                        node.style.visibility = 'visible';
+                    }
+                }
+            }
+            //remove "FirstName + LastName" from Class Roster and shift the rest down
+            var fArray = [];
+            var lArray = [];
+            var idArray = [];
+            var cnt = 0;
+            for (i = 0; i < FirstName2.length; i++) {
+                if (i != num) {
+                    fArray[cnt] = FirstName2[i];
+                    lArray[cnt] = LastName2[i];
+                    //idArray[cnt] = studentID[i];
+                    cnt++;
+                }
+            }
+            cnt = 0;
+            for (i = 0; i < studentID.length; i++) {
+                if (i != num - 1) {
+                    idArray[cnt] = studentID[i];
+                    cnt++;
+                }
+            }
+            console.log("studentID = " + studentID);
+            FirstName2 = [];
+            LastName2 = [];
+            studentID = [];
+            for (i = 0; i < fArray.length; i++) {
+                FirstName2[i] = fArray[i];
+                LastName2[i] = lArray[i];
+            }
+            for (i = 0; i < idArray.length; i++) {
+                studentID[i] = idArray[i];
+            }
+            console.log("studentID = " + studentID);
+            updateRosterC();
+        });
+
+
+
+        $("body").on('click', '.classRosterSelect_button', function (e) {
+            //turn off student Add button in Student Roster when student is selected and add student to bottom of Class Roster
+            id = e.currentTarget.id;
+            neg = (id.length - 5) * -1;
+            num = id.slice(neg);
+            var node = document.getElementById("class" + (num - 1).toString());
+            node.style.visibility = 'hidden';
+            //console.log("in body: "+"class"+(num-1).toString());
+            //add "FirstName + LastName" to Class Roster at the bottom of the list
+            FirstName3[FirstName3.length] = FirstName2[num];
+            LastName3[LastName3.length] = LastName2[num];
+            studentIDT[studentIDT.length] = studentID[num - 1];
+            console.log(FirstName3.length + ' ' + LastName3.length + ', ' + studentIDT.length);
+            /*for (var iii in FirstName3) {
+             console.log(FirstName3[iii] + " " + LastName3[iii] + ", " + studentIDT[iii]);
+             }*/
+            updateRosterT();
+        });
+
+
+        $("body").on('click', '.remove_buttont', function (e) {
+            //Remove student or teacher from Team roster, add to Class Roster and turn on student Add button
+
+            id = e.currentTarget.id;
+            neg = (id.length - 4) * -1;
+            num = id.slice(neg);
+            console.log("num = " + num);
+            //turn on student Add button 
+            /*console.log("studentID in body = "+studentID);
+             console.log("studentIDT in body "+studentIDT);*/
+            for (i = 0; i < studentID.length; i++) {
+                if (studentID[i] == studentIDT[num]) {
+                    var node = document.getElementById("class" + (i + 1).toString());
+                    node.style.visibility = 'visible';
+                    console.log("in remove: " + "class" + (i + 1).toString());
+                }
+            }
+            //remove "FirstName + LastName" from Class Roster and shift the rest down
+            var fArray = [];
+            var lArray = [];
+            var idArray = [];
+            var cnt = 0;
+            for (i = 0; i < FirstName3.length; i++) {
+                if (i != num) {
+                    fArray[cnt] = FirstName3[i];
+                    lArray[cnt] = LastName3[i];
+                    //idArray[cnt] = studentID[i];
+                    cnt++;
+                }
+            }
+            cnt = 0;
+            for (i = 0; i < studentIDT.length; i++) {
+                if (i != num) {
+                    idArray[cnt] = studentIDT[i];
+                    cnt++;
+                }
+            }
+            console.log("studentIDT = " + studentIDT);
+            FirstName3 = [];
+            LastName3 = [];
+            studentIDT = [];
+            for (i = 0; i < fArray.length; i++) {
+                FirstName3[i] = fArray[i];
+                LastName3[i] = lArray[i];
+            }
+            for (i = 0; i < idArray.length; i++) {
+                studentIDT[i] = idArray[i];
+            }
+            for (var kkk in FirstName3) {
+                console.log("in remove: " + FirstName[kkk] + " " + LastName[kkk] + ", " + studentIDT[kkk]);
+            }
+            updateRosterT();
+        });
+
+    });//end of document ready function
+
+
+    //////////////////////////
+    //Home Functions
+    /////////////////////////
+
+
+    function chooseDatabase() {
+        //Value for the dropdown
+        var dB = document.getElementById('databasedropdown');
+        urlIndex = dB.selectedIndex;
+        pullUserData();
+        var node = document.getElementById("choosedatabase");
+        node.style.visibility = 'hidden';
+    }
+    ;
+
+
+    //////////////////////////
+    //MyClass Functions
+    /////////////////////////
+
+
+    function getClassDataC() {
+        var xmlHttpC = null;
+        xmlHttpC = new XMLHttpRequest();
+        xmlHttpC.onreadystatechange = function () {
+            if (xmlHttpC.responseText && xmlHttpC.status == 200 && xmlHttpC.readyState == 4) {
+                var obj = jQuery.parseJSON(xmlHttpC.responseText);
+                className = [];
+                assignments = [];
+                classId = [];
+                $.each(obj, function () {  //TODO  Make this an array capture and select by selected class and userId match
+                    className[className.length] = this['ClassName'];
+                    assignments[assignments.length] = this['Assignments']
+                    classId[classId.length] = this['_id'];
+                });
+            }
+            if (xmlHttpC.responseText && xmlHttpC.status == 200 && xmlHttpC.readyState == 4) {
+                addListC();
+            }
+        }
+        ;
+        xmlHttpC.open("GET", urlSites[urlIndex][0], true);
+        xmlHttpC.send(null);
+    }
+    ;
+
+    function addListC() {
+        var select = document.getElementById("classdropdownc");
+        for (var i = className.length - 1; i >= 0; i--) {
+            //Need if statement to populate only unassigned classes
+            if (assignments[i]) {
+                var option = document.createElement('option');
+                option.text = className[i];
+                option.value = i;
+                select.add(option, 0);
+            } else {
+                var option = document.createElement('option');
+                option.text = className[i];
+                option.value = i;
+                select.add(option, 0);
+            }
+        }
+        //Check if the array(classNames) is empty, to add "Empty" option
+        var option = document.createElement('option');
+        option.value = "";
+        select.add(option, 0);
+        if (className.length == 0) {
+            option.text = "-Empty-";
+        } else {
+            option.text = "-Select One-";
+        }
+        listComplete = true;
+    }
+    ;
+
+    function chooseClassC() {
+        //Value for the dropdown
+        var cdd = document.getElementById('classdropdownc');
+        cIndex = cdd.selectedIndex - 1;
+        var node = document.getElementById("chooseclassc");
+        node.style.visibility = 'hidden';
+        showRosterC();
+    }
+    ;
+
+    function showDropDownC() {
+        node = document.getElementById("chooseclassc");
+        node.style.visibility = 'visible';
+        node = document.getElementById("classdropdownc");
+        node.style.visibility = 'visible';
+    }
+    ;
+
+    function showRosterC() {//Load name arrays into Class array
+        assignment = [];
+        studentID = [];
+        teacherID = assignments[cIndex].TeacherId;
+        assignment[assignment.length] = teacherID;
+        for (k = 0; k < assignments[cIndex].StudentAssignments.length; k++) {//saved class roster
+            studentID[k] = assignments[cIndex].StudentAssignments[k].StudentId
+            assignment[assignment.length] = studentID[k];
+        }
+        FirstName2 = [];
+        LastName2 = [];
+        for (i = 0; i < FirstName1.length; i++) {//teacher roster
+            if (teacherId[i] == teacherID) {
+                FirstName2[FirstName2.length] = FirstName1[i];
+                LastName2[LastName2.length] = LastName1[i];
+            }
+        }
+        for (j = 0; j < studentID.length; j++) {
+            for (i = 0; i < FirstName.length; i++) {
+                if (studentId[i] == studentID[j]) {//displayed class roster
+                    FirstName2[FirstName2.length] = FirstName[i];
+                    LastName2[LastName2.length] = LastName[i];
+                }
+            }
+        }
+        updateRosterC();
+    }
+    ;
+
+    function updateRosterC() {
+        $("#contentPane").html(Rosters({data: "Some data here later"}));
+        setButtonVisibilityC();
+    }
+    ;
+
+    function setButtonVisibilityC() {
+        var node = document.getElementById("rosterContent");
+        node.style.visibility = 'visible';
+        //Teacher Roster
+        for (i = 0; i < FirstName1.length; i++) {
+            if (FirstName2[0] == FirstName1[i]) {
+                for (j = 0; j < FirstName1.length; j++) {
+                    node = document.getElementById("t" + j.toString());
+                    node.style.visibility = 'hidden';
+                }
+            }
+        }
+        //Student Roster
+        for (i = 0; i < FirstName.length; i++) {
+            for (j = 0; j < studentID.length; j++) {
+                if (studentID[j] == studentId[i]) {
+                    node = document.getElementById("s" + i.toString());
+                    node.style.visibility = 'hidden';
+                }
+            }
+        }
+    }
+    ;
+
+    function nullButtonVisibilityC() {
+        for (i = 0; i < FirstName.length; i++) {
+            node = document.getElementById("s" + i.toString());
+            node.style.visibility = 'hidden';
+        }
+        for (i = 0; i < FirstName1.length; i++) {
+            node = document.getElementById("t" + i.toString());
+            node.style.visibility = 'hidden';
+        }
+        for (i = 0; i < FirstName2.length; i++) {
+            node = document.getElementById("r" + i.toString());
+            node.style.visibility = 'hidden';
+        }
+    }
+    ;
+
+    /////////////////////////
+    //MyTeams Functions
+    /////////////////////////
+
+
+    function getClassDataT() {
+        var xmlHttpC = null;
+        xmlHttpC = new XMLHttpRequest();
+        xmlHttpC.onreadystatechange = function () {
+            if (xmlHttpC.responseText && xmlHttpC.status == 200 && xmlHttpC.readyState == 4) {
+                var obj = jQuery.parseJSON(xmlHttpC.responseText);
+                className = [];
+                assignments = [];
+                classId = [];
+                teamIds = [];
+                var cInd = 0;
+                $.each(obj, function () {  //TODO  Make this an array capture and select by selected class and userId match
+                    className[className.length] = this['ClassName'];
+                    assignments[assignments.length] = this['Assignments'];
+                    classId[classId.length] = this['_id'];
+                    //team names are nested one level lower than student arrays in a class
+                    teamIds[cInd] = [];
+                    for (var tInd in assignments[assignments.length - 1].TeamAssignments) {
+                        teamIds[cInd][tInd] = (assignments[assignments.length - 1].TeamAssignments[tInd].TeamId);
+                    }
+                    cInd++;
+                });
+            }
+            if (xmlHttpC.responseText && xmlHttpC.status == 200 && xmlHttpC.readyState == 4) {
+                addListT();
+            }
+        }
+        ;
+        xmlHttpC.open("GET", urlSites[urlIndex][0], true);
+        xmlHttpC.send(null);
+    }
+    ;
+
+    function addListT() {
+        var select = document.getElementById("classdropdownt");
+        for (var i = className.length - 1; i >= 0; i--) {
+            if (assignments[i]) {
+                var option = document.createElement('option');
+                option.text = className[i];
+                option.value = i;
+                select.add(option, 0);
+            } else {
+                var option = document.createElement('option');
+                option.text = className[i];
+                option.value = i;
+                select.add(option, 0);
+            }
+        }
+        //Check if the array(classNames) is empty, to add "Empty" option
+        var option = document.createElement('option');
+        option.value = "";
+        select.add(option, 0);
+        if (className.length == 0) {
+            option.text = "-Empty-";
+        } else {
+            option.text = "-Select One-";
+        }
+    }
+    ;
+
+    function chooseClassT() {
+        //Value for the dropdown
+        var cdd = document.getElementById('classdropdownt');
+        cIndex = cdd.selectedIndex - 1;
+        addListTeams();
+    }
+    ;
+
+    function addListTeams() {
+        var select = document.getElementById("teamdropdown");
+        //load team name array here
+        teamId = [];
+        for (var tInd in teamIds[cIndex]) {
+            teamId[teamId.length] = teamIds[cIndex][tInd];
+        }
+        for (var i = teamId.length - 1; i >= 0; i--) {
+            if (teamId[i]) {
+                var option = document.createElement('option');
+                option.text = teamId[i];
+                option.value = i;
+                select.add(option, 0);
+            }
+        }
+        //Check if the array(classNames) is empty, to add "Empty" option
+        var option = document.createElement('option');
+        option.value = "";
+        select.add(option, 0);
+        if (teamId.length == 0) {
+            option.text = "-Empty-";
+        } else {
+            option.text = "-Select One-";
+        }
+    }
+    ;
+
+    function chooseTeam() {
+        //Value for the dropdown
+        var cdd = document.getElementById('teamdropdown');
+        tIndex = cdd.selectedIndex - 1;
+        var node = document.getElementById("chooseclasst");
+        node.style.visibility = 'hidden';
+        showRosterT();
+    }
+    ;
+
+    function showDropDownT() {
+        node = document.getElementById("chooseclasst");
+        node.style.visibility = 'visible';
+        node = document.getElementById("classdropdownt");
+        node.style.visibility = 'visible';
+        if (document.getElementById("choseteam")) {//put it up there after the class is selected
+            var node = document.getElementById("chooseteam");
+            node.style.visibility = 'visible';
+        }
+    }
+    ;
+
+
+    function showRosterT() {//Load class array into team array
+        assignment = [];
+        studentID = [];
+        teacherID = assignments[cIndex].TeacherId;
+        assignment[assignment.length] = teacherID;
+        for (k = 0; k < assignments[cIndex].StudentAssignments.length; k++) {//saved class roster
+            studentID[k] = assignments[cIndex].StudentAssignments[k].StudentId
+            assignment[assignment.length] = studentID[k];
+        }
+        FirstName2 = [];
+        LastName2 = [];
+        for (i = 0; i < teacherId.length; i++) {//displayed class roster from teacher roster
+            if (teacherId[i] == teacherID) {
+                FirstName2[FirstName2.length] = FirstName1[i];
+                LastName2[LastName2.length] = LastName1[i];
+            }
+        }
+        for (j = 0; j < studentID.length; j++) {
+            for (i = 0; i < FirstName.length; i++) {
+                if (studentId[i] == studentID[j]) {//displayed class roster from student roster
+                    FirstName2[FirstName2.length] = FirstName[i];
+                    LastName2[LastName2.length] = LastName[i];
+                }
+            }
+        }
+        //console.log(FirstName2);
+        assignmentT = [];
+        teamId = assignments[cIndex].TeamAssignments[tIndex].TeamId;
+
+        for (k = 0; k < assignments[cIndex].TeamAssignments[tIndex].StudentId.length; k++) {//saved team roster
+            studentIDT[k] = assignments[cIndex].TeamAssignments[tIndex].StudentId[k].Student;
+            assignmentT[assignmentT.length] = studentIDT[k];
+        }
+        FirstName3 = [];
+        LastName3 = [];
+        for (j = 0; j < studentIDT.length; j++) {
+            for (i = 0; i < studentId.length; i++) {
+                if (studentId[i] == studentIDT[j]) {//displayed team roster from student roster
+                    FirstName3[FirstName3.length] = FirstName[i];
+                    LastName3[LastName3.length] = LastName[i];
+                }
+            }
+        }
+        /*console.log(FirstName2.length + studentIDT.length);
+         console.log("soooo, what's in teadId?  " + teamId);
+         for (var jjj in studentIDT) {
+         console.log("in ShowRosterT: " + FirstName3[jjj] + " " + LastName3[jjj] + ", " + studentIDT[jjj]);
+         }*/
+        updateRosterT();
+    }
+    ;
+
+    function updateRosterT() {
+        $("#contentPane").html(Teams({data: "Some data here later"}));
+        setButtonVisibilityT();
+    }
+    ;
+
+    function setButtonVisibilityT() {
+        var node = document.getElementById("teamContent");
+        node.style.visibility = 'visible';
+        //teachers cannot be assigned to a team
+        node = document.getElementById("class0");
+        node.style.visibility = 'hidden';
+
+        //console.log(studentIDT);
+        //console.log(studentID);
+
+        //Student Roster
+        for (j = 0; j < studentIDT.length; j++) {
+            for (i = 0; i < studentID.length; i++) {
+                if (studentIDT[j] == studentID[i]) {
+                    //console.log("in setButtonVisibilityT: class" + (i+1).toString());
+                    node = document.getElementById("class" + (i + 1).toString());
+                    node.style.visibility = 'hidden';
+                }
+            }
+        }
+    }
+    ;
+
+    function nullButtonVisibilityT() {
+        for (i = 0; i < FirstName2.length; i++) {
+            node = document.getElementById("class" + i.toString());
+            node.style.visibility = 'hidden';
+        }
+        for (i = 0; i < FirstName3.length; i++) {
+            node = document.getElementById("team" + i.toString());
+            node.style.visibility = 'hidden';
+        }
+    }
+    ;
+
+    /////////////////////////
+    //User Functions
+    /////////////////////////
+
+
+    function pullUserData() {
+        var xmlHttpU = null;
+        xmlHttpU = new XMLHttpRequest();
+        xmlHttpU.onreadystatechange = function () {
+            if (xmlHttpU.responseText && xmlHttpU.status == 200 && xmlHttpU.readyState == 4) {
+                var obj = jQuery.parseJSON(xmlHttpU.responseText);
+                var index;
+                index = 0;
+                FirstNameP = [];
+                LastNameP = [];
+                FirstName = [];
+                LastName = [];
+                FirstName1 = [];
+                LastName1 = [];
+                studentId = [];
+                teacherId = [];
+                professionalId = [];
+                studentSignUp = [];
+                teacherSignUp = [];
+                professionalSignUp = [];
+                $.each(obj, function () {
+                    if (this['accountType'] == "Student") {
+                        FirstName[FirstName.length] = this['firstName'];
+                        LastName[LastName.length] = this['lastName'];
+                        studentId[studentId.length] = this['_id'];
+                        studentSignUp[studentSignUp.length] = this['created_at'].substring(0, 10);
+                    } else if (this['accountType'] == "Teacher") {
+                        FirstName1[FirstName1.length] = this['firstName'];
+                        LastName1[LastName1.length] = this['lastName'];
+                        teacherId[teacherId.length] = this['_id'];
+                        teacherSignUp[teacherSignUp.length] = this['created_at'].substring(0, 10);
+                    } else {
+                        FirstNameP[FirstNameP.length] = this['firstName'];
+                        LastNameP[LastNameP.length] = this['lastName'];
+                        professionalId[professionalId.length] = this['_id'];
+                        professionalSignUp[professionalSignUp.length] = this['created_at'].substring(0, 10);
+                    }
+                })
+            }
+            if (xmlHttpU.responseText && xmlHttpU.status == 200 && xmlHttpU.readyState == 4) {
+                //DownloadArray2CSV(FirstNameP, LastNameP, professionalSignUp);
+                //DownloadArray2CSV(FirstName, LastName, studentSignUp);
+                //DownloadArray2CSV(FirstName1, LastName1, teacherSignUp);
+            }
+        };
+        xmlHttpU.open("GET", urlSites[urlIndex][1], true);
+        //xmlHttpU.open("GET", "https://mydesigncompany.herokuapp.com/users", true);
+        //xmlHttpU.open("GET", "https://infinite-stream-2919.herokuapp.com/users", true);
+        xmlHttpU.send(null);
+    }
+    ;
+
+    function DownloadArray2CSV(firstArray, lastArray, dateArray)
+    {
+        var array = [];
+        for (var index in firstArray) {
+            array[array.length] = firstArray[index] + " " + lastArray[index] + ", " + dateArray[index];
+        }
+
+        var str = '';
+
+        for (var i = 0; i < array.length; i++) {
+            var line = new Array();
+            line.push(array[i]);
+            //console.log(array[i]);
+
+            str += line.join(';');
+            str += '\r\n';
+        }
+        window.open("data:text/csv;charset=utf-8," + encodeURIComponent(str));
+    }
+    ;
+
+    function saveRoster() {
+        //stick the assignment data back into myClass
+
+        var id = classId[cIndex];
+
+        if (teacherID === undefined) {
+            teacherID = assignments[cIndex].TeacherId;
+            var jsonStudents = [];
+            if (studentID.length > 0) {//if we have people in the class, we will either load our changes or put back what we read
+                for (i = 0; i < studentID.length; i++) {
+                    jsonStudents[i] = {
+                        StudentId: studentID[i],
+                        ProjId: null
+                    };//TODO  need to capture the project assignments
+                }
+            } else {
+                jsonStudents[0] = {
+                    StudentId: null,
+                    ProjId: null
+                };
+            }
+            var jsonTeamMate = [];
+            if (studentIDT.length > 0) {//if we have people in the team, we will either load our changes or put back what we read
+                for (var j in studentIDT) {
+                    jsonTeamMate[j] = {
+                        Student: studentIDT[j],
+                        ProjId: null
+                    };//TODO  need to capture the project assignments
+                }
+            } else {
+                jsonTeamMate[0] = {
+                    StudentId: null,
+                    ProjId: null
+                };
+            }
+            var jsonTeam = [];
+            jsonTeam = assignments[cIndex].TeamAssignments;
+            if (teamId) {//if we have a defined team, we will either load our changes or put back what we read
+                jsonTeam[tIndex] = {
+                    TeamId: teamId,
+                    StudentId: jsonTeamMate
+                }
+                ;
+            }
+
+            assignments[cIndex] = {
+                TeacherId: teacherID,
+                StudentAssignments: jsonStudents,
+                TeamAssignments: jsonTeam
+            };
+
+            console.log("Team Name in first team of 1st class = " + assignments[0].TeamAssignments[0].TeamId);
+
+            var json = JSON.stringify({
+                _id: {$oid: id},
+                Assignments: assignments[cIndex]});
+
+            $.ajax({
+                type: 'POST',
+                //url: 'https://mydesigncompany.herokuapp.com/myClass/assign/',
+                url: urlSites[urlIndex][2],
+                data: json,
+                contentType: "application/json;charset=UTF-8",
+                dataType: "json",
+                'success': function (data) {
+                    console.log('Data is:');
+                    console.log(data);
+                    if (data) {
+                        console.log('JQuery POST request sent!');
+                    }
+                    window.location.href = "manageDatabases.html";
+                },
+                'error': function (xhr) {
+                    console.log(xhr);
+                    switch (xhr.status) {
+                        case 404:
+                            console.log("Webpage not found 404");
+                            break;
+                        case 400:
+                        {
+                            console.log("Error, invalid login info 400");
+                        }
+                    }
+                }
+            });
+        }
+    }
+    ;
+
+
+</script>

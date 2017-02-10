@@ -1,0 +1,311 @@
+﻿<!--
+########################################################
+# Authors: Jeffrey He, Jonathan Reyes, Danny Catacora  #
+# 2015                                                 # 
+########################################################
+-->
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Stylesheets -->
+        <link rel="stylesheet" type="text/css" href="Semantic/dist/semantic.css">
+        <link rel="stylesheet" type="text/css" href="Semantic/dist/semantic.min.css">
+        <link rel="stylesheet/less" type="text/css" href="Semantic/src/definitions/modules/dimmer.less" />
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+
+        <!-- Javascript -->
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.js"></script>
+        <script src="Semantic/dist/semantic.min.js"></script>
+        <script src="Semantic/dist/semantic.js"></script>
+        <script src="Semantic/dist/components/dimmer.js"></script>
+        <script src="js/main.js"></script>
+        <script src="js/homepage.js"></script> 
+        <script src="js/spin.min.js"></script> 
+        <script src="js/logging.js"></script>
+
+        <meta charset="utf-8">
+        <title>SignUp - MyDesign 2015</title>    
+    </head>
+
+    <body style="background-color:#FFFFFF">
+        <div class = "outer">
+            <div class = "inner">
+                <h1 class = "myfont"> <b>SIGN UP: </b></h1>
+            </div>
+        </div>
+        <div class = "signup">
+            <table width="100%">
+                <tr>
+                    <td>
+
+                        <span id="missingInfoMessage" class="missingInfoMessage"></span>
+
+                        <div class="ui fluid form segment " >
+                            <div class="two fields">
+                                <div class="eight wide required field">
+                                    <label>FIRST NAME</label>
+                                    <input placeholder="First Name" id="first" type="text">
+                                </div>
+                                <div class="eight wide required field">
+                                    <label>LAST NAME</label>
+                                    <input placeholder="Last Name" id="last" type="text">
+                                </div>
+                            </div>                 	
+                            <div class="two fields">
+                                <div class="eight wide required field">
+                                    <label>EMAIL</label>
+                                    <input placeholder="Email" name="email" id="email" type="text">
+                                </div>    				
+                                <div class="eight wide required field  ">
+                                    <label>USERNAME</label>
+                                    <input placeholder="User Name" name="uname" id="uname" type="text"> 
+                                </div>            
+                            </div>	
+                            <div class="one fields signuppad">
+                                <div class="eight wide required field  ">
+                                    <label for="pass1">PASSWORD</label>
+                                    <div class="ui icon input">
+                                        <input type="password" placeholder="Password" name="pass1" id="pass1"> 
+                                        <i class="lock icon"></i>
+                                    </div>
+                                </div>    				
+                            </div>
+                            <div class="one fields signuppad"> 
+                                <div class="eight wide required field ">
+                                    <label for="pass2">CONFIRM PASSWORD</label>
+                                    <div class="ui icon input">
+                                        <input type="password" name="pass2" id="pass2" placeholder="Confirm Password" onkeyup="PassMatch();
+                                                return false;">
+                                        <i class="lock icon"></i> 
+                                    </div>
+                                </div>    				
+                            </div> 	  
+                            <div class="one fields signuppad"> 
+                                <div class="eight wide required field ">
+                                    <label><b>LOCATION (CITY, STATE)</b></label>
+                                    <input placeholder="Location" name="location" id="location" type="text">
+                                </div>
+                            </div>  		  
+                            <div class="one fields signuppad"> 
+                                <div class="eight wide required field ">
+                                    <label><b>SCHOOL</b></label>
+                                    <input placeholder="School" name="scho" id="scho" type="text">
+                                </div>
+                            </div>  
+
+                            <span id="confirmMessage" class="confirmMessage"></span>
+
+                            <table width = 100%>
+                                <tr>
+                                    <!---
+                                    <td>	
+                                        <div class = "projecttype signuppad">
+                                            <div class="ui form">  						 
+                                                <label><b>SCHOOL</b></label>
+                                                <select class="ui dropdown" id = "schooldropdown">
+                                                    <option value="">Schools</option>
+                                                    <option value="0">University of Maryland College Park</option>
+                                                    <option value="1">Stanford University</option>
+                                                    <option value="2">Massachusetts Institute of Technology</option>
+                                                    <option value="3">Pennsylvania State University</option>
+                                                </select>  					
+                                            </div>
+                                        </div> 
+                                    </td>
+                                    --->
+                                    <td>
+                                        <div class = "projecttype signuppad">
+                                            <div class="ui form required field">  						 
+                                                <label><b>USER TYPE</b></label>
+                                                <select class="ui dropdown" id = "usertypedropdown">
+                                                    <option value="">User Type</option>
+                                                    <option value="0">Student</option>
+                                                    <option value="1">Teacher</option>
+                                                    <!--<option value="2">Professional</option>-->
+                                                </select>  					
+                                            </div>
+                                        </div> 
+                                    </td>
+                                    <td>
+                                        <div class = "projecttype signuppad">
+                                            <div class="ui form required field">  						 
+                                                <label><b>EXPERIENCE LEVEL</b></label>
+                                                <select class="ui dropdown" id = "expdropdown">
+                                                    <option value="">Experience</option>
+                                                    <option value="0">Elementary</option>
+                                                    <option value="1">Middle School</option>
+                                                    <option value="2">High School</option>
+                                                    <option value="3">Post-Secondary</option>
+                                                    <option value="4">Professional</option>
+                                                </select>  					
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    <td>
+                    <td width="20%">
+                        <h3><p style="margin-left:1em;">
+                                <b>Sign up here for step-by-step guidance to designing your own product today!</b>
+                            </p></h3>
+                    </td>
+                </tr>
+            </table>
+            <table style="height:20%" width="95%">
+                <tr>
+                    <td><a href="index.html">
+                            <div class="ui left labeled icon blue button"> 							
+                                <i class="left arrow icon"></i> Back</div></a>
+                    </td>
+                    <td align="right" class="ui" id="signUpBtn"><a class="ui">
+                            <img src="img/signup.fw.png" onclick="checkInfo()" height="125" width="125"/>
+                        </a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </body>
+</html>
+
+<script>
+    var spinnerVisible = false;
+    var spinner;
+
+    function showProgress() {
+        if (!spinnerVisible) {
+            var opts = {
+                lines: 13, // The number of lines to draw
+                length: 10, // The length of each line
+                width: 5, // The line thickness
+                radius: 20, // The radius of the inner circle
+                corners: 1, // Corner roundness (0..1)
+                rotate: 0, // The rotation offset
+                direction: 1, // 1: clockwise, -1: counterclockwise
+                color: '#000', // #rgb or #rrggbb or array of colors
+                speed: 1, // Rounds per second
+                trail: 60, // Afterglow percentage
+                shadow: false, // Whether to render a shadow
+                hwaccel: false, // Whether to use hardware acceleration
+                className: 'spinner', // The CSS class to assign to the spinner
+                zIndex: 2e9, // The z-index (defaults to 2000000000)
+                top: '50%', // Top position relative to parent
+                left: '50%' // Left position relative to parent
+            };
+            var target = document.getElementById('signUpBtn');
+            spinner = new Spinner(opts).spin(target);
+            spinnerVisible = true;
+        }
+    }
+    ;
+
+    function hideProgress() {
+        if (spinnerVisible) {
+            spinner.stop();
+            spinnerVisible = false;
+        }
+    }
+    ;
+
+    checkInfo = function () {
+        showProgress();
+        //get all required info
+        var c = 0; //Counter for number of errors
+        var first = document.getElementById('first').value;
+        var last = document.getElementById('last').value;
+        var email = document.getElementById('email').value;
+        var usern = document.getElementById('uname').value;
+        var pass1 = document.getElementById('pass1').value;
+        var pass2 = document.getElementById('pass2').value;
+        /*
+         var dr0 = document.getElementById('schooldropdown');
+         var scho = dr0.options[dr0.selectedIndex].text;
+         */
+        var scho = document.getElementById('scho').value;
+
+        var location = document.getElementById('location').value;
+        var dr = document.getElementById('usertypedropdown');
+        var usert = dr.options[dr.selectedIndex].text;
+        var dr2 = document.getElementById('expdropdown');
+        var exper = dr2.options[dr2.selectedIndex].text;
+        //TODO: get account type
+
+        console.log("First:" + first + "\nLast:" + last + "\nEmail:" + email + "\nUser:" + usern + "\nPass:" + pass1 + "\nUserT:" + usert + "\nExp:" + exper);
+
+        //clear message
+        var message = document.getElementById('missingInfoMessage');
+        message.style.color = "#ff6666";
+        message.innerHTML = "";
+        if (first == "") {
+            message.innerHTML += "*Missing First Name<br>";
+            c += 1;
+        }
+        if (last == "") {
+            message.innerHTML += "*Missing Last Name<br>";
+            c += 1;
+        }
+        if (email == "") {
+            message.innerHTML += "*Missing Email<br>";
+            c += 1;
+        }
+        if (usern == "") {
+            message.innerHTML += "*Missing Username<br>";
+            c += 1;
+        }
+        if (scho == "") {
+            message.innerHTML += "*Missing School<br>";
+            c += 1;
+        }
+        if (pass1 == "" || pass2 == "" || pass1 != pass2) {
+            message.innerHTML += "*Missing Password<br>";
+            c += 1;
+        }
+        if (usert == "") {
+            message.innerHTML += "*Missing User Type<br>";
+            c += 1;
+        }
+        if (exper == "") {
+            message.innerHTML += "*Missing Experience Level<br>";
+            c += 1;
+        }
+
+        //console.log("C:"+c)
+        //if no errors(all data filled) - c==0, THEN post:
+        if (c == 0)
+            $.ajax({
+                type: "POST",
+                url: "https://mydesigncompany.herokuapp.com/users/",
+                //url: "https://infinite-stream-2919.herokuapp.com/users/",
+                data: JSON.stringify({
+                    lastName: last,
+                    firstName: first,
+                    userName: usern,
+                    email: email,
+                    password: pass2,
+                    location: location,
+                    school: scho,
+                    accountType: usert,
+                    experience: exper
+                }),
+                contentType: "application/json",
+                dataType: "json",
+                success: function (result) {
+                    hideProgress();
+                    console.log("result");
+                    console.log(result);
+                    window.location.href = "index.html";
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    hideProgress();
+                    console.log(xhr.status);
+                    console.log(thrownError);
+                    var message = document.getElementById('missingInfoMessage');
+                    message.style.color = "#ff6666";
+                    message.innerHTML = "Username and/or Email is already taken";
+                }
+            });
+    };
+
+</script>

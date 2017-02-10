@@ -1,0 +1,307 @@
+/*
+########################################################
+# Authors: Jeffrey He, Jonathan Reyes, Danny Catacora  #
+# 2015                                                 # 
+########################################################
+*/
+
+
+	@charset "utf-8";
+
+
+	.outer {
+		padding-top: 25px;
+		width: 65%;
+		margin-left: auto;
+	    margin-right: auto;
+	    overflow: visible;
+		font-family: 'Copperplate', Copperplate Gothic Light, sans-serif;
+	}
+
+	.bodybckgd{
+		background-image: url("../img/bckgdlogin.jpg");
+    	background-repeat:no-repeat;
+    	background-size: cover;
+	    background-attachment: fixed;
+	}
+
+	.inner {
+		padding-top: 25px;
+	    /* margin-right: 200px;*/
+	   	margin-right: 25%;
+		width: 50%;
+	}
+	
+	.indent {
+		/*padding-left: 100px;*/
+		padding-left:10%;
+		padding-top: 25px;
+	}
+	
+	.myfont{
+		font-family: 'Copperplate', Copperplate Gothic Light, sans-serif;
+	}
+	
+	.projectselection{
+		/*width: 200px;	*/
+		width: 20%;
+	}
+	
+	.projecttype{
+		/*width: 200px;	*/
+		width: 75%;
+	}
+	
+	.classname{
+		/*width: 200px;	*/
+		width: 30%;
+	}	
+	
+	.startbutton{
+		margin-left: 65%;
+	}
+	
+	.Blair {
+    	font-family: 'BlairMdITC TT Medium';
+	}
+
+	.back {
+		padding-botom: 500px;
+	}
+
+	.hide {
+		 visibility: hidden;
+	}
+
+	.homepagelogo {
+		padding-top: 7%;  
+   		width: 55%;
+		margin-left: auto;
+    	margin-right: auto;
+   		overflow: visible;
+	}
+
+	.homepagebuttons {
+		padding-top: 5%;  
+   		width: 55%;
+		margin-left: 40%;
+    	margin-right: 60%;
+    	/*padding-right: 20%;*/
+   		overflow: visible;
+	}
+
+	.homepagetext{
+		padding-top: 1%;  
+   		width: 55%;
+		margin-left: 60%;
+    	margin-right: 40%;
+    	padding-right: 20%;
+	}
+
+
+	.fifty{
+		width: 50%;
+		margin-left: 30%;
+	}
+
+	.indexbutton{
+		padding-top: 3%;
+	}
+
+
+	#page-cover {
+	    display: none;
+	    position: fixed;
+	    width: 100%;
+	    height: 100%;
+	    background-color: #000;
+	    z-index: 999;
+	    top: 0;
+	    left: 0;
+	}
+
+    #fadebox {
+	    font-family: 'BlairMdITC TT Medium';
+	    visibility: hidden;
+	    z-index: 1;
+	    position: absolute;
+	    left: 0;
+	    right: 0;
+	    bottom: 30%;
+	    height: 100px;
+	    background-color: #00BFFF;
+	    color: white;
+	    padding: 0;
+	}
+
+    .signuppad {
+    	padding-top: 20px;
+    }
+
+    .signup{
+    	padding-top: 20px;
+    	width: 50%;
+		margin-left: 25%;
+    	margin-right: 75%;
+    }
+
+	.circle-container {
+    	position: relative;
+   	 	width: 31em;
+   	 	height: 31em;
+    	padding: 2.8em;
+    	border-radius: 50%;
+    	margin: 1.75em auto 0;
+	}
+	.circle-container a {
+    	display: block;
+    	position: absolute;
+    	top: 25%; 
+    	left: 40%;
+    	margin: -2em;
+	}
+
+	.circle-container img { 
+		display: block; 
+	}
+
+	/* 12em = half the width of the wrapper */
+	.quad4 {transform: rotate(45deg) translate(15.2em) rotate(-45deg);} 
+	.quad3 {transform: rotate(135deg) translate(15.2em) rotate(-135deg);}
+	.quad2 {transform: rotate(225deg) translate(15.2em) rotate(-225deg);}
+	.quad1 {transform: rotate(315deg) translate(15.2em) rotate(-315deg);}
+
+	.dlogopos{
+		padding-top:130px;
+		pointer-events: none;
+		transform: rotate(180deg) translate(1em) rotate(-180deg);
+	}
+
+	.circle-container a:not(.center):before {
+		position: absolute;
+		font-family: 'Copperplate', Copperplate Gothic Light, sans-serif;
+		color: white;
+		opacity: 0;
+		background: rgba(0,0,0,.5);
+		letter-spacing: 2px;
+		content: attr(id);
+		border-radius: 5px;
+ 		-webkit-border-radius: 5px;
+ 		-moz-border-radius: 5px;
+	}
+
+	.circle-container a:hover:before { 
+		opacity: 0.75; 
+		margin-left:35%;
+		margin-top: 35%;
+
+	}
+
+
+	.dashTop{
+		height: 25%;
+	}
+
+	.dashBot{
+		height: 10%;
+		margin-left: 5%;
+	}
+
+	.barwide{
+		width:90%;
+		margin-left: 5%;
+	}
+
+	.dashLogo{
+		margin-left: 5%;
+	}
+
+	.dashContentParent{
+		float:right;
+		width: 75%;
+		/*background-color: blue;*/
+		margin-right: 5%;
+	}
+
+	.dashbar{		
+		float:left;
+		width: 20%;
+	}
+
+	.dashHomeTitle{
+		font-size: 2em;
+	}
+
+	progress[value] {
+		-webkit-appearance: none;
+   			-moz-appearance: none;
+   			appearance: none;
+
+  		width: 90%;
+  		height: 20px;
+  		margin-left: 5%;
+	}
+
+	progress[value]::-webkit-progress-bar {
+  		background-color: #eee;
+  		border-radius: 2px;
+  		box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25) inset;
+	}
+
+	progress[value]::-webkit-progress-value {
+  		background-image:
+	   -webkit-linear-gradient(-45deg, 
+	                           transparent 33%, rgba(0, 0, 0, .1) 33%, 
+	                           rgba(0,0, 0, .1) 66%, transparent 66%),
+	   -webkit-linear-gradient(top, 
+	                           rgba(255, 255, 255, .25), 
+	                           rgba(0, 0, 0, .25)),
+	   -webkit-linear-gradient(left, #09c, #f44);
+
+    	border-radius: 2px; 
+    	background-size: 35px 20px, 100% 100%, 100% 100%;
+	}	
+
+	@-webkit-keyframes animate-stripes {
+   100% { background-position: -100px 0px; }
+	}
+
+	@keyframes animate-stripes {
+   100% { background-position: -100px 0px; }
+	}
+	-webkit-animation: animate-stripes 5s linear infinite;
+        animation: animate-stripes 5s linear infinite;
+
+     progress[value]::-webkit-progress-value::before {
+  		content: '80%';
+  		position: absolute;
+  		right: 0;
+  		top: -125%;
+	}
+
+	progress[value]::-webkit-progress-value::after {
+  		content: '';
+  		width: 6px;
+  		height: 6px;
+  		position: absolute;
+  		border-radius: 100%;
+  		right: 7px;
+  		top: 7px;
+  		background-color: white;
+	}
+
+
+	.center {
+		margin-left: auto;
+    	margin-right: auto;
+    	width: 70%;		
+	}
+
+	.widthparent{
+		width: 100%;
+	}
+
+
+	/****************/
+
+

@@ -1,0 +1,91 @@
+<!--
+########################################################
+# Authors: Jeffrey He, Jonathan Reyes, Danny Catacora  #
+# 2015                                                 # 
+########################################################
+-->
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Stylesheets -->
+        <link rel="stylesheet" type="text/css" href="Semantic/dist/semantic.css">
+        <link rel="stylesheet" type="text/css" href="Semantic/dist/semantic.min.css">
+        <link rel="stylesheet/less" type="text/css" href="Semantic/src/definitions/modules/dimmer.less" />
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+
+        <!-- Javascript -->
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.js"></script>
+        <script src="Semantic/dist/semantic.min.js"></script>
+        <script src="Semantic/dist/semantic.js"></script>
+        <script src="Semantic/dist/components/dimmer.js"></script>
+        <script src="js/main.js"></script>
+        <script src="js/wheel.js"></script>
+        <script src="js/homepage.js"></script> 
+        <script src="js/logging.js"></script>
+
+        <meta charset="utf-8">
+        <title>MyDesign 2015</title>    
+    </head>
+
+    <body style="background-color:#FFFFFF" position: "relative">
+          <div class="outer">
+            <p><h2>Welcome to MyDesign!</h2></p>
+            <p><h3> Here is the step-by-step guidance on how to make a new design idea come to life.<br/>
+                    To begin, click on component one in the circle! What are the design components?<br/>
+                    Click on the component number and the Beaver will lead you through it!</h3><br/>
+            </p>
+
+            <div class = "inner">
+                <div class='circle-container'>
+                    <a class='quad1' name = "wPart" id = "Component_I"><img src='img/component1.png' onclick="setComponent(1)"></a>
+                    <div style = "position: relative; left: 110%"><!--translate(50em, 15em);-->
+                        <a rel="#voverlay" id="watch" href="https://www.youtube.com/watch?v=NIYdK3IsYbE?rel=0&autoplay=1" title="Design Component I"><!--"https://www.youtube.com/embed/NIYdK3IsYbE"-->
+                            <p style="font-size: 1.5em;"><b> DESIGN COMPONENT I </b></p>
+                        </a>
+                    </div>
+                    <a class='quad2' name = "wPart" id = "Component_IV"><img src='img/component4.png' onclick="setComponent(4)"></a>
+                    <div style = "position: relative; top: 110%; left: 110%"><!--transform: translate(50em, 35em);-->
+                        <a rel="#voverlay" id="watch" href="https://youtube.com/watch?v=DogDp-P69kc" title="Design Component II">
+                            <p style="font-size: 1.5em;"><b> DESIGN COMPONENT II </b></p>
+                        </a>
+                    </div>
+                    <a class='quad3' name = "wPart" id = "Component_III"><img src='img/component3.png' onclick="setComponent(3)"></a>
+                    <div style = "position: relative; top: 110%; right: 105%">
+                        <a rel="#voverlay" id="watch" href="wheelTBD.html" title="Design Component IV">
+                            <p style="font-size: 1.5em;"><b> DESIGN COMPONENT III </b></p>
+                        </a>
+                    </div>
+                    <a class='quad4' name = "wPart" id = "Component_II"><img src='img/component2.png' onclick="setComponent(2)"></a>
+                    <div style = "position: relative; right: 105%">
+                        <a rel="#voverlay" id="watch" href="http://www.youtube.com/attribution_link?a=a80ej47-QbQ&u=/watch%3Fv%3D_hYCcKlnCYg%26feature%3Dem-share_video_user" title="Design Component IV">
+                            <p style="font-size: 1.5em;"><b> DESIGN COMPONENT IV </b></p>
+                        </a>
+                    </div>
+                    <a class='dlogopos' ><img src='img/logotext.fw.png'></a>
+                </div>
+            </div>
+        </div>
+
+        <table style="height:18%" width="100%">
+            <tr>
+                <td ><a href="Project_Select.html">
+                        <div class="ui left labeled icon blue button">              
+                            <i class="left arrow icon"></i> Back</div></a>
+                </td>
+                <td align="right" >
+                    <div class="ui right labeled icon red button" id = "goToInfoPage">
+                        <i class="right arrow icon"></i>
+                        <div class="content">Rubric
+                            <!--<div class="title"> DESIGNCERT<sub>TM</sub>:  </br>
+                                Descriptions of Design Components, Steps, and Rubric</br>
+                            </div>-->
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>
+

@@ -1,0 +1,193 @@
+<!--
+########################################################
+# Authors: Jeffrey He, Jonathan Reyes, Danny Catacora  #
+# 2015                                                 # 
+########################################################
+-->
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Stylesheets -->
+    <link rel="stylesheet" type="text/css" href="Semantic/dist/semantic.css">
+    <link rel="stylesheet" type="text/css" href="Semantic/dist/semantic.min.css">
+    <link rel="stylesheet/less" type="text/css" href="Semantic/src/definitions/modules/dimmer.less" />
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+
+    <!-- Javascript -->
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.js"></script>
+    <script src="Semantic/dist/semantic.min.js"></script>
+    <script src="Semantic/dist/semantic.js"></script>
+    <script src="Semantic/dist/components/dimmer.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/homepage.js"></script> 
+
+    <meta charset="utf-8">
+    <title>New Project - MyDesign 2015</title>
+</head>
+
+<body style="background-color:#FFFFFF">
+    <div class="outer">
+        <div class = "inner"> 
+            <h1>NEW PROJECT</h1>           
+        </div>
+
+        <div class = "inner">
+            <div class = "projecttype">
+                <div class="ui form">
+                    <div class="required field"> 
+                        <label>TYPE OF PROJECT</label>
+                        <select class="ui" name = "typedropdown" id = "typedropdown" onchange="otherSelect()">
+                        </select>
+                    </div>
+                </div>
+            </div> 
+
+            <div class="ui fluid field form hide" id="demo2">
+                <label>Other</label>
+                <input placeholder="Type of Project" type="text">
+            </div>
+
+            <div class="ui fluid form segment">
+                <div class="two fields">
+                    <div class="field">
+                        <label>Course Title</label>
+                        <input placeholder="Course Title" type="text" name="course" value="ENES100">
+                    </div>
+                    <div class="field">
+                        <label>Instructor</label>
+                        <input placeholder="Instructor" type="text" name="instructor" value="Mr.Smith">
+                    </div>
+                </div>
+                <div class="two fields">
+                    <div class="field">
+                        <label>Institution</label>
+                        <input placeholder="Institution" type="text" name="institution" value="Blair HS">
+                    </div>
+                    <div class="field">
+                        <label>Grade</label>
+                        <input placeholder="Grade" type="text" name="grade" value="11">
+                    </div>
+                </div>
+
+                <div class="two fields">
+                    <div class="field">
+                        <label>Team</label>
+                        <input placeholder="Team" type="text" name="team" value="teamAwesome">
+                    </div>
+                    <div class="required field">
+                        <label>Project Name</label>
+                        <input placeholder="Project Name" type="text" name="title" value="Project1">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="inner ">
+            <table style="height:100%" width="100%">
+                <tr>
+                    <td><a href="Project_Select.html">
+                        <div class="ui left labeled icon blue button"> 							
+                            <i class="left arrow icon"></i> Back</div></a>
+                        </td>
+                        <td align="right">
+                        <!-- <a href="wheel.html" class="ui"> -->
+                            <img src="img/create.fw.png" width="30%" height="50%" onclick="createProject()" />
+                        <!-- </a> -->
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
+
+<!-- page specific scripts at bottom to load page faster-->
+<script>
+    //Script for updating the project types from the backend
+    var myArray =[];
+
+    function addList(){  
+        var select = document.getElementById("typedropdown");
+        for(var i = myArray.length - 1; i > 0; i--) {
+            var option = document.createElement('option');
+            option.text =  myArray[i];
+            option.value = i;
+            select.add(option, 0);
+        }
+    }
+
+    window.onload = function () {
+        var xmlHttp = null;
+        xmlHttp  = new XMLHttpRequest();
+        xmlHttp.onreadystatechange = function() {
+            if (xmlHttp.responseText && xmlHttp.status == 200 && xmlHttp.readyState == 4) {
+                var obj = jQuery.parseJSON( xmlHttp.responseText );
+                $.each(obj, function() {
+                    myArray[myArray.length] = this['type'];
+                });
+
+                addList();
+            }
+        };
+        xmlHttp.open("GET", "https://mydesigncompany.herokuapp.com/projectTypes", true);
+        //xmlHttp.open("GET", "https://infinite-stream-2919.herokuapp.com/projectTypes", true);
+        xmlHttp.send(null);
+    }; 
+
+    function createProject(){
+        var pTitle = $('input[name="title"]').val();
+        var e = document.getElementById("typedropdown");
+        var pType = e.options[e.selectedIndex].text;
+        var pId = "54c03d2fc79c725b0db81669";  //getCookie("userid");
+        var pCourse = $('input[name="course"]').val();
+        var pInstructor = $('input[name="instructor"]').val();
+        var pInstitution = $('input[name="institution"]').val();
+        var pGrade = $('input[name="grade"]').val();
+        var pTeam = $('input[name="team"]').val();
+        console.log(pTitle);
+        console.log(pType);
+        console.log(pId);
+        console.log(pCourse);
+        console.log(pInstructor);
+        console.log(pInstitution);
+        console.log(pGrade);
+        console.log(pTeam);
+        console.log('https://mydesigncompany.herokuapp.com/projects/');
+        //console.log('https://infinite-stream-2919.herokuapp.com/projects/');
+        $.ajax({
+          'type' : 'POST',
+          'url' : 'https://mydesigncompany.herokuapp.com/projects/',
+          //'url' : 'https://infinite-stream-2919.herokuapp.com/projects/',
+          'data' : JSON.stringify({ProjectName: pTitle,
+                                  AuthorId: pId,
+                                  ProjectType: pType,
+                                  CourseTitle: pCourse,
+                                  Instructor: pInstructor,
+                                  Institution: pInstitution,
+                                  Grade: pGrade,
+                                  Team: pTeam,
+                                  CurrentDesignStep: "1",
+                                  InProgress: true}),
+          'contentType': "application/json;charset=UTF-8",
+          'success' : function(data) {
+            console.log('Data is:');
+            console.log(data);
+            if (data) {
+              console.log('JQuery GET request sent!');
+              window.location.href = "wheel.html";
+            }
+          },
+          'error' : function (xhr){
+            console.log(xhr);
+            switch (xhr.status) {
+              case 404: console.log("Webpage not found 404");
+              case 400: {
+                console.log("Error, invalid login info 400");
+              }
+            }
+          }
+        });
+    }
+</script>

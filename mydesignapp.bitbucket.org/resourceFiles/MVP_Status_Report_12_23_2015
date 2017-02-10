@@ -1,0 +1,33 @@
+
+
+Login Page: Allows users to login
+	To-do: Need to figure out why the login process is so slow and how to speed it up. 
+
+Class-Select: Teachers are able to select a class
+	To-do: Replace the class id listings in the class select dropdown with the class name. Also, there is no logic to determine what classes get listed in the dropdown. Currently, all teachers get to see all classes.
+
+New-Class: Teachers are able to create a new class
+
+Portfolio Storage: Students are able to select the design step, submit commments, and then upload a pdf file not exceeding 2 mb. 
+
+Dashboard_Teacher2.html: 
+	To-do: Homepage, MyClass, MyTeams, Assessments, Team Progress, MyMessageBoard, Projects, and Rubrics panels need to be built
+
+	Student-Dashboard: Need to resolve latency in load time of the student table and work products. Need service logic to determine which students' work products to load into the table depending on the students associated with the teacher. 
+
+	Assessment Panel: Need to replace placeholder data with live data in the first assessment panel. In the second panel, we need to resolve issues of pdfs not loading in chrome. Service logic is also needed to retrieve from the database  the correct pdf instead of just a random pdf. Also need to work on the backend to support the put request for the teacher's assessment. 
+
+Project_Select: Students are able to select projects to work on or see
+	To-do: Also, there is no service logic to determine what projects get listed in the dropdown. Currently, all students get to see all projects.
+
+New_Project: Students are able to create a new project
+
+Wheel: Students are able to see the wheel representing the entire design cycle. Clicking on specific sections of the wheel will lead to a corresponding student 
+
+Dashboard. Students are able to view the rubrics from the wheel as well. 
+	To-do: The css on this page needs work. The wheel is also not centered.
+
+Student_Dashboard:
+	To-do: This page needs to be completley rebuilt using underscore.js first before any other modifications can be done. The Apps panel needs to updated with new content and Mativ8 needs to be removed. The progress bar needs service logic integrated to reflect live data. MySketches, MyExamples, Collaborators, MyMentors, MyProgress, MyMessageBoard panels need to be built. 
+
+

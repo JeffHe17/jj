@@ -1,0 +1,110 @@
+<!--
+########################################################
+# Authors: Jeffrey He, Jonathan Reyes, Danny Catacora  #
+# 2015                                                 # 
+########################################################
+-->
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Stylesheets -->
+        <link rel="stylesheet" type="text/css" href="Semantic/dist/semantic.min.css">
+        <link rel="stylesheet/less" type="text/css" href="Semantic/src/definitions/modules/dimmer.less" />
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+
+        <!-- Javascript -->
+        <script src="js/jquery-2.1.4.min.js"></script>
+        <script src="Semantic/dist/semantic.min.js"></script>
+        <script src="Semantic/dist/components/dimmer.js"></script>
+        <script type="text/javascript" src="js/underscore-min.js"></script>
+        <script src="js/main.js"></script>
+        <script src="js/lib/user_lib.js"></script>
+        <script src="js/lib/class_lib.js"></script>
+        <script src="js/project_select.js"></script>
+        <script src="js/homepage.js"></script> 
+        <script src="js/logging.js"></script>
+
+        <meta charset="utf-8"> 
+        <title>Project Select - MyDesign 2016</title>	    
+    </head>
+
+    <body style="background-color:#FFFFFF">
+
+	<script type="text/javascript">
+	     heap.identify(localStorage.getItem("userId"));
+             json = {userType:localStorage.getItem("accountType")};
+             heap.addUserProperties(json);
+	</script>
+        <script type="text/html" id="Project_Select">
+            <div class="outer">
+                <span class=" right_float padding20"> <button class=  'ui tiny red button' id="logout_button">Logout</button></span>
+                <div class="inner">	
+                    <H1><b>PROJECT SELECT</b></H1>
+                </div>
+
+                <div class = "indent">
+                    <a href="New_Project.html" class="ui">
+                        <div class="big white ui labeled icon button animated fade">
+                            <i class="plus icon blue"></i>
+                            <div class="visible content"><div class = "myfont">New Project</div></div>
+                            <div class="hidden content"><div class = "myfont">Start!</div></div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="inner">	
+                    <H1>EXISTING</H1>
+                </div> 
+
+                <div class = "indent">
+                    <div class = "projectselection">
+                        <div class="ui form">
+                            <div class="field"> 
+                                <label>My Own Projects</label>
+                                <select class="ui" name="progdropdown" id="progdropdown" >
+                                    <option value="-1">Select</option>
+                                    <% _.each(data.personalProjects,  function(element, index, list){ %>
+                                        <option value="0"><%=element.ProjectName%> </option>
+                                    <% }); %>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class = "indent">
+                    <div class = "projectselection">
+                        <div class="ui form">
+                            <div class="field">
+                                <label>Assigned Projects</label>
+                                <select class="ui" name="assigneddropdown" id="assigneddropdown">
+                                    <option value="-1">Select</option>
+                                    <% _.each(data.assignedProjects,  function(element, index, list){ %>
+                                        <option value="0"><%=element.ProjectName%> </option>
+                                    <% }); %>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <table style="height:20%" width="75%">
+                    <tr>
+                        <td><a href="index.html">
+                                <div class="ui left labeled icon blue button">              
+                                    <i class="left arrow icon"></i> Back
+                                </div>
+                            </a>
+                        </td>
+                        <td align="right" ><a href="#" class="ui">
+                                <button class="ui blue button" id="start_project">Start</button> 
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </script>  
+
+        <div id="target"></div>
+    </body> 
+</html>

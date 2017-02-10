@@ -1,0 +1,748 @@
+﻿<!--
+########################################################
+# Authors: Jeffrey He                                  #
+# 2015                                                 # 
+########################################################
+-->
+<!doctype html>
+<html>
+    <head>
+        <meta name="viewport" content="initial-scale=0.75, width=device-width, minimum-scale=0.75">
+
+        <!-- Stylesheets -->
+        <link rel="stylesheet" type="text/css" href="Semantic/dist/semantic.min.css">
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+        <link rel="stylesheet" type="text/css" href="css/master.css">
+        <link rel="stylesheet" type="text/css" href="css/dashboard.css">
+        <link rel="stylesheet" type="text/css" href="css/mikecss.css">
+
+        <!-- Javascript -->
+        <script src="js/jquery-2.1.4.min.js"></script>
+        <script src="js/dashboard_static_variables.js"></script>
+        <script src="Semantic/dist/semantic.min.js"></script>
+        <script src="js/main.js"></script>
+        <script src="js/homepage.js"></script> 
+        <script src="https://sdk.amazonaws.com/js/aws-sdk-2.7.20.min.js"></script>
+        <script src="js/InitAWS.js"></script>
+        <script src="js/download.min.js"></script>
+        <script src="js/dashboardteacher.js"></script> 
+        <script src="js/dashboardteacher_service.js"></script>  <!-- Rename as pdf_handler -->
+        <script src="js/lib/user_lib.js"></script>
+        <script src="js/lib/project_lib.js"></script>
+        <script src="js/lib/class_lib.js"></script>
+        <script src="js/lib/team_lib.js"></script>
+        <script src="js/underscore-min.js"></script>
+        <script src="js/pdf.js"></script>
+        <script src="js/pdf.worker.js"></script>
+        <script src="js/logging.js"></script>
+
+        <meta charset="utf-8">
+        <title>Teacher Dashboard - MyDesign 2016</title>  
+           
+    </head>
+
+    <body class="fontsizedefault">
+
+        <!--Template for Home-->
+        <script type="text/html" id="Home">
+            <div class="padding10 ui segment">
+                <h2>Class Name</h2>
+                <p  class="" id = "classname"></p>
+                <h2>Class Description</h2>
+                <p  class="" id = "classdescription"></p>
+            </div>
+        </script>
+
+        <!--Template for Class-->
+        <script type="text/html" id="MyClass">
+            <div class = "content" id = "contentPane"></div> <!--TODO: See if this div is needed and delete it. It's id is also invalid-->
+            <div class="content posabsrosters ui raised segment" id="rosterContent" >
+
+                <div class="left1 width300 padding10"><h4>Student Roster</h4>
+                    <div class = "overflowauto vh80" >
+                        <table id="t01">
+                            <tr>
+                                <th>First Name</th>
+                                <th>Last Name</th> 
+                                <th>Add Student to Class</th>
+                            </tr>
+
+                            <!--Dynamically create a list of students after a database readout    All_Students not working
+                            firstName_studentRoster is an array of global scope populated during the page loadout-->
+
+                            <%  _.each(All_Students,  function(element, index, list){ %>
+                            <tr>
+                                <td><%=element.firstName%></td>
+                                <td><%=element.lastName%></td>
+                                <td class="assess">
+                                    <div id="student">
+                                        <button class="ui button tiny green addToClass_button <%=data[index]%>" name="<%=index%>" id="s<%=index%>">
+                                            Add
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <% }); %>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="right1 width300 padding10"><h4>Class Roster</h4>
+                    <div class = "overflowauto vh80" >
+                        <table id="t01">
+                            <tr>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Remove from Class</th>
+                            </tr>
+
+                            <!--Dynamically create a list of students and their work after a database readout
+                            firstName_classRoster is an array of global scope populated during the page loadout-->
+                            <% _.each(Current_Class.Assignments.StudentAssignments,  function(element, index, list){ %>
+                                <tr>
+                                    <td><%=element.firstName%></td>
+                                    <td><%=element.lastName%></td>
+                                    <td class="assess">
+                                        <button class="ui button tiny green removeFromClass_button" name="<%=index%>" id="t<%=index%>">Remove</button>
+                                    </td>
+                                </tr>
+                            <% }); %>
+                        </table>                         
+                    </div>  
+                </div> 
+
+            </div> 
+        </script>
+
+        <!--Template for Teams-->
+        <script type="text/html" id="MyTeams">
+            <div  class=" ui raised segment inline_block width65vw">
+                <div class="ui two column middle aligned very relaxed stackable grid padding20">
+                    <div class="center aligned column">
+                        <form class="ui form"  id="" >
+                            <label><h3>Create New Team</h3></label>
+                            <div class=" inline field width100percent">
+                                <input placeholder="New Team Name" type="text" name="newteamname" id="new_team_name">
+                                <button type="button" class='ui button tiny green topPad40' id="new_team_button">Create</button> 
+                            </div>
+                        </form>
+                    </div>
+                    <div class="ui vertical divider">Or</div>
+                    <div class="center aligned column">
+                        <label><h3>Select A Team</h3></label>
+                        <div class="ui form width40percent xcenter">
+                            <div class="field">
+                                <select name="teampicker">
+                                    <option value="">Team</option>
+                                    <%  _.each(Current_Class.Assignments.TeamAssignments, function(element, index, list){ %>
+                                        <option value="<%=index%>"><%=element.TeamId%> </option>
+                                    <% }); %>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class=" ui raised segment inline_block width65vw">
+                <div class="ui two column very relaxed stackable grid padding20 overflowauto vh80">
+                    <div class = " column">
+                        <h3>Class Roster</h3>
+                        <table id="t01">
+                            <tr>
+                                <th>First Name</th>
+                                <th>Last Name</th> 
+                                <th>Add Student to Team</th>
+                            </tr>
+
+                            <!--Dynamically create a list of students and their work after a database readout
+                            firstName_classRoster is an array of global scope populated during the page loadout-->
+                            <%  _.each(Current_Class.Assignments.StudentAssignments,  function(element, index, list){ %>
+                                <tr>
+                                    <td><%=element.firstName%></td>
+                                    <td><%=element.lastName%></td>
+                                    <td class="assess">
+                                        <div id="classRoster">
+                                            <button class="ui button tiny green classRosterSelect_button"  name=<%=index%> >Add</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <% }); %>
+                        </table>
+                    </div>
+                    <div class = "column">
+                        <h3>Team Roster: <%=Current_Class.Assignments.TeamAssignments[Current_Team_Index].TeamId%></h3>
+                        <table id="t01">
+                            <tr>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Remove from Team</th>
+                            </tr>
+
+                            <!--Dynamically create a list of students and their work after a database readout
+                            firstName_teamRoster is an array of global scope populated during the page loadout-->
+                            <% _.each(Current_Class.Assignments.TeamAssignments[Current_Team_Index].StudentId,  function(element, index, list){ %>
+                                <tr>
+                                    <td><%=element.firstName%></td>
+                                    <td><%=element.lastName%></td>
+                                    <td class="assess">
+                                        <button class="ui button tiny green remove_button_team" name=<%=index%> >Remove</button>
+                                    </td>
+                                </tr>
+                            <% }); %>
+                        </table>      
+                    </div>
+                </div>
+            </div>
+        </script>
+        
+        <!--Template for Projects-->
+        <script type="text/html" id="Projects">
+            <!-- Page Header -->
+            <div class=" ui raised segment inline_block width65vw">
+                <div class="ui two column middle aligned very relaxed stackable grid padding20">
+                    <div class="center aligned column">
+                        <label><h3>Create New Project</h3></label>
+                        <a href="New_Project.html" class="ui">
+                        <button class='ui button tiny green'>Create</button>
+                        </a>
+                    </div>
+                    <div class="ui vertical divider">Or</div>
+                    <div class="center aligned column">
+                        <label><h3>Select A Team</h3></label>
+                        <div class="ui form width40percent xcenter">
+                            <div class="field">
+                                <select name="teampicker_project">
+                                    <option value="">Team</option>
+                                    <%  _.each(Current_Class.Assignments.TeamAssignments, function(element, index, list){ %>
+                                        <option value="<%=index%>"><%=element.TeamId%> </option>
+                                    <% }); %>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Class Roster and Team Roster -->
+            <div class=" ui raised segment inline_block width65vw">
+                <div class="ui two column middle aligned very relaxed stackable grid padding20">
+
+                    <div class="column">
+                        <h3>Class Roster</h3>
+                        <div class = "overflowauto vh80">
+                            <table id="t01">
+                                <tr>
+                                    <th>First Name</th>
+                                    <th>Last Name</th> 
+                                    <th>Project Name</th>
+                                    <th>Assign Project</th>
+                                </tr>
+                                <!--Dynamically create a list of students and their projects after a database readout
+                                firstName_classRoster (class roster) is an array of global scope populated during the page loadout-->
+                                <%  _.each(Current_Class.Assignments.StudentAssignments,  function(element, index, list){ %>
+                                    <tr>
+                                        <td><%=element.firstName%></td>
+                                        <td><%=element.lastName%></td>
+                                        <td><%=element.project.name%></td>
+                                        <td class="assess">
+                                            <div id="classRoster">
+                                                <button class="ui button tiny green assignProjectFromClass" name="<%=index%>">
+                                                    Assign
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <% }); %>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="column">
+                        <h3>Team Roster: <%=Current_Class.Assignments.TeamAssignments[Current_Team_Index].TeamId%></h3>
+                        <div class = "overflowauto vh80">
+                            <table id="t01">
+                                <tr>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Project Name</th>
+                                    <th>Assign Project</th>
+                                </tr>
+                                <!-- Dynamically create a list of students and their projects after a database readout
+                                firstName_teamRoster (team roster)  is an array of global scope populated during the page loadout -->
+                                <% _.each(Current_Class.Assignments.TeamAssignments[Current_Team_Index].StudentId,  function(element, index, list){ %>
+                                    <tr>
+                                        <td><%=element.firstName%></td>
+                                        <td><%=element.lastName%></td>
+                                        <td><%=element.project.name%></td>
+                                        <td class="assess">
+                                            <button class="ui button tiny green assignProjectFromTeam" name="<%=index%>">
+                                                Assign
+                                            </button>
+                                        </td>
+                                    </tr>
+                                <% }); %>
+                            </table> 
+                        </div> 
+                    </div> 
+                </div>
+            </div>
+
+            <!--Project Selection-->
+            <div class="visibilityhidden" id="projects_panel">
+                <div id="popup6" class="width65vw">
+                    <div class="popup">
+                        <h2>Project Selection</h2> 
+                        <a class="close close_project cursorPointer">×</a>
+                        <br>
+                        <div class="content">
+                            <div id="tophalf">
+                                <b class="left1">Student Name: </b>
+                                <div class="right1" id="projects_student_name">
+                                    <%=assignStudentProject.student.firstName%>
+                                    <%=assignStudentProject.student.lastName%>
+                                </div>
+                                <b class="left1">Class Name: </b>
+                                <div class="right1" id="classTarget">
+                                    <%=localStorage.getItem("ClassName")%>
+                                </div><br>
+                            </div>
+                        </div>
+                        <div class="content">
+                            <table id="t01">
+                                <tr>
+                                    <th>Project Name</th>
+                                    <th>Project Description</th> 
+                                    <th>Assign Project</th>
+                                </tr>
+
+                                <!--Dynamically create a list of students and their projects after a database readout
+                                firstName_classRoster (class roster) is an array of global scope populated during the page loadout-->
+                                <%  _.each(Author_Projects,  function(element, index, list){ %>
+                                    <tr>
+                                        <td><%=Author_Projects[index].name%></td>
+                                        <td><%=Author_Projects[index].description%></td>
+                                        <td class="assess">
+                                            <div id="classRoster">
+                                                <button class="ui button tiny green addStudentToProject" name="<%=index%>">Assign</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <% }); %>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </script>
+
+        <!--Template for Team Progress-->
+        <script type="text/html" id="TeamProgress">
+            <img src="img/team_progress.png" width="800px" height="550px"/>
+        </script>
+
+        <!--Template for Assessments-->
+        <script type="text/html" id="Assessment">
+            <div class = "ui segment overflowauto vh80">
+                <p><b>This class view shows status of all students, projects and design work products.  
+                Design work products can be graded or re-graded by selecting the green or blue buttons.</b></p>
+                <table id="t01">
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>    
+                        <th>Project Name</th>  
+                        <th>Work Product</th>
+                        <th>Status</th>
+                        <th>Review</th>
+                    </tr>
+
+                    <!--Dynamically create a list of students and their work after a database readout
+                    firstName_assessments is an array of global scope populated during the page loadout-->
+                    <% _.each(Current_Class.Assignments.StudentAssignments,  function(element, index, list){ %>
+                        <tr>
+                            <td id="fname<%=index%>"><%=element.firstName%></td>
+                            <td id="lname<%=index%>"><%=element.lastName%></td>
+                            <td id="project<%=index%>"><%=element.project.name%></td>
+                            <td id="fileName<%=index%>"><%=element.portfolio.FileName%></td>
+                            <td><%=element.portfolio.Status%></td>
+                            <td class="assess">
+                                <button class=  'ui button tiny assess_button <%=element.portfolio.StatusColor%>' 
+                                    name="<%=index%>">Assess</button>
+                            </td>
+                        </tr>
+                    <% }); %>
+                </table>
+                <br>
+                <p><b>BUTTON COLOR KEY:</b></p>
+                <p class ="red_text"><b>No Project Assigned.  Choose Projects to Assign Project to Student.</b></p>
+                <p class ="orange_text"><b>Project Assigned, No Designs Released.</b></p>
+                <p class ="green_text"><b>Project Assigned, Design Released, Has Not Been Graded.  Select Button to Grade.</b></p>
+                <p class ="blue_text"><b>Project Assigned, Design Released, Has Been Graded.  Select Button to Change Grade.</b></p>
+            </div>
+        </script>
+
+        <!--Assessment Overview (Design Review Panel) -->
+        <script type="text/html" id="Assessment_Overview_Panel">
+            <div class="fadedPanels">
+                <div id="popup1" class = "popup width70percent ycenter">
+                    <h2>Overview</h2> 
+                    <a class="close_review cursorPointer">×</a>
+                    <div class="content">
+                        <div id="tophalf">
+                            <span class="rightpad20"><b class="left1">Student Name: </b><%=data.student_name%></span>
+                            <span class="rightpad20"><b class="left1">Project Name: </b><%=data.project_name%></span>
+                            <span class="rightpad20"><b class="left1">Work Product File Name: </b><%=data.file_name%></span>
+                            <span class="rightpad20"><b class="left1">Design Component: </b><%=data.design_component%></span>
+                            <span class="rightpad20"><b class="left1">Design Step: </b><%=data.design_step%></span>
+                            <span class="rightpad20"><b class ="left1">Average Score: </b><%=data.score%></span>
+                        </div>
+                        <div class="ui two column very relaxed stackable grid padding20">
+                            <div class="column overflowauto padding10 ">
+                                <h4>Student Comments:</h4><p class="leftmargin20"><%=data.student_comments%></p>
+                            </div>
+                            <div class="column overflowauto padding10">
+                                <h4>Teacher Comments:</h4><p class="leftmargin20"><%=data.teacher_comments%></p>
+                                <br>
+                                <button class="ui button tiny green" id="toAssessment_Page_Panel" name="<%=data.index%>">Review</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </script>
+
+        <!--Assessment Page (Design Review Panel) -->
+        <script type="text/html" id="Assessment_Page_Panel">
+            <div class="fadedPanels">
+                <div class="popup overflowauto width90percent ycenter height80p">
+                    <a class="close_review cursorPointer">×</a>
+                    <h2>Design Review</h2> 
+                    <div class="">
+                        <div id="tophalf">
+                            <p>
+                                <b class="left1">Student Name: </b><span class="right1"><%=data.student_name%></span>
+                                <b class="left1">Project Name: </b><span class="right1"><%=data.project_name%></span>
+                                <b class="left1">Design Component: </b><span class="right1"><%=data.design_component%></span>
+                                <b class="left1">Design Step: </b><span class="right1"><%=data.design_step%></span>
+                            </p>
+
+                            <div class="ui two column very relaxed stackable grid padding20">
+                                <div class="column overflowauto padding10">
+                                    <!-- Control buttons for the pdf viewer -->
+                                    <span class="rightmargin60">
+                                        <button type="button" id="pdf_prev" class="circular ui icon green button"><i class="angle left icon"></i></button>
+                                        <span>Page <span id="pdf_page_number">x/x</span></span>
+                                        <button type="button" id="pdf_next" class="circular ui icon green button "><i class="angle right icon"></i></button>
+                                    </span>
+                                
+                                    <span class="">
+                                        <button type="button" id="pdf_zoomout" class="circular ui icon green button">
+                                            <i class="zoom out icon"></i>
+                                        </button>
+                                        <input type="range" id="zoom_slider" min="0" max="300">
+                                        <button type="button" id="pdf_zoomin" class="circular ui icon green button"><i class="zoom icon"></i></button>
+                                        <span>Page Zoom <span id="pdf_page_zoom">100</span>%</span>
+                                    </span>
+                                    <!-- Container for pdf viewer-->
+                                    <div id="pdf_viewer" class="ui raised segment left1 height80p overflowscroll">    
+                                        <br><canvas id="pdf_canvas"></canvas>
+                                    </div>
+                                    
+                                </div>
+           
+                                <!-- Dynamically build the rubric questions-->
+                                <div class="column overflowauto padding10" id="AssessmentHolder">
+                                        <h3>Grading Schema</h3>
+                                        <div class="ui form">
+                                            <div class="grouped fields">
+                                                <% _.each(data.rubric.rubric,  function(element, index, list){ %>
+                                                    <label class="topmargin20"><%=data.rubric.rubric[index].preanswer%></label>
+                                                    <div class="field">
+                                                        <div class="ui radio checkbox">
+                                                            <input type="radio" name="answer<%=index%>" value=0>
+                                                            <label><%=data.rubric.rubric[index].answer[0]%></label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="field">
+                                                        <div class="ui radio checkbox">
+                                                            <input type="radio" name="answer<%=index%>" value=1>
+                                                            <label><%=data.rubric.rubric[index].answer[1]%></label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="field">
+                                                        <div class="ui radio checkbox">
+                                                            <input type="radio" name="answer<%=index%>" value=2>
+                                                            <label><%=data.rubric.rubric[index].answer[2]%></label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="field">
+                                                        <div class="ui radio checkbox">
+                                                            <input type="radio" name="answer<%=index%>" value=3>
+                                                            <label><%=data.rubric.rubric[index].answer[3]%></label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="field">
+                                                        <div class="ui radio checkbox">
+                                                            <input type="radio" name="answer<%=index%>" value=4>
+                                                            <label><%=data.rubric.rubric[index].answer[4]%></label>
+                                                        </div>
+                                                    </div>
+                                                    <label class="botmargin20"><%=data.rubric.rubric[index].postanswer%></label>
+                                                    <br>
+                                                <% }); %>
+                                            
+                                          </div>
+                                        </div>
+                                        <button class="ui button tiny green" id="toFinal_Review" name="<%=data.index%>">Add Comments and Submit</button> 
+                                </div>
+                            </div>   
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </script>
+
+        <!--Final Review and Comments (Design Review Panel) -->
+        <script type="text/html" id="Final_Review_Panel">
+            <div class="fadedPanels">
+                <div id="popup5" class="popup width70percent ycenter">
+                    <h2>Overview</h2> 
+                    <a class="close_review cursorPointer" onclick = "activiate('nav_Review')">×</a>
+                    <div class="content">
+                        <div id="tophalf">
+                            <span class="rightpad20"><b class="left1">Student Name: </b><%=data.student_name%></span>
+                            <span class="rightpad20"><b class="left1">Project Name: </b><%=data.project_name%></span>
+                            <span class="rightpad20"><b class="left1">Work Product File Name: </b><%=data.file_name%></span>
+                            <span class="rightpad20"><b class="left1">Design Component: </b><%=data.design_component%></span>
+                            <span class="rightpad20"><b class="left1">Design Step: </b><%=data.design_step%></span>
+                            <span class="rightpad20"><b class ="left1">Average Score: </b><%=data.score%></span>  
+                        </div>
+
+                        <div class="ui two column very relaxed stackable grid padding20">
+                            <div class="column overflowauto padding10">
+                                <h4>Student Comments</h4>
+                                <p class="leftmargin20"><%=data.student_comments%></p>
+                            </div>
+
+                            <div class="column overflowauto padding10">
+                                <label><h4>Teacher Comments</h4></label>
+                                <textarea class="commentbox" id="teacher_comments_assessment" value=<%=data.teacher_comments%>>
+                                    <%=data.teacher_comments%>    
+                                </textarea> 
+                                <br>
+                                <button class="ui button tiny green" id="submit_Teacher_Comments" name=<%=data.index%>> Submit</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </script>
+
+        <!--Template for Student Progress-->
+        <script type="text/html" id="StudentProgress">
+            <div class = "ui segment">
+                <p><b>
+                    This class view shows the design work products that have already been graded.
+                    Grades can be reviewed by selecting the blue buttons.</b>
+                </p>
+    
+                <table id="t01">
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>    
+                        <th>Project Name</th>  
+                        <th>Work Product</th>
+                        <th>View Results</th>
+                    </tr>
+
+                    <!--Dynamically create a list of students and their work after a database readout
+                    firstName_assessments is an array of global scope populated during the page loadout-->
+                    <% _.each(data,  function(element, index, list){ %>
+                        <tr>
+                           <td id="fname<%=index%>"><%=element.firstName%></td>
+                            <td id="lname<%=index%>"><%=element.lastName%></td> 
+                            <td id="project<%=index%>"><%=element.project.name%></td> <!--projectName_assessments[index]-->
+                            <td id="fileName<%=index%>"><%=element.portfolio.FileName%></td>
+                            <td class="assess">
+                                <button class="ui button tiny blue review_button" name="<%=index%>">View</button>
+                            </td>
+                        </tr>
+                    <% }); %>
+                </table> 
+            </div>
+        </script>
+
+        <script type="text/html" id="Assessment_Overview_Panel_Review">
+            <!--Assessment Overview-->
+            <div class="fadedPanels">
+                <div id="popup3" class = "popup width70percent ycenter">
+                    <h2>Overview</h2> 
+                    <a class="close close_assess cursorPointer">×</a>
+                    <div class="content">
+                        <div id="tophalf">
+                            <b class="left1">Student Name: </b><div class="right1"><%=data.student_name%></div>
+                            <b class="left1">Project Name: </b><div class="right1"><%=data.project_name%></div>
+                            <b class="left1">Work Product File Name: </b><div class="right1"><%=data.file_name%></div><br>
+                            <b class="left1">Design Component: </b><div class="right1"><%=data.design_component%></div>
+                            <b class="left1">Design Step: </b><div class="right1"><%=data.design_step%></div>
+                            <b class ="left1">Average Score: </b><div class="right1"><%=data.score%></div>
+                        </div>
+                        <div class="ui two column very relaxed stackable grid padding20">
+                            <div class="column overflowauto padding10 ">
+                                <h4>Student Comments:</h4><p class="leftmargin20"><%=data.student_comments%></p>
+                            </div>
+                            <div class="column overflowauto padding10">
+                                <h4>Teacher Comments:</h4><p class="leftmargin20"><%=data.teacher_comments%></p>
+                            </div>
+                        </div>
+                        <br>
+                        <button class="ui button tiny green" id="to_more_review_details" name="<%=data.index%>">View Details</button>
+                    </div>
+                </div>
+            </div>
+        </script>
+
+        <script type="text/html" id="Assessment_Review_Panel"> 
+            <div class="fadedPanels">  
+                <div class="popup overflowauto width90percent ycenter height80p">
+                    <a class="close close_assess cursorPointer">×</a>
+                    <h2>Design Review</h2> 
+                    <div class="">
+                        <div id="tophalf">
+                            <!-- Control buttons for the pdf viewer -->
+                            <p>
+                                <b class="left1">Student Name: </b><span class="right1"><%=data.student_name%></span>
+                                <b class="left1">Project Name: </b><span class="right1"><%=data.project_name%></span>
+                                <b class="left1">Design Component: </b><span class="right1"><%=data.design_component%></span>
+                                <b class="left1">Design Step: </b><span class="right1"><%=data.design_step%></span>
+                            </p>
+
+                            <div class="ui two column very relaxed stackable grid padding20">                            
+                                <!-- Container for pdf viewer -->
+                                <div class="column overflowauto padding10">
+                                    <span class="rightmargin60">
+                                        <button type="button" id="pdf_prev" class="circular ui icon green button">
+                                            <i class="angle left icon"></i>
+                                        </button>
+                                        <span>Page <span id="pdf_page_number">x/x</span></span>
+                                        <button type="button" id="pdf_next" class="circular ui icon green button ">
+                                            <i class="angle right icon"></i>
+                                        </button>
+                                    </span>
+                                    <span class="">
+                                        <button type="button" id="pdf_zoomout" class="circular ui icon green button">
+                                            <i class="zoom out icon"></i>
+                                        </button>
+                                        <input type="range" id="zoom_slider" min="0" max="300">
+                                        <button type="button" id="pdf_zoomin" class="circular ui icon green button">
+                                            <i class="zoom icon"></i>
+                                        </button>
+                                        <span>Page Zoom <span id="pdf_page_zoom">100</span>%</span>
+                                    </span>
+                                    <div id="pdf_viewer" class="ui raised segment left1 height80p overflowscroll">    
+                                        <br><canvas id="pdf_canvas"></canvas>
+                                    </div>        
+                                </div>
+           
+                                <div class="column overflowauto padding10">
+                                    <h3>Rubric Responses</h3>
+                                    <h4><%=portfolio.AssessmentValue.Rubric_Questions.element%></h4>
+                                    <% _.each(portfolio.AssessmentValue.Rubric_Response,  function(element, index, list){ %>
+                                        <p>
+                                            <%=portfolio.AssessmentValue.Rubric_Questions.rubric[index].preanswer%>
+                                            <i><%=element%></i>
+                                            <%=portfolio.AssessmentValue.Rubric_Questions.rubric[index].postanswer%>
+                                        </p>
+                                        <p>
+                                            Score: <%= 5 - portfolio.AssessmentValue.Grades[index]%>/5
+                                        </p>
+                                    <% }); %>
+                                </div>
+
+                            </div>   
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </script>
+
+        <!--Template for Rubrics-->
+        <script type="text/html" id="Rubrics">
+        </script>
+
+        <div id = "top" style="background-color:#FFFFFF">
+            <div class = "dashLogo"><a href="class_select.html"><img src="img/logo.fw.png" width = "15%" height = "" > </a></div>
+        </div>
+
+        <div class = "dashBot" ng-app="bodyAngularApp" ng-controller="bodyAngularController">
+            <!--Nav Bar-->
+            <div class = "nav">
+                <div class="ui vertical steps small">
+                    <div class="step" id = "stepLabel" >
+                        <div class="content"><div class="title">DASHBOARD</div></div>
+                    </div>
+                    <div class="step" name = "astep" id = "nav_Home" onclick = "activiate('nav_Home')">
+                        <i class="home icon"></i>
+                        <div class="content">
+                            <div class="title">MyHome</div>
+                            <div class="description">Your Class Description</div>
+                        </div>
+                    </div>
+                    <div class="step" name = "astep" id = "nav_Class" onclick = "activiate('nav_Class')">
+                        <i class="student icon"></i>
+                        <div class="content">
+                            <div class="title">MyClass</div>
+                            <div class="description">Manage Your Class</div>
+                        </div>
+                    </div>
+                    <div class="step" name = "astep" id = "nav_Team" onclick = "activiate('nav_Team')">
+                        <i class="users icon"></i>
+                        <div class="content">
+                            <div class="title">MyTeams</div>
+                            <div class="description">Manage Your Teams</div>
+                        </div>
+                    </div>
+                    <div class="step" name = "astep" id = "nav_Projects" onclick = "activiate('nav_Projects')">
+                        <i class="folder icon"></i>
+                        <div class="content">
+                            <div class="title">Projects</div>
+                            <div class="description">Create & Assign Projects</div>
+                        </div>
+                    </div>
+
+                    <div class="step" name = "astep" id = "nav_Review" onclick = "activiate('nav_Review')">
+                        <i class="browser icon"></i>
+                        <div class="content">
+                            <div class="title">Design Review</sub></div>
+                            <div class="description">DESIGNCERT<sub>TM</div>
+                        </div>
+                    </div>
+                    <div class="step" name = "astep" id = "nav_Review_Results" onclick = "activiate('nav_Review_Results')">
+                        <i class="dashboard icon"></i>
+                        <div class="content">
+                            <div class="title">Design Review Results</sub></div>
+                            <div class="description">DESIGNCERT<sub>TM</div>
+                        </div>
+                    </div>
+                    <div class="step" name="astep" id = "nav_rubric" href = "Dashboard_Teacher2.html" onclick = "activiate('nav_rubric')">
+                        <i class="tasks icon"></i>
+                        <div class="content">
+                            <div class="title">Reference the Rubric</div>
+                            <div class="description">DESIGNCERT<sub>TM</sub></div>
+                        </div>
+                    </div>        
+                </div>
+            </div>
+
+            <!--Content-->
+            <div class = "main" id = "contentPane">
+                <p>You have not selected a Class. Please return to Class Select Page. </p>
+                <div class="ui active dimmer">
+                    <div class="ui text loader">Loading</div>
+                </div>
+            </div>		
+        </div>
+    </body>
+</html>
+

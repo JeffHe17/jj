@@ -1,0 +1,35 @@
+$(document).mouseup(function (e)
+{
+    var container = $("#triggeringlink");
+    if ( !($("#fadebox").is(e.target)) || !($("#triggeringlink4").is(e.target)) || (!container.is(e.target) // if the target of the click isn't the container...
+        && container.has(e.target).length === 0)) // ... nor a descendant of the container
+    {
+    	document.getElementById('fadebox').style.visibility = "hidden";
+    
+     	$("#page-cover").css("opacity",0.75).fadeOut(300);
+    }
+});
+
+$(document).mouseup(function (e)
+{
+    var container = $("#triggeringlink2");
+   if (  !($("#fadebox").is(e.target)) || !($("#triggeringlink4").is(e.target)) || (!container.is(e.target) // if the target of the click isn't the container...
+        && container.has(e.target).length === 0)) // ... nor a descendant of the container
+    {
+    	document.getElementById('fadebox').style.visibility = "hidden";  
+     	$("#page-cover").css("opacity",0.75).fadeOut(300);
+    }
+});
+
+$(document).mouseup(function (e)
+{
+    var container = $("#triggeringlink3");
+    if ( !($("#fadebox").is(e.target)) || !($("#triggeringlink4").is(e.target)) || (!container.is(e.target) // if the target of the click isn't the container...
+        && container.has(e.target).length === 0)) // ... nor a descendant of the container
+    {
+    	document.getElementById('fadebox').style.visibility = "hidden";
+     	$("#page-cover").css("opacity",0.75).fadeOut(300);
+    }
+});
+
+

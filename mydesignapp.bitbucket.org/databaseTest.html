@@ -1,0 +1,84 @@
+<!--
+########################################################
+# Authors: Jeffrey He, Jonathan Reyes, Danny Catacora  #
+# 2015                                                 # 
+########################################################
+-->
+
+
+<!DOCTYPE html>
+<html>
+<body>
+  <form method="POST " action="https://mydesigncompany.herokuapp.com/users/">
+  <!--<form method="POST " action="https://infinite-stream-2919.herokuapp.com/users/">-->
+    <p>Name: <input type="text" name="name" value= "David"></p>
+    <p>Email: <input type="text" name="email" value="hello@world.com"></p>
+    <p>Password: <input type="text" name="password" value="abc123"></p>
+    <input type="submit" value="Submit" />
+    <!--<p><button type="submit">Send</button></p> -->
+  </form>
+  <button onclick = "postRequest()"> JQuery HTTP POST request</button>
+  <br>
+  <button onclick = "getRequest()">JQuery HTTP GET request</button>
+  <br>
+</body>
+</html>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script type="text/JavaScript">
+
+  //Test #2
+  postRequest = function() {
+    var nam = $('input[name="name"]').val();
+    var eml = $('input[name="email"]').val();
+    var psw = $('input[name="password"]').val();
+    console.log("name:"+nam+"  email"+eml+"  password"+psw);
+    $.ajax({
+        type: "POST",
+        url: "https://mydesigncompany.herokuapp.com/users/",
+        //url: "https://infinite-stream-2919.herokuapp.com/users/",
+        data: JSON.stringify({ name: nam , email: eml, password: psw}),
+        contentType: "application/json",
+        dataType: "json",
+        success: function (result) {
+            console.log("result");
+            console.log(result);
+        }, 
+        error: function (xhr, ajaxOptions, thrownError) {
+          console.log(xhr.status);
+          console.log(thrownError);
+        }
+    });
+  };
+
+/***************************************************************************/
+
+  //Login test - check if username and password exist in database
+  getRequest = function() {
+    var eml = $('input[name="email"]').val();
+    var psw = $('input[name="password"]').val();
+    console.log('https://mydesigncompany.herokuapp.com/login/'+eml+'/'+psw);
+    //console.log('https://infinite-stream-2919.herokuapp.com/login/'+eml+'/'+psw);
+    $.ajax({
+      'type' : 'GET',
+      'url' : 'https://mydesigncompany.herokuapp.com/login/'+eml+'/'+psw,
+      //'url' : 'https://infinite-stream-2919.herokuapp.com/login/'+eml+'/'+psw,
+      'data' : null,
+      'success' : function(data) {
+        console.log('Data is:');
+        console.log(data);
+        if (data) {
+          console.log('JQuery GET request sent!');
+        }
+      },
+      'error' : function (xhr){
+        console.log(xhr);
+        switch (xhr.status) {
+          case 404: console.log("Webpage not found 404");
+          case 400: console.log("Error, invalid login info 400"); //BAD LOGIN CHECK HERE
+        }
+      }
+    });
+  };
+
+  </script>

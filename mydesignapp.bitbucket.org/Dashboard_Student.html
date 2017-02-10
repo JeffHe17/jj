@@ -1,0 +1,532 @@
+﻿<!--
+########################################################
+# Authors: Jeffrey He, Jonathan Reyes, Danny Catacora  #
+# 2015                                                 # 
+########################################################
+-->
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Stylesheets -->
+        <link rel="stylesheet" type="text/css" href="Semantic/dist/semantic.css">
+        <link rel="stylesheet" type="text/css" href="Semantic/dist/semantic.min.css">
+        <link rel="stylesheet/less" type="text/css" href="Semantic/src/definitions/modules/dimmer.less" />
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+
+        <!-- Javascript -->
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.js"></script>
+        <script src="Semantic/dist/semantic.min.js"></script>
+        <script src="Semantic/dist/semantic.js"></script>
+        <script src="Semantic/dist/components/dimmer.js"></script>
+        <script src="js/main.js"></script>
+        <script src="js/homepage.js"></script> 
+        <meta charset="utf-8">
+        <title>Student Dashboard - MyDesign 2015</title>
+    </head>
+
+    <body style="background-color:#FFFFFF" style="height:100% width:100%" onload="loadText()">
+        <div style="height:100%">
+            <!--Top Bar-->
+            <div class = "dashTop">
+                <a href="wheel.html"><div class = "dashLogo"><img src="img/logo.fw.png" width = "15%" height = "" > </div> </a>
+                <div class = " barwide">
+                    <div class="ui raised segment">	
+                        <a class="ui red ribbon label">Your Progress</a>
+                        <progress value="25" max="100" width = "100%"></progress>	
+                    </div>
+                </div>
+            </div>
+
+            <!--Bottom -->
+            <div class = "dashBot">
+                <!--Nav Bar-->
+                <div class = "dashbar"><div class="ui vertical steps small">
+                        <div class="step" id = "stepLabel" >
+                            <div class="content">
+                                <div class="title">DASHBOARD</div>      				
+                            </div>
+                        </div>
+                        <div class="step" name = "astep" id = "step1" onclick = "activiate('step1')">
+                            <i class="home icon"></i>
+                            <div class="content">
+                                <div class="title">MyHome</div>
+                                <div class="description">Your Main Design Screen</div>
+                            </div>
+                        </div>
+                        <div class="step" name = "astep" id = "step2" onclick = "activiate('step2')">
+                            <i class="cube icon"></i>
+                            <div class="content">
+                                <div class="title">MyApps</div>
+                                <div class="description">Your Apps</div>
+                            </div>
+                        </div>
+                        <!--
+                        <div class="step" name = "astep" id = "step3" onclick = "activiate('step3')">
+                            <i class="write icon"></i>
+                            <div class="content">
+                                <div class="title">MySketches</div>
+                                <div class="description">Your Sketches</div>
+                            </div>
+                        </div>
+                        -->
+                        <div class="step" name = "astep" id = "step4" onclick = "activiate('step4')">
+                            <i class="bookmark icon"></i>
+                            <div class="content">
+                                <div class="title">MyExamples</div>
+                                <div class="description">Your Examples</div>
+                            </div>
+                        </div>
+                        <div class="step" name = "astep" id = "step5" onclick = "activiate('step5')">
+                            <i class="book icon"></i>
+                            <div class="content">
+                                <div class="title">MyResources</div>
+                                <div class="description">Your Resources</div>
+                            </div>
+                        </div>
+                        <div class="step" name = "astep" id = "step6" onclick = "activiate('step6')">
+                            <i class="users icon"></i>
+                            <div class="content">
+                                <div class="title">Collaborators</div>
+                                <div class="description">Your Teammates</div>
+                            </div>
+                        </div>
+                        <div class="step" name = "astep" id = "step7" onclick = "activiate('step7')">
+                            <i class="university icon"></i>
+                            <div class="content">
+                                <div class="title">MyMentors</div>
+                                <div class="description">Your Mentors</div>
+                            </div>
+                        </div>
+                        <div class="step" name = "astep" id = "step8" onclick = "activiate('step8')">
+                            <i class="map icon"></i>
+                            <div class="content">
+                                <div class="title">MyProgress</div>
+                                <div class="description">Your Progress</div>
+                            </div>
+                        </div>
+                        <div class="step" name = "astep" id = "step9" onclick = "activiate('step9')">
+                            <i class="mail icon"></i>
+                            <div class="content">
+                                <div class="title">MyMessageBoard</div>
+                                <div class="description">A Forum for Messages</div>
+                            </div>
+                        </div>
+                        <div class="step" name = "astep" id = "step10" onclick = "activiate('step10')">
+                            <i class="tasks icon"></i>
+                            <div class="content">
+                                <div class="title">MyRubric</div>
+                                <div class="description">Your Rubric</div>
+                            </div>
+                        </div>
+                        <div class="step" name = "astep" id = "step11" onclick = "activiate('step11')">
+                            <i class="folder icon"></i>
+                            <div class="content">
+                                <div class="title">MyPortfolio</div>
+                                <div class="description">Your Personal Portfolio</div>
+                            </div>
+                        </div>
+                    </div></div>
+
+                <!--Content-->
+                <div class = "dashContentParent" id="contentPane" >
+                    <p id="landingTxt" style="font-size:28px">
+                        This is a landing page. No projects can be found at this time. <br>Return to the Project Select page to select a project. 
+                    </p>
+                </div>		
+            </div>
+        </div>
+    </body>
+</html>
+
+<script>
+
+    var cadYN = 0;
+
+    function loadText() {
+        //console.log("component is");
+        var comNum = getCookie("component");
+        //console.log(comNum);
+        switch (comNum) {
+            case "1":
+                document.getElementById("landingTxt").innerHTML = "<h1>1.Define and research a problem or need</h1><br/><h2><p style='color:#00CCFF'>Welcome to the start of something new!</p> <p>To begin the design process:<br/><br/> First identify and define a need or problem<br/><br/> Next, research prior attempts to solve the problem, document the attempts, and analyze them.<br/><br/> Then, proceed to list the design requirements needed to create a product that satisfies the need. Prove that the requirements will lead to creating a working solution<br/><br/><br/> Use the resources in this step as guidance to complete the steps above! </p></h2>";
+                break;
+            case "2":
+                document.getElementById("landingTxt").innerHTML = "<h1>2.Creating a viable original solution</h1><br/><h2><p style='color:#00CCFF'>This component consits of building an original solution</p> <p>First, brainstorm and sketch all possible solutions that satisfy the design requirements. After sketching solutions, asses them and choose the best design.<br/><br/> Second, ensure that the STEM principles are applied to the designs. <br/><br/> Lastly, asses the final decision for functionality and viability. Ask, will it be successful or not?<br/><br/><br/> Use the resources in this component to begin creating original solutions!</p></h2>";
+                break;
+            case "3":
+                document.getElementById("landingTxt").innerHTML = "<h1>3.Constructing and testing a prototype</h1><br/><h2><p style='color:#00CCFF'>This component consists of constructing the chosen solution</p> <p>First, create a testable prototype based off of the sketch<br/><br/> Next, create a plan for testing the ptototype. Include how testing would prove effectiveness of the design.<br/><br/> Last, test the prototype, make necessary changes to the prototype. Then test it again. Repeat this process until the prototype successfully meets the design requirements<br/><br/><br/> Use the resources in this component to record data and create a viable prototype. </p></h2>";
+                break;
+            case "4":
+                document.getElementById("landingTxt").innerHTML = "<h1>4.Evaluation, reflection, and recomendations</h1><br/><h2><p style='color:#00CCFF'>This component consists of reflection and evaluation of the design and the process of creating the design</p> <p>First, get experts to evaluate the prototype and document their evaluations.<br/><br/> Second, self-reflect on the design and the steps it took to create the design, including lessons learned, what worked, and what could be improved<br/><br/> Third, present reccomendations of how the design could be improvedand create a plan for how those improvements could be implemented in the future<br/><br/><br/> Use the resources in this component to document evaluations, reflections, and recomendations.</p></h2>";
+                break;
+        }
+
+    }
+
+    activiate = function (id) {
+        var stepArray = ["step1", "step2", /*"step3",*/ "step4", "step5", "step6", "step7", "step8", "step9", "step10", "step11"];
+
+        for (var i = 0; i < stepArray.length; i++) {
+            document.getElementById(stepArray[i]).className = " step ";
+        }
+        document.getElementById(id).className = " active step ";
+        divSelect(id);
+    };
+
+//Dynamic script for frame selection
+    divSelect = function (id) {
+        $('#contentPane').empty();
+
+        // Gets our Content Pane
+        var content = document.getElementById('contentPane');
+
+        // Now create and append to content
+        var innerDiv = document.createElement('div');
+        innerDiv.className = "ui raised segment";
+        cadYN = 0;
+        (function (global) {
+            if (global.localStorage.getItem("compNum") == 1) {
+                cadYN = 1;
+
+            }
+            if (global.localStorage.getItem("compNum") == 2) {
+                cadYN = 2;
+            }
+            if (global.localStorage.getItem("compNum") == 3) {
+                cadYN = 3;
+            }
+            if (global.localStorage.getItem("compNum") == 4) {
+                cadYN = 4;
+            }
+        }(window));
+
+        switch (id) {
+            case "step1":
+                //innerDiv.style.backgroundColor = 'red';
+                var para = document.createElement("P");
+                var yrname = "Welcome, " + localStorage.getItem("userName") + "!";
+                var t = document.createTextNode(yrname);
+                para.appendChild(t);
+                para.className = "dashHomeTitle";
+                innerDiv.appendChild(para);
+
+                para = document.createElement("P");
+                var el = "Your Experience Level is " + localStorage.getItem("experienceLevel") + ".";
+                t = document.createTextNode(el);
+                para.appendChild(t);
+                para.className = "dashHomeTitle";
+                innerDiv.appendChild(para);
+
+                para = document.createElement("P");
+                var cn = "This Design Component is Component #" + localStorage.getItem("compNum") + ".";
+                t = document.createTextNode(cn);
+                para.appendChild(t);
+                para.className = "dashHomeTitle";
+                innerDiv.appendChild(para);
+
+                para = document.createElement("P");
+                var pn = "Your Project is " + localStorage.getItem("projectName") + ".";
+                t = document.createTextNode(pn);
+                para.appendChild(t);
+                para.className = "dashHomeTitle";
+                innerDiv.appendChild(para);
+
+                para = document.createElement("P");
+                var pn = localStorage.getItem("projectDescription");
+                t = document.createTextNode(pn);
+                para.appendChild(t);
+                para.className = "dashHomeTitle";
+                innerDiv.appendChild(para);
+
+                break;
+
+            case "step2":
+
+
+                // Use maptiv8 tab and old method together for now
+                // This is the maptiv8 code
+                // Maptiv has stopped working and may be out of business
+
+                //window.open('http://maptiv8.com/demos/qa-mydesign.html','_newtab');
+
+                var para = document.createElement("P");
+                //var t = document.createTextNode("Recommended apps are shown in a separate tab");
+                var t = document.createTextNode("These apps are recommended for your project");
+                para.appendChild(t);
+                para.className = "dashHomeTitle";
+                innerDiv.appendChild(para);
+
+                //this is the original code
+                //innerDiv.style.backgroundColor = 'green';
+                var para = document.createElement("P");
+                var t = document.createTextNode("APP LIBRARY");
+                para.appendChild(t);
+                para.className = "dashHomeTitle";
+                innerDiv.appendChild(para);
+
+                var br = document.createElement("br");
+
+                var para2 = document.createElement("P");
+                var t2 = document.createTextNode("These are the apps in your library.  ");
+                t2.id = "t2";
+                para2.appendChild(t2);
+                innerDiv.appendChild(para2);
+
+                var cadYNf = false;
+                (function (global) {
+                    //if(global.localStorage.getItem("mySharedData") == 2 || global.localStorage.getItem("mySharedData") == 4){
+                    if (cadYN == 2 || cadYN == 4) {
+                        cadYNf = true;
+                    }
+                }(window));
+
+                console.log("cadYN = " + cadYN + "; " + "cadYNf = " + cadYNf);
+
+                if (cadYNf == true) {
+                    var autocad360 = document.createElement("img");
+                    autocad360.src = "img/autocad360.png";
+                    autocad360.id = "autocad360";
+                    autocad360.setAttribute('width', '20%');
+                    var cadlink = document.createElement('a'); // create the link
+                    cadlink.setAttribute('href', 'https://app.autocad360.com'); // set link path
+                    cadlink.setAttribute('target', '_blank'); // opens in new tab
+                    cadlink.appendChild(autocad360);
+                    innerDiv.appendChild(cadlink);
+                }
+
+                var br = document.createElement("br");
+                innerDiv.appendChild(br);
+
+                var MSWord = document.createElement("img");
+                MSWord.src = "img/MSWord.fw.png";
+                MSWord.id = "MSWord";
+                MSWord.setAttribute('width', '20%');
+                var MSWordLink = document.createElement('a'); // create the link
+                MSWordLink.setAttribute('href', 'https://office.live.com/start/Word.aspx'); // set link path
+                MSWordLink.setAttribute('target', '_blank'); // opens in new tab
+                MSWordLink.appendChild(MSWord);
+                innerDiv.appendChild(MSWordLink);
+
+                var br2 = document.createElement("br");
+                innerDiv.appendChild(br2);
+
+                var MSPower = document.createElement("img");
+                MSPower.src = "img/MSPowerpoint.fw.png";
+                MSPower.id = "MSPower";
+                MSPower.setAttribute('width', '20%');
+                var MSPowerLink = document.createElement('a'); // create the link
+                MSPowerLink.setAttribute('href', 'https://office.live.com/start/PowerPoint.aspx'); // set link path
+                MSPowerLink.setAttribute('target', '_blank'); // opens in new tab
+                MSPowerLink.appendChild(MSPower);
+                innerDiv.appendChild(MSPowerLink);
+
+                var br3 = document.createElement("br");
+                innerDiv.appendChild(br3);
+
+                var MSNote = document.createElement("img");
+                MSNote.src = "img/OneNote.fw.png";
+                MSNote.id = "MSNote";
+                MSNote.setAttribute('width', '20%');
+                var MSNoteLink = document.createElement('a'); // create the link
+                MSNoteLink.setAttribute('href', 'https://office.live.com/start/OneNote.aspx'); // set link path
+                MSNoteLink.setAttribute('target', '_blank'); // opens in new tab
+                MSNoteLink.appendChild(MSNote);
+                innerDiv.appendChild(MSNoteLink);
+
+                var br4 = document.createElement("br");
+                innerDiv.appendChild(br4);
+
+                var MSExcel = document.createElement("img");
+                MSExcel.src = "img/MSExcel.fw.png";
+                MSExcel.id = "MSExcel";
+                MSExcel.setAttribute('width', '20%');
+                var MSExcelLink = document.createElement('a'); // create the link
+                MSExcelLink.setAttribute('href', 'https://office.live.com/start/Excel.aspx'); // set link path
+                MSExcelLink.setAttribute('target', '_blank'); // opens in new tab
+                MSExcelLink.appendChild(MSExcel);
+                innerDiv.appendChild(MSExcelLink);
+
+                break;
+                /*
+                 case "step3":
+                 innerDiv.style.backgroundColor = 'orange';
+                 var para = document.createElement("P");
+                 var t = document.createTextNode("These are your sketches");
+                 para.appendChild(t);
+                 innerDiv.appendChild(para);
+                 break;
+                 */
+            case "step4":
+                innerDiv.style.backgroundColor = 'teal';
+                innerDiv.style.fontSize = "x-large";
+                var para = document.createElement("P");
+                var t = document.createTextNode("This panel will provide access to sample projects and design work products");
+                para.appendChild(t);
+                innerDiv.appendChild(para);
+                /*
+                 var stdPrg = document.createElement("img");
+                 stdPrg.src = "img/pageunderconstruction.png";
+                 stdPrg.id = "stdPrg";
+                 stdPrg.setAttribute('width', '60%');
+                 innerDiv.appendChild(stdPrg);
+                 */
+                break;
+            case "step5":
+                innerDiv.style.backgroundColor = 'white';
+                innerDiv.style.fontSize = "x-large";
+                var para = document.createElement("P");
+                var t = document.createTextNode("Instructional Videos:");
+                para.appendChild(t);
+                innerDiv.appendChild(para);
+
+                (window);
+                var cadYN = getCookie("component");
+                if (cadYN == 1) {
+
+                    var paraDS1 = document.createElement("P");
+                    var ts1 = document.createTextNode("Design Step 1: Identify and Define the Problem");
+                    paraDS1.appendChild(ts1);
+                    var ds1link = document.createElement('a');
+                    ds1link.setAttribute('href', 'http://lecture.umd.edu/detsmediasite/Play/b00a05f6424d4fe2a4b7915bde9be4091d?catalog=694fb7d1-9b15-4617-ba07-29dffb8cf5e5');
+                    ds1link.setAttribute('target', '_blank');
+                    ds1link.appendChild(paraDS1);
+                    innerDiv.appendChild(ds1link);
+                }
+
+                if (cadYN == 2) {
+                    var br = document.createElement("br");
+                    var paraDS1 = document.createElement("P");
+                    var ts1 = document.createTextNode("Designing Quantitative Solutions for Energy: Solve by Factoring");
+                    paraDS1.appendChild(ts1);
+                    var ds1link = document.createElement('a');
+                    ds1link.setAttribute('href', 'http://lecture.umd.edu/detsmediasite/Play/f333827d9e614abaa54d1c7bcf8fec941d?catalog=694fb7d1-9b15-4617-ba07-29dffb8cf5e5');
+                    ds1link.setAttribute('target', '_blank');
+                    ds1link.appendChild(paraDS1);
+                    innerDiv.appendChild(ds1link);
+
+                    innerDiv.appendChild(br);
+
+                    var paraDS2 = document.createElement("P");
+                    var ts2 = document.createTextNode("2-2 Calculation of Solar Panel Dimensions");
+                    paraDS2.appendChild(ts2);
+                    var ds2link = document.createElement('a');
+                    ds2link.setAttribute('href', 'http://lecture.umd.edu/detsmediasite/Play/21a0c6b613a84be0b70512679af0c3a31d?catalog=694fb7d1-9b15-4617-ba07-29dffb8cf5e5');
+                    ds2link.setAttribute('target', '_blank');
+                    ds2link.appendChild(paraDS2);
+                    innerDiv.appendChild(ds2link);
+                }
+
+                if (cadYN == 3) {
+                    var br = document.createElement("br");
+                    var paraDS1 = document.createElement("P");
+                    var ts1 = document.createTextNode("3-1 Calculation of Energy in Deep Water Ocean Waves");
+                    paraDS1.appendChild(ts1);
+                    var ds1link = document.createElement('a');
+                    ds1link.setAttribute('href', 'http://lecture.umd.edu/detsmediasite/Play/18dc48b97b954c33a32ce9901f19554f1d?catalog=694fb7d1-9b15-4617-ba07-29dffb8cf5e5');
+                    ds1link.setAttribute('target', '_blank');
+                    ds1link.appendChild(paraDS1);
+                    innerDiv.appendChild(ds1link);
+
+                    innerDiv.appendChild(br);
+
+                    (window);
+                    innerDiv.style.backgroundColor = 'white';
+                    var para = document.createElement("P");
+                    var t = document.createTextNode("RECOMMENDED BUILDING SUPPLY RETAILERS ARE SHOWN IN A SEPARATE TAB.");
+                    para.appendChild(t);
+                    innerDiv.appendChild(para);
+
+                    //Maptiv8 may be mort
+                    //window.open('http://maptiv8.com/demos/mydesign','_newtab');
+                }
+
+                if (cadYN == 4) {
+
+                    var paraDS1 = document.createElement("P");
+                    var ts1 = document.createTextNode("4-2 Power Law Wind Speed Profile with Sevonius Wind Turbine");
+                    paraDS1.appendChild(ts1);
+                    var ds1link = document.createElement('a');
+                    ds1link.setAttribute('href', 'http://lecture.umd.edu/detsmediasite/Play/4b1e025ed1974de9a048fa142ae6b59e1d?catalog=694fb7d1-9b15-4617-ba07-29dffb8cf5e5');
+                    ds1link.setAttribute('target', '_blank');
+                    ds1link.appendChild(paraDS1);
+                    innerDiv.appendChild(ds1link);
+                }
+                break;
+            case "step6":
+                innerDiv.style.backgroundColor = 'gray';
+                innerDiv.style.fontSize = "x-large";
+                var para = document.createElement("P");
+                var t = document.createTextNode("A list of your teammates is provided here");
+                para.appendChild(t);
+                innerDiv.appendChild(para);
+                break;
+            case "step7":
+                innerDiv.style.backgroundColor = 'yellow';
+                innerDiv.style.fontSize = "x-large";
+                var para = document.createElement("P");
+                var t = document.createTextNode("A list of your mentors is provided here");
+                para.appendChild(t);
+                innerDiv.appendChild(para);
+                break;
+            case "step8":
+
+                //need to add student progress code algorithm  
+
+                //DEMO CODE: replace with actual student selection code
+                var stdPrg = document.createElement("img");
+                stdPrg.src = "img/student_progress.png";
+                stdPrg.id = "stdPrg";
+                stdPrg.setAttribute('width', '60%');
+                innerDiv.appendChild(stdPrg);
+                //END DEMO CODE    
+                break;
+            case "step9":
+                innerDiv.style.backgroundColor = 'aqua';
+                innerDiv.style.fontSize = "x-large";
+                var para = document.createElement("P");
+                var t = document.createTextNode("This panel will provide a message board beween students, thier teammates, and mentors.");
+                para.appendChild(t);
+                innerDiv.appendChild(para);
+                break;
+            case "step10":
+                var cadYN = getCookie("component");
+                if (cadYN == 1) {
+                    window.open('component_1_rubric.html', '_newtab');//icon based rubric
+                } else if (cadYN == 2) {
+                    window.open('component_2_rubric.html', '_newtab');//icon based rubric
+                } else if (cadYN == 3) {
+                    window.open('component_3_rubric.html', '_newtab');//icon based rubric
+                } else {
+                    window.open('component_4_rubric.html', '_newtab');//icon based rubric
+                }
+                innerDiv.style.backgroundColor = 'lightgreen';
+                innerDiv.style.fontSize = "x-large";
+                var para = document.createElement("P");
+                var t = document.createTextNode("The rubric is described in a separate tab");
+                para.appendChild(t);
+                innerDiv.appendChild(para);
+                break;
+            case "step11":
+                innerDiv.style.backgroundColor = 'red';
+                innerDiv.style.fontSize = "x-large";
+                var para = document.createElement("P");
+                var t = document.createTextNode("A table of design work products from the student's portfolio will be shown here");
+                para.appendChild(t);
+                innerDiv.appendChild(para);
+                window.open('portfolio.html', '_newtab');
+                break;
+            default:
+                innerDiv.style.backgroundColor = 'yellow';
+        }
+
+        innerDiv.style.height = '100%';
+        innerDiv.style.width = '100%';
+
+        //innerDiv.className = 'block-2';
+        // The variable content is still good... Just append to it.
+        content.appendChild(innerDiv);
+    };
+
+</script>

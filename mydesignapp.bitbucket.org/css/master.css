@@ -1,0 +1,339 @@
+
+textarea{
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+/******************************************* height *******************************************/
+.maxheight40vh{
+	max-height: 40vh;
+}
+
+.maxheight70vh{
+	max-height: 70vh;
+}
+
+.height20percent{
+	height: 20%;
+}
+
+.height500{
+    max-height: 500px;
+}
+
+.height400{
+    max-height: 400px;
+}
+
+.vh15{
+	height: 15vh;
+}
+
+.vh20{
+	height: 20vh;
+}
+
+.vh40{
+	height: 40vh;
+}
+
+.vh50{
+	height: 50vh;
+}
+
+.vh60{
+	height: 60vh;
+}
+
+.vh80{
+  height:80vh;
+}
+
+.height40p{
+	height: 40%;
+}
+
+.height75p{
+	height: 75%;
+}
+
+.height80p{
+	height: 80%;
+}
+
+.height80vh{
+	height: 80vh;
+}
+
+.height90vh{
+	height: 90vh;
+}
+
+.height95vh{
+	height: 95vh;
+}
+
+.height100vh{
+	height: 100vh;
+}
+/******************************************* Width *******************************************/
+.width5percent{
+	width: 5%;
+}
+
+.width10percent{
+	width: 10%;
+}
+
+.width15percent{
+	width: 15%;
+}
+
+.width20percent{
+	width: 20%;
+}
+
+.width40percent{
+	width: 40%;
+}
+
+.width45percent{
+	width: 45%;
+}
+
+.width50percent{
+	width: 50%;
+}
+
+.width70percent{
+	width: 70%;
+}
+
+.width80percent{
+  width: 80%;
+}
+
+.width90percent{
+  width: 90%;
+}
+
+.width95percent{
+	width: 95%;
+}
+
+.width100percent{
+	width: 100%;
+}
+
+.width10{
+	width: 10px;
+}
+.width300{
+	width: 300px;
+}
+
+.width400{
+	width: 400px;
+}
+
+.width500{
+	width: 500px;
+}
+
+.width600{
+	width: 600px;
+}
+.width1000{
+	width: 1000px;
+}
+
+.width990{
+	width: 990px;
+}
+
+.width985{
+	width: 985px;
+}
+
+.width975{
+	width: 975px;
+}
+
+.max_width100px{
+	max-width: 100px;
+}
+
+.max_width300px{
+	max-width: 300px;
+}
+
+.width50vw{
+	width: 50vw;
+}
+
+.width65vw{
+	width: 65vw;
+}
+
+.width75vw{
+	width: 75vh;
+}
+
+.width100vw{
+	width: 100vh;
+}
+/******************************************* Padding *******************************************/
+.padding5{
+	padding: 5px;
+}
+
+.padding10{
+	padding: 10px;
+}
+
+.padding20{
+	padding: 20px;
+}
+
+.topPad10{
+	padding-top: 10px;
+}
+
+.topPad40{
+	padding-top: 40px;
+}
+
+.cra{
+	padding-top: 400px;
+}
+
+.botpad10{
+	padding-bottom: 10px;
+}
+
+.rightpad20{
+	padding-right: 20px;
+}
+
+.leftpad20{
+	padding-left: 20px;
+}
+
+.leftpad40{
+	padding-left: 40px;
+}
+
+.leftpad60{
+	padding-left: 60px;
+}
+
+/******************************************* Margin *******************************************/
+.topmargin20{
+	margin-top: 20px;
+}
+
+.botmargin20{
+	margin-bottom: 20px;
+}
+
+.leftmargin20{
+	margin-left: 20px;
+}
+
+.rightmargin60{
+	margin-right: 60px;
+}
+
+/******************************************* Overflow *******************************************/
+.overflowauto{
+	overflow: auto;
+}
+
+.overflowscroll{
+  overflow: scroll;;
+}
+
+
+.posrel{
+  position: relative;
+}
+
+.visibilityhidden{
+	visibility: hidden;
+}
+
+.visibilityvisible{
+	visibility: visible;;
+}
+
+/******************************************* Center *******************************************/
+.xcenter{
+	margin: 0 auto;
+}
+
+.ycenter{
+	position: relative;
+  	top: 50%;
+  	transform: translateY(-50%);
+}
+
+/******************************************* Float *******************************************/
+.left_float{
+	float:left
+}
+
+.right_float{
+	float:right
+}
+
+/******************************************* Text Color *******************************************/
+
+.red_text{
+	color: red;
+}
+
+.orange_text{
+	color: orange;
+}
+
+.green_text{
+	color: green;
+}
+
+.blue_text{
+	color: blue;
+}
+
+
+/******************************************* Misc *******************************************/
+#index_logo{
+	width: 20vw;
+}
+
+.cursorPointer{
+    cursor:pointer;
+}
+
+.whiteBG{
+	background-color: white;
+}
+
+
+.inline_block{
+	display:inline-block;
+}
+
+.top0{
+	top: 0px;
+}
+
+.position_absolute{
+	position: absolute;
+}
+
+.solid_border{
+	border-style: solid;
+}
+
+

@@ -1,0 +1,338 @@
+﻿<!--
+########################################################
+# Authors: Jeffrey He, Jonathan Reyes, Danny Catacora  #
+# 2015                                                 # 
+########################################################
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Stylesheets -->
+        <link rel="stylesheet" type="text/css" href="Semantic/dist/semantic.css">
+        <link rel="stylesheet" type="text/css" href="Semantic/dist/semantic.min.css">
+        <link rel="stylesheet/less" type="text/css" href="Semantic/src/definitions/modules/dimmer.less" />
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+
+        <!-- Javascript -->
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.js"></script>
+        <script src="Semantic/dist/semantic.min.js"></script>
+        <script src="Semantic/dist/semantic.js"></script>
+        <script src="Semantic/dist/components/dimmer.js"></script>
+        <script src="js/main.js"></script>
+        <script src="js/homepage.js"></script> 
+        <script src="js/logging.js"></script>
+
+        <meta charset="utf-8">
+        <title>New Project - MyDesign 2016</title>    
+    </head>
+
+    <body style="background-color:#FFFFFF">
+        <div class="outer">
+            <div class = "inner"> 
+                <h1>NEW PROJECT</h1>           
+            </div>
+
+            <span id="missingInfoMessage" class="missingInfoMessage"></span>
+
+            <div class = "inner">
+                <div class = "projecttype">
+                    <div class="ui form">
+                        <div class="required field"> 
+                            <label>TYPE OF PROJECT</label>
+                            <select class="ui" name = "typedropdown" id = "typedropdown">
+                            </select>
+                        </div>
+                    </div>
+                </div> 
+
+                <div class="ui fluid field form hide" id="demo">
+                    <label>Other</label>
+                    <input placeholder="Type of Project" type="text">
+                </div>
+
+                <div class="ui fluid form segment">
+                    <!--Eliminate these fields
+                    <div class="two fields">
+                        <div class="required field">
+                            <label>Course Title</label>
+                            <input placeholder="ENES100" type="text" name="course">
+                        </div>
+                        <div class="required field">
+                            <label>Instructor</label>
+                            <input placeholder="Mr.Smith" type="text" name="instructor">
+                        </div>
+                    </div>
+                    <div class="two fields">
+                        <div class="required field">
+                            <label>Institution</label>
+                            <input placeholder="Blair HS" type="text" name="institution">
+                        </div>
+                        <div class="required field">
+                            <label>Grade</label>
+                            <input placeholder="11" type="text" name="grade">
+                        </div>
+                    </div> 
+                    <div class="two fields">
+                        <div class="field">
+                            <label>Team</label>
+                            <input placeholder="Team Name" type="text" name="team">
+                        </div>-->
+
+                    <div class="required field">
+                        <label>Project Name</label>
+                        <input placeholder="Project Name" type="text" name="title">
+                    </div>
+                    <div class="required field">
+                        <label>Project Description</label>
+                        <textarea id="comments"></textarea>
+                    </div>
+                    <!--
+                    <div class = "projecttype signuppad">
+                        <div class="ui form required field">  						 
+                            <label><b>Project Access</b></label>
+                            <select class="ui dropdown" id = "projectaccessdropdown">
+                                <option value="">Public or Private</option>
+                                <option value="0">Public</option>
+                                <option value="1">Private</option>
+                            </select>  					
+                        </div>
+                    </div>
+                    -->
+                </div>
+            </div>
+        </div>
+
+        <div class="inner ">
+            <table style="height:100%" width="100%">
+                <tr>
+                    <td><a id='teacher' class='hide' href="Dashboard_Teacher2.html">
+                            <div class="ui left labeled icon blue button">                          
+                                <i class="left arrow icon"></i>Back
+                            </div>
+                        </a>
+                        <a id='student' class='hide ' href="Project_Select.html">
+                            <div class="ui left labeled icon blue button">                          
+                                <i class="left arrow icon"></i>Back
+                            </div>
+                        </a>
+                    </td>
+                    <td align="right">
+                        <a href="#" class="ui">
+                            <img src="img/create.fw.png" width="25%" height="75%" onclick="createProject()" />
+                        </a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </body>
+</html>
+
+<!-- page specific scripts at bottom to load page faster-->
+<script>
+    //Script for updating the project types from the backend
+    var myArray = [];
+    var pId;
+    var userType;
+
+    function addList() {
+        var select = document.getElementById("typedropdown");
+        for (var i = myArray.length - 1; i >= 0; i--) {
+            var option = document.createElement('option');
+            option.text = myArray[i];
+            option.value = i;
+            select.add(option, 0);
+        }
+        var option = document.createElement('option');
+        option.value = 1;
+        select.add(option, 0);
+        option.text = "-Select One-";
+        setSelectedIndex(document.getElementById("typedropdown"), 1);//sets up the display for the first element
+    }
+    
+    //force dropdown to top of list
+    function setSelectedIndex(s, i)
+    {
+        s.options[i - 1].selected = true;
+        return;
+    }
+
+    window.onload = function () {
+        var xmlHttp = null;
+        xmlHttp = new XMLHttpRequest();
+        xmlHttp.onreadystatechange = function () {
+            if (xmlHttp.responseText && xmlHttp.status == 200 && xmlHttp.readyState == 4) {
+                var obj = jQuery.parseJSON(xmlHttp.responseText);
+                $.each(obj, function () {
+                    myArray[myArray.length] = this['type'];
+                });
+                addList();
+                pId = localStorage.getItem("userId");
+                getUserType();
+            }
+        };
+        xmlHttp.open("GET", "https://mydesigncompany.herokuapp.com/projectTypes", true);
+        //xmlHttp.open("GET", "https://infinite-stream-2919.herokuapp.com/projectTypes", true);
+        xmlHttp.send(null);
+    };
+
+    function getUserType() {//need this to determine navigation from this page
+        var xmlHttpU = null;
+        xmlHttpU = new XMLHttpRequest();
+        xmlHttpU.onreadystatechange = function () {
+            if (xmlHttpU.responseText && xmlHttpU.status == 200 && xmlHttpU.readyState == 4) {
+                var obj = jQuery.parseJSON(xmlHttpU.responseText);
+                $.each(obj, function () {
+                    if (this['_id'] == pId)
+                        userType = this['accountType'];
+                });
+                //set visibility:  make navigation visible depending on user type
+                if (userType == "Student" || userType == "Professional") {//navigation is to wheel
+                    var node = document.getElementById("student");
+                    node.style.visibility = 'visible';
+                } else if (userType == "Teacher") {//navigation is back to teacher dashboard projects activity; keep check for future types
+                    var node = document.getElementById("teacher");
+                    node.style.visibility = 'visible';
+                } else {//future user types; default to student for now
+                    var node = document.getElementById("student");
+                    node.style.visibility = 'visible';
+                }
+            }
+        };
+        xmlHttpU.open("GET", "https://mydesigncompany.herokuapp.com/users", true);
+        //xmlHttpU.open("GET", "https://infinite-stream-2919.herokuapp.com/users", true);
+        xmlHttpU.send(null);
+    }
+    ;
+
+
+    function createProject() {
+
+        //var public = "Public";
+        //var pId = localStorage.getItem("userId");
+        //var pa = document.getElementById('projectaccessdropdown');
+        //var projAccess = pa.options[pa.selectedIndex].text;
+
+        //Counter for number of errors
+        var c = 0;
+        //Field values for new project
+        var pTitle = $('input[name="title"]').val();
+        var comments = $('#comments').val();
+        var e = document.getElementById("typedropdown");
+        var pType = e.options[e.selectedIndex].text;
+        //var pId = getCookie("userid");
+        var pDescription = comments;
+        //var pCourse = $('input[name="course"]').val();
+        //var pInstructor = $('input[name="instructor"]').val();
+        //var pInstitution = $('input[name="institution"]').val();
+        //var pGrade = $('input[name="grade"]').val();
+        //var pTeam = $('input[name="team"]').val(); //*This field is not required
+        var pFirstDesignStep;
+        var pInProgress;
+
+        //Debug
+        console.log(pId);
+        console.log(pTitle);
+        console.log(pType);
+        console.log(pDescription);
+        //console.log(projAccess);
+        //console.log(pCourse);
+        //console.log(pInstructor);
+        //console.log(pInstitution);
+        //console.log(pGrade);
+        //console.log(pTeam);
+
+        //Clear message box
+        var message = document.getElementById('missingInfoMessage');
+        message.style.color = "#ff6666";
+        message.innerHTML = "";
+        //Check for missing content
+        if (pTitle == "") {
+            message.innerHTML += "*Missing Project Name<br>";
+            c += 1;
+        }
+        if (pType == "") {
+            message.innerHTML += "*Missing Project Type<br>";
+            c += 1;
+        }
+        /*
+         if (pCourse == "") {
+         message.innerHTML += "*Missing Course Title<br>";
+         c += 1;
+         }
+         if (pInstructor == "") {
+         message.innerHTML += "*Missing Project Instructor<br>";
+         c += 1;
+         }
+         if (pInstitution == "") {
+         message.innerHTML += "*Missing Project Institution<br>";
+         c += 1;
+         }
+         if (pGrade == "") {
+         message.innerHTML += "*Missing Project Grade Level<br>";
+         c += 1;
+         }
+         */
+        if (pType == "") {
+            message.innerHTML += "*Missing Project Description<br>";
+            c += 1;
+        }
+        /*
+         if (projAccess == "") {
+         message.innerHTML += "*Missing Project Access<br>";
+         c += 1;
+         }
+         */
+        pFirstDesignStep = "1";
+        pInProgress = "true";
+
+        //if no errors(all required data entered) - c==0, THEN post:
+
+        if (c == 0) {
+            $.ajax({
+                'type': 'POST',
+                'url': 'https://mydesigncompany.herokuapp.com/projects/',
+                //'url' : 'https://infinite-stream-2919.herokuapp.com/projects/',
+                'data': JSON.stringify({
+                    ProjectName: pTitle,
+                    AuthorId: pId,
+                    ProjectType: pType,
+                    ProjectDescription: pDescription,
+                    //ProjectAccess: projAccess,
+                    //CourseTitle: pCourse,
+                    //Instructor: pInstructor,
+                    //Institution: pInstitution,
+                    //Grade: pGrade,
+                    //Team: pTeam,
+                    CurrentDesignStep: pFirstDesignStep,
+                    InProgress: pInProgress}),
+                'contentType': "application/json;charset=UTF-8",
+                'success': function (data) {
+                    console.log('Data is:');
+                    console.log(data);
+                    if (data) {
+                        console.log('JQuery GET request sent!');
+                        //do navigation depending on user type
+                        if (userType == "Student" || userType == "Professional") {//navigation is to wheel
+                            window.location.href = "Project_Select.html";
+                        } else if (userType == "Teacher") {//navigation is back to teacher dashboard projects activity; keep check for future types
+                            window.location.href = "Dashboard_Teacher2.html";
+                        } else {//future user types; default to student for now
+                            window.location.href = "Project_Select.html";
+                        }
+                    }
+                },
+                'error': function (xhr) {
+                    console.log(xhr);
+                    switch (xhr.status) {
+                        case 404:
+                            console.log("Webpage not found 404");
+                        case 400:
+                        {
+                            console.log("Error, invalid login info 400");
+                        }
+                    }
+                }
+            });
+        }//Ends if c==0 case
+    }//Ends function createProject
+</script>

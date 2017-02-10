@@ -1,0 +1,30 @@
+
+
+Login Page: Allows users to login
+	To-do: Need to figure out why the login process is so slow and how to speed it up. 
+
+Class-Select: Teachers are able to select a class
+	To-do: Replace the class id listings in the class select dropdown with the class name. Also, there is no logic to determine what classes get listed in the dropdown. Currently, all teachers get to see all classes.  
+New-Class: Teachers are able to create a new class.  MIKE:  A single class has been loaded into the database with a name and description.
+
+
+Portfolio Storage: Students are able to select the design step, submit commments, and then upload a pdf file not exceeding 2 mb. MIKE: jumpin has been eliminated.
+
+Dashboard_Teacher2.html: 
+	To-do: MyClass, MyTeams, Team Progress, MyMessageBoard, and Projects panels need to be built. MIKE: Home page, assessments, student progress, and rubrics have been built.  Student Progress done with two new panels.  Need to resolve latency.
+
+	Assessment Panel: need to work on the backend to support the put request for the teacher's assessment or just handle it in the front end. 
+				MIKE:  we have live, correct data in table and both assessment panels.  PDF's don't load in Chrome, IE, or Opera. Safari is a priority.  Everything works in Firefox except that the PDF reader will only work on an actual file so files are saved in bitbucket by hand - need logic to do this.    
+
+Project_Select: Students are able to select projects that they created to work on or see
+	To-do: there is no service logic to permit the student to see projects that the teacher has created and assigned - part of class management.
+
+New_Project: Students are able to create a new project.  MIKE:  page modified to just require name and description.  These are stored by student now so they really could be part of the user collection.
+
+Wheel: Students are able to see the wheel representing the entire design cycle. Students are able to view the rubrics from the wheel as well. Clicking on specific sections of the wheel leads to a corresponding student dashboard. 
+	To-do: The css on this page needs work. The wheel is also not centered.
+
+Student_Dashboard:  Mike:  rewritten for underscore.  Student progress, Home Page, MyApps, MyResources, and Progress Bar have been built.  Backend portfolio data has been loaded by hand - just need to read it. Need to resolve latency in load time of the student table and work products. Need service logic to determine which students' work products to load into the table depending on the students associated with the teacher. 
+	This page has been completley rebuilt using underscore.js but IE doesn't work with underscore... The Apps panel has been updated with new content and format; Mativ8 has been removed. The progress bar has service logic but isn't coming up when page is loaded; updated later.  MyPorgress uses a table and 2 panels like the teacher dashboard. MySketches, MyExamples, Collaborators, MyMentors, MyMessageBoard panels need to be built. 
+
+

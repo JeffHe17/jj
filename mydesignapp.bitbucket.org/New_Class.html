@@ -1,0 +1,223 @@
+<!--
+########################################################
+# Authors: Jeffrey He, Jonathan Reyes, Danny Catacora  #
+# 2015                                                 # 
+########################################################
+-->
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Stylesheets -->
+        <link rel="stylesheet" type="text/css" href="Semantic/dist/semantic.css">
+        <link rel="stylesheet" type="text/css" href="Semantic/dist/semantic.min.css">
+        <link rel="stylesheet/less" type="text/css" href="Semantic/src/definitions/modules/dimmer.less" />
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+
+        <!-- Javascript -->
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.js"></script>
+        <script src="Semantic/dist/semantic.min.js"></script>
+        <script src="Semantic/dist/semantic.js"></script>
+        <script src="Semantic/dist/components/dimmer.js"></script>
+        <script src="js/main.js"></script>
+        <script src="js/homepage.js"></script> 
+        <script src="js/logging.js"></script>
+
+        <meta charset="utf-8"> 
+        <title>New Class - MyDesign 2016</title>    
+
+    </head>
+    <body style="background-color:#FFFFFF">
+
+
+        <div class="outer">
+            <div class="inner">	
+                <!--<img src="img/title.fw.png" width="458" height="50" alt=""/>-->
+                <H1><b>New Class</b></H1>
+            </div>
+
+
+            <div >
+                <div class="ui fluid form segment " >
+
+
+                    <div class="two fields">
+                        <div class="eight wide required field">
+                            <label>NAME</label>
+                            <input placeholder="Name" type="text" name = "name">
+                        </div>
+                        <div class="eight wide required field">
+                            <label>INSTITUTION</label>
+                            <input placeholder="Institution" type="text" name = "institution">
+                        </div>
+                    </div>   
+                    <div class="two fields">
+                        <div class="eight wide required field">
+                            <label>LOCATION</label>
+                            <input placeholder="Location" type="text" name = "location">
+                        </div>
+                        <div class="eight wide required field">
+                            <label>GRADE</label>
+                            <input placeholder="Grade" type="text" name = "grade">
+                        </div>
+                    </div>   
+
+                    <div class="required field">
+                        <label>DESCRIPTION</label>
+                        <textarea id="description"></textarea>
+                    </div> 
+
+                    <!--<div class="ui form">
+                            <div class="field"> 
+                                <label>TYPE OF CLASS</label>  <!-- Populate from DATABASE 
+                                <select class="ui dropdown"  name = "typedropdown" id = "typedropdown">
+                                    <option value="">CLASS TYPE</option>
+                                    <option value="1">Class 1</option>
+                                    <option value="0">Class 2</option>
+                                </select>
+                            </div>
+                        </div>-->
+
+                </div>
+            </div>      
+
+
+            <table style="height:20%" width="75%">
+                <tr>
+                    <td ><a href="class_select.html">
+                            <div class="ui left labeled icon blue button">              
+                                <i class="left arrow icon"></i>Back</div></a>
+                    </td>
+                    <td align="right" > 
+                        <a class="ui" ><!-- -->
+                            <img src="img/teacher_create.fw.png" width="80px" height="80px" onclick="createClass()" />
+                        </a>
+                    </td>
+                </tr>
+            </table>
+        </div>       
+    </body> 
+</html>
+
+
+<!-- page specific scripts at bottom to load page faster-->
+<script>
+    //Script for updating the project types from the backend
+    /*
+     var myTeacherArray =[];
+     var myStudents = [];
+     */
+
+    /*
+     function addList(){  
+     console.log("addlist called " + myTeacherArray.length + myTeacherArray)
+     console.log("teachers " + myTeacherArray)
+     console.log("students " + myStudents)
+     var select = document.getElementById("progressdropdown");
+     for(var i = myTeacherArray.length - 1; i >= 0; i--) {
+     var option = document.createElement('option');
+     option.text =  myTeacherArray[i];
+     option.value = i;
+     //select.add(option, 0);
+     }
+     }
+     
+     
+     var assignments = [];
+     
+     window.onload = function () {
+     var xmlHttp = null;
+     xmlHttp = new XMLHttpRequest();
+     xmlHttp.onreadystatechange = function () {
+     if (xmlHttp.responseText && xmlHttp.status == 200 && xmlHttp.readyState == 4) {
+     var obj = jQuery.parseJSON(xmlHttp.responseText);
+     $.each(obj, function () {
+     assignments[assignments.length] = this['Assignments'];
+     });
+     }
+     };
+     //xmlHttp.open("GET", "https://infinite-stream-2919.herokuapp.com/myClass", true);
+     xmlHttp.open("GET", "https://mydesigncompany.herokuapp.com/myClass", true);
+     xmlHttp.send(null);
+     };
+     */
+
+
+    //Adding classes
+
+    function createClass() {
+
+        //var teach_id = 777;  //Get teacher ID from login page. Add this feature later this weekend. 
+        //var class_arr = []; //Starts of null but teacher can add to this array. 
+        var location = $('input[name="location"]').val();
+        var grade = $('input[name="grade"]').val();
+        var institution = $('input[name="institution"]').val();
+        var name = $('input[name="name"]').val();
+        var description = $('#description').val();
+        var assignment = {TeacherId: localStorage.getItem("userId"),
+            StudentAssignments: [
+                {
+                    StudentId: null,
+                    ProjId: null
+                }
+            ],
+            TeamAssignments: [
+                {
+                    TeamId: null,
+                    StudentId: [],
+                    ProjId: null
+                }
+            ]
+        };
+        //var completed = false;
+        //var e = document.getElementById("typedropdown");
+        //var pType = e.options[e.selectedIndex].text;
+        //var pId = getCookie("userid");
+
+        //console.log(teach_id);
+        //console.log(class_arr);
+
+        var json = JSON.stringify({
+            ClassName: name,
+            ClassDescription: description,
+            Institution: institution,
+            Location: location,
+            Grade: grade,
+            Assignments: assignment});
+
+        console.log(JSON.parse(json));
+
+
+        //console.log('https://infinite-stream-2919.herokuapp.com/myClass/');
+        $.ajax({
+            type: 'POST',
+            //url : 'https://infinite-stream-2919.herokuapp.com/myClass/',
+            url: 'https://mydesigncompany.herokuapp.com/myClass/',
+            //data : JSON.stringify({teacher: teach_id, ClassArr: class_arr}),  //Flesh out this json file. 
+            data: json,
+            contentType: "application/json;charset=UTF-8",
+            dataType: "json",
+            'success': function (data) {
+                console.log('Data is:');
+                console.log(data);
+                if (data) {
+                    console.log('JQuery POST request sent!');
+                }
+                window.location.href = "class_select.html";
+            },
+            'error': function (xhr) {
+                console.log(xhr);
+                switch (xhr.status) {
+                    case 404:
+                        console.log("Webpage not found 404");
+                        break;
+                    case 400:
+                    {
+                        console.log("Error, invalid login info 400");
+                    }
+                }
+            }
+        });
+    }
+</script>

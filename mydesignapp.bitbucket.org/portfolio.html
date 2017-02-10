@@ -1,0 +1,174 @@
+﻿<!--
+########################################################
+# Authors: Jeffrey He                                  #
+# 2015                                                 # 
+########################################################
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width, minimum-scale=1.0">
+
+        <!-- Stylesheets -->
+        <link rel="stylesheet" type="text/css" href="Semantic/dist/semantic.min.css">
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+        <link rel="stylesheet" type="text/css" href="css/portfolio-style.css">        
+
+        <!-- Javascript -->
+        <script src="js/jquery-2.1.4.min.js"></script>
+        <script src="Semantic/dist/semantic.min.js"></script>
+        <script src="js/pdf.js"></script>
+        <script src="js/pdf.worker.js"></script>
+        <script src="https://sdk.amazonaws.com/js/aws-sdk-2.7.20.min.js"></script>
+        <script src="js/InitAWS.js"></script>
+        <script src="js/main.js"></script>
+        <script src="js/lib/project_lib.js"></script>
+        <script src="js/homepage.js"></script>
+        <script src="js/spin.min.js"></script> 
+        <script src="js/portfolio.js"></script> 
+        <script src="js/logging.js"></script>
+        <script src="js/download.min.js"></script>
+        <script src="js/dashboardteacher_service.js"></script>
+
+        <meta charset="utf-8">
+        <title>MyDesign 2016 - MyPortfolio</title>    
+    </head>
+    
+    <body>
+        <div class="width100percent right_float padding20"> <button class= 'right_float ui tiny red button' id="logout_button">Logout</button></div>
+
+        <div class = "title"><h2 class="ui header">My Portfolio</h2></div>
+
+        <form class="ui form main" id ="form"> 
+            <div class="required field ">     
+                <label>Design Step (Select Design Step where File was Created):</label> 
+                <a>Component 1:</a>
+                <div> 
+                    <a class="ui image huge label comp" name='1' data-content="Presentation and justification of problem">
+                      <img src="img/PortfolioLab/step1.fw.png">
+                      Step A:
+                    </a>
+                    <a class="ui image huge label comp" name='2' data-content="Documentation and analysis of prior solution attempts">
+                      <img src="img/PortfolioLab/step2.fw.png">
+                      Step B:
+                    </a>
+                    <a class="ui image huge label comp" name='3' data-content="Presentation and justification of solution design requirements">
+                      <img src="img/PortfolioLab/step3.fw.png">
+                      Step C:  
+                    </a>
+                </div><a >Component 2:</a>
+                <div>
+                    <a class="ui image huge label comp" name='4' data-content="Design concept generation, analysis, and selection">
+                      <img src="img/PortfolioLab/step4.fw.png">
+                      Step D:
+                    </a>
+                    <a class="ui image huge label comp" name='5' data-content="Application of STEM principles and practices">
+                      <img src="img/PortfolioLab/step5.fw.png">
+                      Step E:
+                    </a>
+                    <a class="ui image huge label comp" name='6' data-content="Consideration of design viability">
+                      <img src="img/PortfolioLab/step6.fw.png">
+                      Step F:
+                    </a>
+                </div><a >Component 3:</a>
+                <div>
+                     <a class="ui image huge label comp" name='7' data-content="Construction of a testable prototype">
+                      <img src="img/PortfolioLab/step7.fw.png">
+                      Step G:
+                    </a>
+                    <a class="ui image huge label comp" name='8' data-content="Prototype testing and data collection plan">
+                      <img src="img/PortfolioLab/step8.fw.png">
+                      Step H:
+                    </a>
+                    <a class="ui image huge label comp" name='9' data-content="Testing, data collection, and analysis">
+                      <img src="img/PortfolioLab/step9.fw.png">
+                      Step I:
+                    </a>
+                </div><a  class="posrel">Component 4:</a>
+                <div>
+                     <a class="ui image huge label comp" name='10'  data-content="Documentation of external evaluation">
+                      <img src="img/PortfolioLab/step10.fw.png">
+                      Step J:  
+                    </a>
+                    <a class="ui image huge label comp" name='11'  data-content="Reflection on the design project">
+                      <img src="img/PortfolioLab/step11.fw.png">
+                      Step K:
+                    </a>
+                    <a class="ui image huge label comp" name='12'  data-content="Presentation of designers recommendations">
+                      <img src="img/PortfolioLab/step12.fw.png">
+                      Step L:
+                    </a>
+                </div>
+                    <div id ="description" class = "redtext posabsright" ></div>
+            </div>
+            <div class="required field">
+                <label>Comments</label>
+                <textarea id="comments"></textarea>
+            </div>            
+
+            <div class="required field">    
+                <input  type="file" id="datafile"  accept="application/pdf" >  
+                <p>Accepted File Type: pdf  (2 MB)</p>
+                <div class="ui error message">
+                    <div class="header">File Upload Error</div>
+                    <p>Your file must be a pdf and less than 2MB.</p>
+                </div>
+                <p id = "filesize">File Size: </p>
+            </div>     
+
+            <div class="ui warning message">
+              <div class="header">
+                Unable to update portfolio. Missing fields. 
+              </div>
+              <p>Please fill in all fields before submitting</p>
+            </div>
+
+            <div class="ui success message" id="success_msg">
+              <div class="header">Upload Completed</div>
+              <p>The portfolio has been succesfully uploaded.</p>
+            </div>
+        </form>
+
+        <div class = "indent"> <button class="ui  green button" id = "submitbutton">Submit</button> </div>
+    </body>
+
+                                    <div id="pdf_viewer" class="ui raised segment left1 height80p overflowscroll">    
+                                        <br><canvas id="pdf_canvas"></canvas>
+                                    </div>
+                                    <p id="pdf_page_number"></p>
+                                    <button id="download-button2">Download from S3 using bucket</button>
+</html>
+
+          <script>
+            var reader2 = new FileReader();
+
+            var button2 = document.getElementById('download-button2');
+            button2.addEventListener('click', function () {
+                var objKey = "Element B Forklift Safety.pdf";
+                var params = {
+                    Key: objKey,
+                };
+                s3.getObject(params, function(err, data){
+                    if(err){
+                        console.log("awk")
+                    } else{
+                        console.log(data)
+
+                        tst = Uint8Array.from(data.Body);
+
+                        reader.readAsDataURL((data.Body));
+                        reader.onload = function(e){
+                            console.log(e)
+                            datafile = e.target.result;
+                        }
+                        console.log(datafile)
+
+                        console.log(tst)
+                        renderPDF("https://s3-us-west-2.amazonaws.com/beta.test.pdf/Element+B+Forklift+Safety.pdf");
+                        //console.log(btoa(String.fromCharCode.apply(null, data.Body)));
+                        // download(data.Body, objKey, "application/pdf");
+
+                    }
+                })   
+            }, false);
+        </script>
